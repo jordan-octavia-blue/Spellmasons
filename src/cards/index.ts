@@ -240,8 +240,11 @@ import registerReflex from '../modifierReflex';
 import registerPlagueDoctor from '../modifierPlagueDoctor';
 import registerWhirlpool from '../modifierWhirlpool';
 import registerPrecision from '../modifierPrecision';
-
-
+import registerHardLanding from '../modifierHardLanding';
+import registerVampirism from '../modifierVampirism';
+import registerEffervescence from '../modifierEffervescence';
+import registerMagnetism from '../modifierMagnetism';
+import registerSafetyNumbers from '../modifierSafetyNumbers';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -602,7 +605,11 @@ export function registerCards(overworld: Overworld) {
   registerLiquidmancer();
   registerHeavyImpacts();
   registerWhirlpool();
-
+  registerHardLanding();
+  registerVampirism();
+  registerEffervescence();
+  registerMagnetism();
+  registerSafetyNumbers();
   registerAffinityBlessing();
   registerAffinityCurse();
   registerAffinityDamage();

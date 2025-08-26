@@ -21,14 +21,14 @@ const { playDefaultSpellSFX } = cardUtils;
 const { addWarningAtMouse, drawUICirclePrediction } = PlanningView;
 const { skyBeam } = VisualEffects;
 const { allUnits } = units;
-import type { Spell } from '../../types/cards';
+import { getCurrentTargets, type Spell } from '../../types/cards';
 import type { IUnit } from '../../types/entity/Unit';
 import type { Vec2 } from '../../types/jmath/Vec';
 import type Underworld from '../../types/Underworld';
 import { pillarId } from './raise_pillar';
 
 
-const id = 'raise_wall';
+const id = 'Raise Wall';
 export { id as raiseWallId };
 const range = 250;
 const baseWidth = 48;
@@ -38,7 +38,7 @@ const spell: Spell = {
     id,
     category: CardCategory.Soul,
     supportQuantity: true,
-    manaCost: 20,
+    manaCost: 30,
     healthCost: 0,
     expenseScaling: 1,
     probability: probabilityMap[CardRarity.SPECIAL],

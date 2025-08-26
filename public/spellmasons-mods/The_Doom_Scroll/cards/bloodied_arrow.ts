@@ -42,7 +42,7 @@ const spell: Spell = {
     manaCost: 0,
     healthCost: 10,
     expenseScaling: 1,
-    supportQuantity: true,
+    supportQuantity: false,
     ignoreRange: true,
     // so that you can fire the arrow at targets out of range
     allowNonUnitTarget: true,
@@ -53,14 +53,13 @@ const spell: Spell = {
     animationPath: '',
     sfx: '',
     thumbnail: 'spellmasons-mods/The_Doom_Scroll/graphics/spellIconBloodArrow.png',
-    description: 'Conjures a corrupted arrow that deals 10 damage and spreads curses from the caster to enemies. Cannot apply more stacks of a curse than the caster has.',
+    description: 'Conjures a corrupted arrow that deals 10 damage and transfers one stack of each curse per stack from the caster to enemies. Cannot apply more stacks of a curse than the caster has.',
     effect: async (state, card, quantity, underworld, prediction) => {
       const initialCastLocation = state.castLocation;
       // - - - - - Start copied from arrow.ts - - - - -
       let targets: Vec2[] = getCurrentTargets(state);
       targets = targets.length ? targets : [state.castLocation];
       let timeoutToNextArrow = 200;
-      for (let i = 0; i < quantity; i++) {
       for (let target of targets) {
         let casterPositionAtTimeOfCast = state.casterPositionAtTimeOfCast;
 
@@ -101,7 +100,6 @@ const spell: Spell = {
           // Decrease timeout with each subsequent arrow fired to ensure that players don't have to wait too long
           timeoutToNextArrow -= 5;
         }
-      }
     }
 
       await underworld.awaitForceMoves();
@@ -157,14 +155,18 @@ const spell: Spell = {
                     continue;
                   } else if (unitCurseAmount < curseAmount) {
                     // If the unit has less than the curse amount, we can apply it
-                    let quantityToAdd = curseAmount - unitCurseAmount;
+                    let quantityToAdd = 1;
                     animationPromise.then(() => {
                     if (!prediction) {
                       floatingText({ coords: unit, text: curse.modId });
                     }
                     if (unit.alive) {
-                      const existingQuantity = unit.modifiers[curse.modId]?.quantity as number;
+                      //Transfers one stack of the curse from the caster to
                       Unit.addModifier(unit, curse.modId, underworld, prediction, quantityToAdd, curse.modifier);
+                      if (projectile.sourceUnit)
+                      {Unit.removeModifier(projectile.sourceUnit, curse.modId, underworld);
+                      Unit.addModifier(projectile.sourceUnit, curse.modId, underworld, prediction, curseAmount-1, curse.modifier);
+                      }
                     }
                   });
                   }

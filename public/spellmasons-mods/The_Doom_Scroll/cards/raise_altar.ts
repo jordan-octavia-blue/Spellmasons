@@ -24,23 +24,22 @@ import type Underworld from '../../types/Underworld';
 
 
 
-const id = 'Raise Pillar';
-export { id as pillarId };
+const id = 'Raise Altar';
 const spell: Spell = {
   card: {
     id,
     category: CardCategory.Soul,
     sfx: 'summonDecoy',
     supportQuantity: true,
-    manaCost: 20,
+    manaCost: 35,
     healthCost: 0,
     expenseScaling: 2,
     probability: probabilityMap[CardRarity.COMMON],
     thumbnail: 'spellmasons-mods/The_Doom_Scroll/graphics/spellIconRaise_Pillar.png',
-    description: 'Raise a pillar at the target location, dealing 10 damage to nearby enemies and pushing them away.',
+    description: 'Raise a mana conducive Altar at the target location, acting as a target for future spells cast',
     allowNonUnitTarget: true,
     effect: async (state, card, quantity, underworld, prediction) => {
-      const unitId = 'pillar';
+      const unitId = 'altar';
       const sourceUnit = allUnits[unitId];
       if (sourceUnit) {
         const summonLocation = {
