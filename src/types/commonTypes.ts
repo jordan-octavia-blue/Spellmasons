@@ -5,6 +5,7 @@ import { UnitSource } from '../entity/units';
 import type PieClient from '@websocketpie/client';
 import type PiePeer from '../network/PiePeer';
 import type { IHostApp } from '../network/networkUtil';
+import { HandmadeMap } from '../MapsHandmade';
 export type GameMode = 'tutorial' | 'hard' | 'impossible'
 export type WizardType = 'Spellmason' | 'Deathmason' | 'Goru';
 export enum UnitType {
@@ -42,14 +43,16 @@ export enum CardRarity {
   SPECIAL = 'SPECIAL',
   UNCOMMON = 'UNCOMMON',
   RARE = 'RARE',
-  FORBIDDEN = 'FORBIDDEN'
+  FORBIDDEN = 'FORBIDDEN',
+  RUNIC = 'RUNIC'
 }
 export const probabilityMap: Record<CardRarity, number> = {
   [CardRarity.COMMON]: 80,
   [CardRarity.SPECIAL]: 50,
   [CardRarity.UNCOMMON]: 30,
   [CardRarity.RARE]: 10,
-  [CardRarity.FORBIDDEN]: 5
+  [CardRarity.FORBIDDEN]: 5,
+  [CardRarity.RUNIC]: 0
 
 }
 export type JEmitter = particles.Emitter & { cleanAfterTurn?: boolean };
@@ -66,6 +69,7 @@ export interface Mod {
   spells?: Spell[];
   modifiers?: Modifiers[];
   events?: Events[];
+  maps?: HandmadeMap[];
 }
 
 export type Pie = PieClient | PiePeer | IHostApp;

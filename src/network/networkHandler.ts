@@ -405,6 +405,18 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
         console.error('Cannot CHOOSE_UPGRADE, fromPlayer is undefined', fromClient, fromPlayer)
       }
       break;
+    case MESSAGE_TYPES.SKIP_UPGRADE:
+      if (fromPlayer && payload.spCost) {
+        fromPlayer.skippedCards += 1;
+        fromPlayer.statPointsUnspent += payload.spCost
+        // If there are more upgrades to be had, show them
+        if (globalThis.player == fromPlayer) {
+          underworld.showUpgrades();
+          playSFXKey('levelUp');
+
+        }
+      }
+      break;
     case MESSAGE_TYPES.LOAD_GAME_STATE:
       // If a client loads a full game state, they should be fully synced
       // so clear the onDataQueue to prevent old messages from being processed
@@ -835,12 +847,8 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
         Player.setPlayerRobeColor(fromPlayer, color, colorMagic);
         Player.syncLobby(underworld);
         // Don't override wizardType if it's not being set
-        if (exists(wizardType)) {
-          if ((exists(overworld.underworld) && overworld.underworld.levelIndex <= 0) && !fromPlayer.isSpawned) {
-            Player.setWizardType(fromPlayer, wizardType, overworld.underworld);
-          } else {
-            console.warn('Cannot change wizard type in ongoing game')
-          }
+        if (exists(wizardType) && wizardType != fromPlayer.wizardType) {
+          Player.setWizardType(fromPlayer, wizardType, overworld.underworld);
         }
         // Update the player image
         const sourceUnit = fromPlayer.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID] : allUnits[spellmasonUnitId];
@@ -1250,6 +1258,7 @@ async function handleLoadGameState(payload: {
   underworld.cardDropsDropped = loadedGameState.cardDropsDropped;
   underworld.enemiesKilled = loadedGameState.enemiesKilled;
   underworld.activeMods = loadedGameState.activeMods;
+  underworld.events = loadedGameState.events;
   // simulatingMovePredictions should never be serialized, it is only for a running instance to keep track of if the simulateRunForceMovePredictions is running
   underworld.simulatingMovePredictions = false;
   // backwards compatible for save state that didn't have this:
@@ -1304,6 +1313,7 @@ async function handleLoadGameState(payload: {
     // Clean up previous units:
     underworld.units.forEach(u => Unit.cleanup(u, false, true));
     underworld.units = units.filter(u => !u.flaggedForRemoval).map(u => Unit.load(u, underworld, false));
+    recalculateGameDifficulty(underworld);
   }
   // Note: Players should sync after units are loaded so
   // that the player.unit reference is synced

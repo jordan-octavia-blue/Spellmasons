@@ -116,6 +116,7 @@ import { LogLevel } from './RemoteLogging';
 import PiePeer from './network/PiePeer';
 import { investmentId } from './modifierInvestment';
 import { isSinglePlayer } from './network/wsPieSetup';
+import { alwaysBounty } from './globalEvents/alwaysBounty';
 
 const loopCountLimit = 10000;
 export enum turn_phase {
@@ -205,6 +206,7 @@ export default class Underworld {
   processedMessageCount: number = 0;
   cardDropsDropped: number = 0;
   enemiesKilled: number = 0;
+  events: string[] = [alwaysBounty];
   // Not to be synced between clients but should belong to the underworld as they are unique
   // to each game lobby:
   // A list of units and pickups and an endPosition that they are moved to via a "force",
@@ -296,6 +298,13 @@ export default class Underworld {
     this.serverStabilityMaxUnits = globalThis.serverStabilityMaxUnits;
     if (this.serverStabilityMaxPickups || this.serverStabilityMaxUnits) {
       console.log('Server Stability: ', this.serverStabilityMaxUnits, this.serverStabilityMaxPickups);
+    }
+  }
+  addEvent(eventId: string) {
+    if (!this.events.includes(eventId)) {
+      this.events.push(eventId);
+      // TODO
+      // this.events.sort(Cards.eventsSorter(Cards.allModifiers));
     }
   }
   getAllUnits(prediction: boolean): Unit.IUnit[] {
@@ -751,33 +760,38 @@ export default class Underworld {
         const unitImageYOffset = config.COLLISION_MESH_RADIUS / 2;
         const startPos = Vec.clone(forceMoveInst.pushedObject);
         startPos.y += unitImageYOffset;
-        const done = this.runForceMove(forceMoveInst, deltaTime, false);
+        let done = this.runForceMove(forceMoveInst, deltaTime, false);
         const endPos = { x: forceMoveInst.pushedObject.x, y: forceMoveInst.pushedObject.y + unitImageYOffset };
         if (!globalThis.noGore && graphicsBloodSmear && Unit.isUnit(forceMoveInst.pushedObject) && exists(forceMoveInst.pushedObject.health) && forceMoveInst.pushedObject.health <= 0) {
-          const size = 3;
-          for (let j of smearJitter) {
-            // Multiple blood trails
-            graphicsBloodSmear.beginFill(forceMoveInst.pushedObject.bloodColor, 1.0);
-            graphicsBloodSmear.lineStyle(0);
-            const bloodDrop = Vec.jitter(endPos, 5);
-            // Don't draw if inside liquid
-            if (!this.isInsideLiquid(bloodDrop)) {
-              // Draw a blood drop
-              graphicsBloodSmear.drawCircle(bloodDrop.x, bloodDrop.y, randInt(2, 4));
-            }
+          if (this.isCoordOnVoidTile(endPos)) {
+            // Don't render blood for units out of bounds, this causes the "delete the floor bug"
+            done = true;
+          } else {
+            const size = 3;
+            for (let j of smearJitter) {
+              // Multiple blood trails
+              graphicsBloodSmear.beginFill(forceMoveInst.pushedObject.bloodColor, 1.0);
+              graphicsBloodSmear.lineStyle(0);
+              const bloodDrop = Vec.jitter(endPos, 5);
+              // Don't draw if inside liquid
+              if (!this.isInsideLiquid(bloodDrop)) {
+                // Draw a blood drop
+                graphicsBloodSmear.drawCircle(bloodDrop.x, bloodDrop.y, randInt(2, 4));
+              }
 
-            const startWithJitter = Vec.add(startPos, j);
-            const endWithJitter = Vec.add(endPos, j);
-            // Only draw if both are not inside liquid bounds
-            if (!this.isInsideLiquid(startPos) && !this.isInsideLiquid(endWithJitter)) {
-              // Draw circle at the ends of the smear line line so the smear lines don't look like rectangles
-              graphicsBloodSmear.drawCircle(startWithJitter.x, startWithJitter.y, size);
-              graphicsBloodSmear.drawCircle(endWithJitter.x, endWithJitter.y, size);
-              graphicsBloodSmear.endFill();
-              // Draw a smear line
-              graphicsBloodSmear.lineStyle(size, forceMoveInst.pushedObject.bloodColor, 1.0);
-              graphicsBloodSmear.moveTo(startWithJitter.x, startWithJitter.y);
-              graphicsBloodSmear.lineTo(endWithJitter.x, endWithJitter.y);
+              const startWithJitter = Vec.add(startPos, j);
+              const endWithJitter = Vec.add(endPos, j);
+              // Only draw if both are not inside liquid bounds
+              if (!this.isInsideLiquid(startPos) && !this.isInsideLiquid(endWithJitter)) {
+                // Draw circle at the ends of the smear line line so the smear lines don't look like rectangles
+                graphicsBloodSmear.drawCircle(startWithJitter.x, startWithJitter.y, size);
+                graphicsBloodSmear.drawCircle(endWithJitter.x, endWithJitter.y, size);
+                graphicsBloodSmear.endFill();
+                // Draw a smear line
+                graphicsBloodSmear.lineStyle(size, forceMoveInst.pushedObject.bloodColor, 1.0);
+                graphicsBloodSmear.moveTo(startWithJitter.x, startWithJitter.y);
+                graphicsBloodSmear.lineTo(endWithJitter.x, endWithJitter.y);
+              }
             }
           }
         }
@@ -2314,7 +2328,7 @@ export default class Underworld {
 
     // each bounty hunter places a bounty on a random unit in an opposing faction
     this.units.forEach(u => {
-      if (u.modifiers[bountyHunterId]) {
+      if (u.modifiers[bountyHunterId] || levelIndex > 4) {
         placeRandomBounty(u, this, false);
       }
     });
@@ -2457,6 +2471,12 @@ export default class Underworld {
         Pickup.tryTriggerPickup(pu, unit, this, prediction);
       }
     }
+  }
+  isCoordOnVoidTile(coord: Vec2): boolean {
+    const cellX = Math.round(coord.x / config.OBSTACLE_SIZE);
+    const cellY = Math.round(coord.y / config.OBSTACLE_SIZE);
+    const originalTile = this.lastLevelCreated?.imageOnlyTiles[vec2ToOneDimentionIndexPreventWrap({ x: cellX, y: cellY }, this.lastLevelCreated?.width)];
+    return !originalTile || (isNullOrUndef(originalTile.image) || originalTile.image == '');
   }
   isCoordOnWallTile(coord: Vec2): boolean {
     const cellX = Math.round(coord.x / config.OBSTACLE_SIZE);
@@ -2811,16 +2831,36 @@ export default class Underworld {
       return
     }
 
+    const savedWizardTypes = this.players.map(p => ({ wizardType: p.wizardType, playerId: p.playerId }))
+
     const newUnderworld = new Underworld(this.overworld, this.pie, Math.random().toString());
+
+    // Maintain difficulty
+    newUnderworld.gameMode = this.gameMode;
+    // Must be called when difficulty (gameMode) changes to update summon spell stats
+    Cards.refreshSummonCardDescriptions(newUnderworld);
+    recalculateGameDifficulty(newUnderworld);
+
     // Add players back to underworld
     // defaultLobbyReady: Since they are still in the game, set them to lobbyReady
     let clients = this.overworld.clients
     if (this.pie instanceof PiePeer) {
       clients = Array.from(globalThis.peers)
     }
-    console.log('jtest', this.overworld.clients, Array.from(globalThis.peers), clients);
+    console.log('Restart with clients', this.overworld.clients, Array.from(globalThis.peers), clients);
 
     ensureAllClientsHaveAssociatedPlayers(this.overworld, clients, [], true);
+
+    // Restore wizard info
+    for (let savedWizardInfo of savedWizardTypes) {
+      const player = newUnderworld.players.find(p => p.playerId == savedWizardInfo.playerId)
+      if (!player) {
+        console.log('Err: Player id missing', savedWizardInfo.playerId)
+        console.error('Attempting to restore player wizard info but no player found with id')
+      } else {
+        Player.setWizardType(player, savedWizardInfo.wizardType, newUnderworld)
+      }
+    }
     // Generate the level data
     newUnderworld.lastLevelCreated = newUnderworld.generateLevelDataSyncronous(0, this.gameMode);
     // Actually create the level 
@@ -3501,7 +3541,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       return 0;
     }
     // .filter out freeSpells because they shouldn't count against upgrades available since they are given to you
-    return this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length;
+    return this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
   }
   upgradeRune(runeModifierId: string, player: Player.IPlayer, payload: { newSP: number }) {
     const isCurrentPlayer = player == globalThis.player;
@@ -3638,6 +3678,34 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       // Empty before adding new reroll btn
       rerollBtnContainer.innerHTML = '';
       rerollBtnContainer.appendChild(elReroll);
+      if (player.inventory.length >= 3 && globalThis.player) {
+        const spCost = globalThis.player.wizardType == 'Deathmason' ? -30 : 60
+        const elSkipCard = document.createElement('div');
+        elSkipCard.classList.add('skip-card-btn');
+        elSkipCard.style.color = 'white';
+        const isDisabled = spCost < 0 && globalThis.player.statPointsUnspent < Math.abs(spCost)
+        if (isDisabled) {
+          elSkipCard.classList.toggle('disabled', true)
+        }
+        elSkipCard.innerHTML = `${spCost > 0 ? '+' : ''}${spCost} SP`;
+        elSkipCard.addEventListener('click', () => {
+          if (isDisabled) {
+            playSFXKey('deny');
+          } else {
+            playSFXKey('click');
+            // Clear upgrades
+            document.body?.classList.toggle(showUpgradesClassName, false);
+            this.pie.sendData({
+              type: MESSAGE_TYPES.SKIP_UPGRADE,
+              spCost,
+            });
+          }
+        });
+        elSkipCard.addEventListener('mouseenter', (e) => {
+          playSFXKey('click');
+        });
+        rerollBtnContainer.appendChild(elSkipCard);
+      }
     }
   }
   getRandomCoordsWithinBounds(bounds: Limits, seed?: prng): Vec2 {

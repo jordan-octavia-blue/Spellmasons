@@ -59,7 +59,7 @@ import { doubledamageId } from '../modifierDoubleDamage';
 import { runeHardenedMinionsId } from '../modifierHardenedMinions';
 import { runeSharpTeethId } from '../modifierSharpTeeth';
 import { isDeathmason, isGoru } from './Player';
-import { createFloatingParticleSystem } from '../graphics/Particles';
+import { createFloatingParticleSystem, removeFloatingParticlesFor } from '../graphics/Particles';
 
 const elCautionBox = document.querySelector('#caution-box') as HTMLElement;
 const elCautionBoxText = document.querySelector('#caution-box-text') as HTMLElement;
@@ -169,6 +169,7 @@ export type IUnit = HasSpace & HasLife & HasMana & HasStamina & {
   takingPureDamage?: boolean;
   charges?: { [spellId: string]: number };
   chargesMaxAdditional?: number;
+  difficulty: number;
 }
 // This does not need to be unique to underworld, it just needs to be unique
 let lastPredictionUnitId = 0;
@@ -239,13 +240,13 @@ export function create(
       UITargetCircleOffsetY: -10,
       beingPushed: false,
       predictedNextTurnDamage: 0,
+      // Difficulty will be adjusted according to the underworld later in this function
+      difficulty: 1,
     }, sourceUnitProps);
 
     // Adjust soul fragments based on number of player's connected to balance goru difficulty
     const playerAdjustedSoulFragments = Math.max(0, underworld.players.filter(p => p.clientConnected).length - 1);
     unit.soulFragments += Math.round(playerAdjustedSoulFragments * config.EXTRA_SOULS_PER_EXTRA_PLAYER);
-
-
 
     if (creator) {
       unit.summonedBy = creator;
@@ -292,9 +293,7 @@ export function create(
 
     // Note: This must be invoked after initial setting of stat and statMax (health, mana, stamina, etc)
     // so that it can scale stat relative to maxStat
-    // We must also pass in '1' as the old difficulty, since the unit is being created
-    // and thus has not been adjusted by previous difficulty changes
-    adjustUnitDifficulty(unit, 1, underworld.difficulty);
+    adjustUnitDifficulty(unit, underworld.difficulty);
 
     // Note, making miniboss must come AFTER setting the scale and difficulty
     // Note, this is the idempotent way to create a miniboss, pass isMiniboss:true to to the sourceUnitProps override
@@ -371,24 +370,25 @@ export function adjustUnitPropsDueToDifficulty(stats: DifficultyAdjustedUnitStat
 }
 
 // sets all the properties that depend on difficulty
-export function adjustUnitDifficulty(unit: IUnit, oldDifficulty: number, newDifficulty: number) {
+export function adjustUnitDifficulty(unit: IUnit, newDifficulty: number) {
   if (unit.faction == Faction.ALLY) {
     // Difficulty only affects enemy units
     return;
   }
   // Don't let difficulty be 0 which can occur on 0 player multiplayer games
   // which would initialize all units to 0 health
-  if (oldDifficulty == 0) {
-    oldDifficulty = 1;
+  if (unit.difficulty == 0) {
+    unit.difficulty = 1;
   }
   if (newDifficulty == 0) {
     newDifficulty = 1;
   }
 
-  const newDifficultyRatio = newDifficulty / oldDifficulty;
+  const newDifficultyRatio = newDifficulty / unit.difficulty;
 
   const newStats = adjustUnitPropsDueToDifficulty(unit, newDifficultyRatio);
   Object.assign(unit, newStats);
+  unit.difficulty = newDifficulty;
 }
 
 export function addModifier(unit: IUnit, key: string, underworld: Underworld, prediction: boolean, quantity: number = 1, extra?: object) {
@@ -533,7 +533,7 @@ export function load(unit: IUnitSerialized, underworld: Underworld, prediction: 
   // so the promise doesn't hang forever
   let loadedunit: IUnit = {
     // Load defaults for new props that old save files might not have
-    ...{ strength: 1, soulFragments: 1 },
+    ...{ strength: 1, soulFragments: 1, difficulty: underworld.difficulty },
     ...restUnit,
     summonedBy: (prediction ? underworld.unitsPrediction : underworld.units).find(u => u.id == summonedById),
     shaderUniforms: {},
@@ -546,6 +546,7 @@ export function load(unit: IUnitSerialized, underworld: Underworld, prediction: 
         ? Image.load(unit.image, containerUnits)
         : Image.create({ x: unit.x, y: unit.y }, unit.defaultImagePath, containerUnits),
   };
+  console.debug('Loading unit with difficulty', loadedunit.difficulty, 'from underwrold difficulty:', underworld.difficulty)
   // Randomize frame so all created units aren't "idle animating" in perfect unison
   // it looks more organic
   if (loadedunit.image && loadedunit.image.sprite.imagePath === loadedunit.animations.idle) {
@@ -856,6 +857,8 @@ export function resurrect(unit: IUnit, underworld: Underworld, preventRepeatRez:
   if (unit.modifiers[primedCorpseId]) {
     removeModifier(unit, primedCorpseId, underworld);
   }
+  // Resurrected units should have their floating souls removed
+  removeFloatingParticlesFor(unit);
   returnToDefaultSprite(unit);
   // Unhide subsprites on resurrect
   for (let subsprite of unit.image?.sprite.children || []) {
@@ -914,6 +917,16 @@ export function die(unit: IUnit, underworld: Underworld, prediction: boolean, so
   const overriddenSourceUnit = sourceUnit?.summonedBy || sourceUnit;
 
   for (let eventName of events) {
+    if (eventName) {
+      const fn = Events.onDeathSource[eventName];
+      if (fn) {
+        fn(unit, underworld, prediction, overriddenSourceUnit);
+      }
+    }
+  }
+
+
+  for (let eventName of underworld.events) {
     if (eventName) {
       const fn = Events.onDeathSource[eventName];
       if (fn) {
@@ -1166,7 +1179,7 @@ export function syncPlayerHealthManaUI(underworld: Underworld) {
   elHealthBar.style["width"] = `${100 * unit.health / unit.healthMax}%`;
   elHealthBarShield.style["width"] = `${100 * Math.min(shieldAmount / unit.healthMax, 1)}%`;
   if (shieldAmount) {
-    const shieldText = `${unit.modifiers.shield?.quantity} shield`;
+    const shieldText = `${Math.round(shieldAmount)} shield`;
     elHealthLabel.innerHTML = `${shieldText} + ${txt(unit.health)} / ${txt(unit.healthMax)}`;
   } else {
     // Label health without shield
@@ -1209,7 +1222,7 @@ export function syncPlayerHealthManaUI(underworld: Underworld) {
     if (willDie) {
       elHealthLabel.innerHTML = i18n('Death');
     } else if (predictionPlayerShield) {
-      const shieldText = `${predictionPlayerShield} shield`;
+      const shieldText = `${Math.round(predictionPlayerShield)} shield`;
       elHealthLabel.innerHTML = `${shieldText} + ${txt(predictionPlayerUnit.health)} / ${txt(predictionPlayerUnit.healthMax)}`;
     } else if (predictionPlayerUnit.health != unit.health || predictionPlayerUnit.healthMax != unit.healthMax) {
       elHealthLabel.innerHTML = `${txt(predictionPlayerUnit.health)} ${i18n('Remaining')}`;
@@ -1262,7 +1275,7 @@ export function syncPlayerHealthManaUI(underworld: Underworld) {
     elManaBar2.style["width"] = `0%`;
     elManaBar3.style["width"] = `100%`;
     const inSoulDebt = predictionPlayerUnit.soulFragments < 0
-    const text = inSoulDebt ? `${predictionPlayerUnit.soulFragments} ${i18n('Soul Debt')}` : `${predictionPlayerUnit.soulFragments} ${i18n('Soul Fragments')}`;
+    const text = inSoulDebt ? `${Math.floor(predictionPlayerUnit.soulFragments)} ${i18n('Soul Debt')}` : `${Math.floor(predictionPlayerUnit.soulFragments)} ${i18n('Soul Fragments')}`;
     elManaLabel.dataset.soulFragments = predictionPlayerUnit.soulFragments.toString();
     elManaLabel.classList.toggle('souldebt', inSoulDebt)
     elManaLabel.innerHTML = text;
@@ -1709,7 +1722,7 @@ export function makeMiniboss(unit: IUnit, underworld: Underworld) {
   unit.mana *= config.UNIT_MINIBOSS_MANA_MULTIPLIER;
   unit.manaPerTurn *= config.UNIT_MINIBOSS_MANA_MULTIPLIER;
   unit.manaCostToCast *= config.UNIT_MINIBOSS_MANA_MULTIPLIER;
-  unit.strength *= 7;
+  unit.strength *= config.MINIBOSS_STRENGTH_MULTIPLIER;
   unit.soulFragments = getSoulFragmentsForMiniboss(unit.soulFragments);
   Image.setScaleFromModifiers(unit.image, unit.strength);
   const crown = Image.addSubSprite(unit.image, 'crown');

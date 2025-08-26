@@ -1,3 +1,25 @@
+## v1.65.2
+- fix: Prevent Unit health from doubling when loading a multiplayer game on Impossible difficulty
+- fix: Allow changing wizard type at any time
+    since multiple players have gotten stuck unable to change wizard after quitting a game
+    (Note: Wizard type should not intentionally be changed _during_ a game)
+- balance: Arrow Multi is now worth the cost
+- balance: Giant Slash now only costs 1 soul instead of 2 to be worth the upgrade
+- QoL: Make Winter's Chill trigger on turn start instead of end
+
+- legal: Simplify and clarify Privacy Policy and EULA
+- legal: Add menu button to opt-out of remote logging / data sharing (note: it is not opted-out by default)
+- fix: polymorphing dead units doesn't restore soul fragment
+- fix: polymorph to maintain power of pickups and strength of units
+- fix: Whirlpool only runs while wizard is alive
+- fix: maintain difficulty on restart after losing
+- fix: maintain wizard choice on restart after losing
+- fix: lock icon position on floating card holders for Deathmason
+- fix: Darken background so there's no white flash on startup
+- fix: resurrecting unit removes floating soul particles
+- fix: Remove Necromancer for Goru and DM since it doesn't decrease cost for them
+
+
 ## Patch
 fix: merge combines soul fragments
 fix: Free souls on Golemancer

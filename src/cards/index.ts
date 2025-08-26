@@ -245,6 +245,8 @@ import registerVampirism from '../modifierVampirism';
 import registerEffervescence from '../modifierEffervescence';
 import registerMagnetism from '../modifierMagnetism';
 import registerSafetyNumbers from '../modifierSafetyNumbers';
+// Global events
+import registerAlwaysBounty from '../globalEvents/alwaysBounty';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -674,6 +676,9 @@ export function registerCards(overworld: Overworld) {
   registerUrnPoisonExplode();
   registerUrnExplosiveExplode();
   registerDeathmasonEvents();
+
+  // Global Events
+  registerAlwaysBounty()
 }
 
 // This is necessary because unit stats change with difficulty.

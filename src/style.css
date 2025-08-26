@@ -199,6 +199,11 @@ body.recording-shorts #caution-box-text {
   overflow: hidden;
 }
 
+#upgrade-picker .RUNIC .card-title,
+.show-card-large .RUNIC .card-title {
+  outline: 4px solid #000000;
+}
+
 #upgrade-picker .FORBIDDEN .card-title,
 .show-card-large .FORBIDDEN .card-title {
   outline: 4px solid #000000;
@@ -512,6 +517,11 @@ invisibly blocked, change with caution! */
 .show-card-large .card.FORBIDDEN,
 #upgrade-picker .card.FORBIDDEN {
   background-image: url('images/card-designs/card-FORBIDDEN.png');
+}
+
+.show-card-large .card.RUNIC,
+#upgrade-picker .card.RUNIC {
+  background-image: url('images/card-designs/card-RARE.png');
 }
 
 /* Disable dragging for card thumbnails */
@@ -2323,11 +2333,16 @@ body:not(.view-Game) #chatbox {
   background-image: url('/ui/iconPlusDown.png');
 }
 
+#reroll-btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
 .reroll-btn {
   width: 94px;
   height: 95px;
   background-image: url('/ui/iconRerollUp.png');
-  margin: 8px auto;
 }
 
 .reroll-btn:hover {
@@ -2338,6 +2353,26 @@ body:not(.view-Game) #chatbox {
   background-image: url('/ui/iconRerollDown.png');
 }
 
+.skip-card-btn {
+  width: 94px;
+  height: 95px;
+  background-image: url('/ui/iconButtonSkipCardUp.png');
+  text-align: center;
+  line-height: 208px;
+}
+
+.skip-card-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.skip-card-btn:hover {
+  filter: drop-shadow(0 0 0.4rem rgb(255, 255, 255));
+}
+
+.skip-card-btn:active {
+  background-image: url('/ui/iconButtonSkipCardDown.png');
+}
 
 /* Extra toolbars for cards */
 #floating-card-holder-left {
@@ -2963,6 +2998,7 @@ body.isPeerHost .openLobbyBtn {
 
 #legal-content {
   min-height: 100px;
+  font-family: sans-serif;
 }
 
 #legal-content h1,
@@ -3042,6 +3078,13 @@ body:not(.wizardtype-deathmason) .stat-row[data-stat="Max Cards"] {
 /*Do NOT show lock in selected cards*/
 body.wizardtype-deathmason #selected-cards .card.is-discard-locked .lock-discard {
   display: none;
+}
+
+.floating-card-holder .lock-discard {
+  width: 30px;
+  height: 30px;
+  left: 18px;
+  top: -15px;
 }
 
 .lock-discard {
