@@ -139,7 +139,8 @@ import { registerUrnPoisonExplode } from '../entity/units/urn_poison';
 import { registerUrnExplosiveExplode } from '../entity/units/urn_explosive';
 import { registerDeathmasonEvents } from '../entity/units/deathmason';
 // import trap from './trap';
-
+import ephemerate from './ephemerate';
+import bubble_burst from './bubble_burst';
 import * as config from '../config';
 
 import { IUpgrade, upgradeCardsSource } from '../Upgrade';
@@ -455,6 +456,7 @@ export function registerCards(overworld: Overworld) {
   );
   config.IS_JULY25_UPDATE_OUT && registerSpell(nukitsuke, overworld);
   config.IS_JULY25_UPDATE_OUT && registerSpell(nukitsuke2, overworld);
+  registerSpell(bubble_burst, overworld);
 
   // Blessings
   registerSpell(heal, overworld);
@@ -528,6 +530,7 @@ export function registerCards(overworld: Overworld) {
   registerSpell(teleport, overworld);
   config.IS_ANNIVERSARY_UPDATE_OUT &&
     registerSpell(recall, overworld);
+  registerSpell(ephemerate, overworld);
 
 
   // Targeting Spells
