@@ -11,11 +11,10 @@ import { CardCategory } from "./types/commonTypes";
 export const acrobaticsId = 'Acrobatics';
 export default function registerAcrobatics() {
     registerModifiers(acrobaticsId, {
-        description: 'rune_icy_veins',
-        unitOfMeasure: '% Damage',
+        description: 'Movement spells now cost Stamina instead of Mana',
         stage: "Amount Multiplier",
         _costPerUpgrade: 200,
-        quantityPerUpgrade: 300,
+        quantityPerUpgrade: 1,
         maxUpgradeCount: 1,
         add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
             getOrInitModifier(unit, acrobaticsId, { isCurse: false, quantity, keepOnDeath: true }, () => {

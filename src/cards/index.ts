@@ -247,6 +247,7 @@ import registerVampirism from '../modifierVampirism';
 import registerEffervescence from '../modifierEffervescence';
 import registerMagnetism from '../modifierMagnetism';
 import registerSafetyNumbers from '../modifierSafetyNumbers';
+import registerAcrobatics from '../modifierAcrobatics';
 // Global events
 import registerAlwaysBounty from '../globalEvents/alwaysBounty';
 import registerTestUnderworldEvents from '../globalEvents/testUnderworldEvents';
@@ -621,6 +622,7 @@ export function registerCards(overworld: Overworld) {
   registerEffervescence();
   registerMagnetism();
   registerSafetyNumbers();
+  registerAcrobatics();
   registerAffinityBlessing();
   registerAffinityCurse();
   registerAffinityDamage();
