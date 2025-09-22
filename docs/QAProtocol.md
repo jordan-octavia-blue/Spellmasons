@@ -11,6 +11,9 @@
 - Test saving if you modify underworld with new elements added to the level that need to be serialized
 - Test loading an old save file for backwards compatibility
 
+Oct 24:
+- [ ]  Test merging GreenGlop with GreenGlop champion
+
 Next:
 - [ ] Back compat: underworld.events is not iterable
 - Test familiars on multiplayers
