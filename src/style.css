@@ -2124,6 +2124,19 @@ body.auto-camera #camera-recenter-tip {
   display: block;
 }
 
+#chatbox-close {
+  cursor: pointer;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border-radius: 2px;
+  padding: 5px;
+}
+
+#chatbox-close:hover {
+  background-color: red
+}
+
 #chatbox-inner {
   min-width: 300px;
   max-width: 300px;
@@ -2132,6 +2145,7 @@ body.auto-camera #camera-recenter-tip {
   flex-direction: column;
   overflow: auto;
   overflow-x: hidden;
+  position: relative;
 }
 
 #chatinput {
