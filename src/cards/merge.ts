@@ -215,14 +215,14 @@ export function mergePickups(target: Pickup.IPickup, pickupsToMerge: Pickup.IPic
   }
 }
 
-export async function animateMerge(image: IImageAnimated | undefined, target: Vec2) {
+export async function animateMerge(image: IImageAnimated | undefined, target: Vec2, speed: number = 1) {
   if (globalThis.headless) {
     return;
   }
   if (!image) {
     return;
   }
-  const iterations = 160;
+  const iterations = 160 / speed;
   const millisBetweenIterations = 3;
   const startPos = clone(image.sprite);
   // "iterations + 10" gives it a little extra time so it doesn't timeout right when the animation would finish on time

@@ -13,6 +13,7 @@
 
 Oct 24:
 - [ ]  Test merging GreenGlop with GreenGlop champion
+    - Make sure it keeps modifiers
 
 Next:
 - [ ] Back compat: underworld.events is not iterable

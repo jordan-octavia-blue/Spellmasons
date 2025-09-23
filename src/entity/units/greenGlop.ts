@@ -113,8 +113,11 @@ const unit: UnitSource = {
           // @ts-ignore
           unit.sourceMerger = true;
           playSFXKey('clone');
-          await animateMerge(closestGreenGlop.image, unit);
+          await animateMerge(closestGreenGlop.image, unit, 3);
           mergeUnits(unit, [closestGreenGlop], underworld, false);
+          // Reset so they can continue to merge
+          // @ts-ignore
+          unit.sourceMerger = undefined;
         }
       } else {
         const closestEnemy = Unit.findClosestUnitInDifferentFactionSmartTarget(unit, underworld.units);
