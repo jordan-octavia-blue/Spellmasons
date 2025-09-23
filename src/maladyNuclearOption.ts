@@ -26,6 +26,7 @@ export default function registerNuclearOption() {
   });
   registerEvents(NUCLEAR_OPTION_ID, {
     onTurnStart: async (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, faction: Faction) => {
+      floatingText({ coords: unit, text: NUCLEAR_OPTION_ID });
       await underworld.castCards({
         casterCardUsage: {},
         casterUnit: unit,

@@ -251,6 +251,7 @@ import registerTestUnderworldEvents from '../globalEvents/testUnderworldEvents';
 import registerAnemia from '../maladyAnemic';
 import registerStatue from '../maladyStatue';
 import registerNuclearOption from '../maladyNuclearOption';
+import registerDoomed from '../maladyDoomed';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -693,6 +694,7 @@ export function registerCards(overworld: Overworld) {
   registerAnemia();
   registerStatue();
   registerNuclearOption();
+  registerDoomed();
 }
 
 // This is necessary because unit stats change with difficulty.
