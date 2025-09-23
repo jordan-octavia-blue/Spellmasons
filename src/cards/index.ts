@@ -249,6 +249,7 @@ import registerPrecision from '../modifierPrecision';
 import registerAlwaysBounty from '../globalEvents/alwaysBounty';
 import registerTestUnderworldEvents from '../globalEvents/testUnderworldEvents';
 import registerAnemia from '../maladyAnemic';
+import registerStatue from '../maladyStatue';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -689,6 +690,7 @@ export function registerCards(overworld: Overworld) {
 
   // Register maladies
   registerAnemia();
+  registerStatue();
 }
 
 // This is necessary because unit stats change with difficulty.

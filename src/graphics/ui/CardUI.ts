@@ -18,6 +18,7 @@ import { chooseBookmark } from '../../views';
 import { quantityWithUnit } from '../../cards/util';
 import { presentRunes } from '../../jmath/RuneUtil';
 import { sellCardId } from '../../cards/sell';
+import { STATUE_ID } from '../../maladyStatue';
 
 const elCardHolders = document.getElementById('card-holders') as HTMLElement;
 const elInvContent = document.getElementById('inventory-content') as HTMLElement;
@@ -588,6 +589,10 @@ export function renderRunesMenu(underworld: Underworld) {
 
   const constantRunes: string[] = Object.entries(Cards.allModifiers).flatMap(([key, modifier]) => {
     if (modifier._costPerUpgrade && modifier.constant && globalThis.player && !(modifier.omitForWizardType || []).includes(globalThis.player.wizardType)) {
+      // Exception: Units with Statue modifier cannot upgrade stamina
+      if (key == 'Stamina' && globalThis.player.unit.modifiers[STATUE_ID]) {
+        return [];
+      }
       return [key];
     } else {
       return [];
