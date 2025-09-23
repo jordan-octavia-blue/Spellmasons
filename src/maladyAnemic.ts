@@ -5,19 +5,18 @@ import floatingText from "./graphics/FloatingText";
 import Underworld from './Underworld';
 
 export const ANEMIA_ID = 'Anemia';
-const LOST_MAX_HEALTH = 2;
+const LOST_MAX_HEALTH = 5;
 export default function registerAnemia() {
   registerModifiers(ANEMIA_ID, {
-    description: 'rune_anemia',
+    description: ['rune_anemia', LOST_MAX_HEALTH.toString()],
     stage: "Amount Override",
-    _costPerUpgrade: -5,
+    _costPerUpgrade: -80,
     maxUpgradeCount: 1,
     isMalady: true,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, ANEMIA_ID, { isCurse: false, quantity, keepOnDeath: true }, () => {
         const player = underworld.players.find(p => p.unit == unit)
         if (player) {
-          player.extraStatPointsPerRound += 15;
           Unit.addEvent(unit, ANEMIA_ID);
         }
       });
