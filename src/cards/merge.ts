@@ -3,7 +3,7 @@ import * as Unit from '../entity/Unit';
 import * as Pickup from '../entity/Pickup';
 import * as colors from '../graphics/ui/colors';
 import { CardCategory, UnitType } from '../types/commonTypes';
-import { IImageAnimated, setScaleFromModifiers } from '../graphics/Image';
+import { getSubspriteImagePaths, IImageAnimated, restoreSubsprites, setScaleFromModifiers } from '../graphics/Image';
 import { raceTimeout } from '../Promise';
 import { CardRarity, probabilityMap } from '../types/commonTypes';
 import { findSimilar } from './target_similar';
@@ -111,7 +111,7 @@ const spell: Spell = {
   },
 };
 
-export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], underworld: Underworld, prediction: boolean, state?: EffectState) {
+export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], underworld: Underworld, prediction: boolean, state?: EffectState, skipMergeImmune?: boolean) {
   let storedModifiers = [];
   for (const unit of unitsToMerge) {
     // Prediction Lines
@@ -132,6 +132,9 @@ export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], under
       // Allows player to grow in size
       target.strength += unit.strength;
     } else {
+      if (unit.isMiniboss) {
+        target.isMiniboss = unit.isMiniboss
+      }
       // Combine Stats
       target.healthMax += unit.healthMax;
       target.health += unit.health;
@@ -168,13 +171,18 @@ export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], under
       if (state) {
         state.targetedUnits = state.targetedUnits.filter(u => u != unit);
       }
+      if (unit.image) {
+        restoreSubsprites(target.image, getSubspriteImagePaths(unit.image));
+      }
 
       Unit.cleanup(unit);
     }
   }
 
-  // Add Merge Immune
-  Unit.addModifier(target, merge_id, underworld, prediction);
+  if (!skipMergeImmune) {
+    // Add Merge Immune
+    Unit.addModifier(target, merge_id, underworld, prediction);
+  }
 
   // Modifiers are stored and added at the end to prevent weird scenarios
   // such as suffocate killing the primary target mid-merge
@@ -187,6 +195,7 @@ export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], under
       console.error("Modifier doesn't exist? This shouldn't happen.");
     }
   }
+
 
   setScaleFromModifiers(target.image, target.strength);
 }

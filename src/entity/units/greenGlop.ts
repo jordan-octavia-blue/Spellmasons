@@ -114,7 +114,7 @@ const unit: UnitSource = {
           unit.sourceMerger = true;
           playSFXKey('clone');
           await animateMerge(closestGreenGlop.image, unit, 3);
-          mergeUnits(unit, [closestGreenGlop], underworld, false);
+          mergeUnits(unit, [closestGreenGlop], underworld, false, undefined, true);
           // Reset so they can continue to merge
           // @ts-ignore
           unit.sourceMerger = undefined;
