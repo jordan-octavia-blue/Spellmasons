@@ -14,6 +14,7 @@
 Oct 24:
 - [ ]  Test merging GreenGlop with GreenGlop champion
     - Make sure it keeps modifiers
+- Make sure modded maps and familiars are only in the pool if the mod is enabled.
 
 Next:
 - [ ] Back compat: underworld.events is not iterable
