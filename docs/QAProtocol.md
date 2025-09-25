@@ -15,6 +15,7 @@ Oct 24:
 - [ ]  Test merging GreenGlop with GreenGlop champion
     - Make sure it keeps modifiers
 - Make sure modded maps and familiars are only in the pool if the mod is enabled.
+- [ ] Ensure you cannot reject cards with Deathmason if you have insufficient SP
 
 Next:
 - [ ] Back compat: underworld.events is not iterable
@@ -33,7 +34,7 @@ August:
 
 
 
-NEW Content for July:
+NEW Content for July 
 - [x] After playing a game as deathmason if you switch to spellmason you have no mana
 - [x] Test deathmason discard count on multiplayer (non host)
 - [x] Test cardmason sync on new multiplayer game
