@@ -248,9 +248,14 @@ import registerEffervescence from '../modifierEffervescence';
 import registerMagnetism from '../modifierMagnetism';
 import registerSafetyNumbers from '../modifierSafetyNumbers';
 import registerAcrobatics from '../modifierAcrobatics';
+import registerBlur from '../modifierBlur';
+import registerNimble from '../modifierNimble';
+import registerHeavyHitter from '../modifierHeavyHitter';
+import registerFrozenSolid from '../modifierFrozenSolid';
 // Global events
 import registerAlwaysBounty from '../globalEvents/alwaysBounty';
 import registerTestUnderworldEvents from '../globalEvents/testUnderworldEvents';
+import registerLycanthropy from '../modifierLycanthropy';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -623,6 +628,11 @@ export function registerCards(overworld: Overworld) {
   registerMagnetism();
   registerSafetyNumbers();
   registerAcrobatics();
+  registerBlur();
+  registerNimble();
+  registerHeavyHitter();
+  registerFrozenSolid();
+  registerLycanthropy();
   registerAffinityBlessing();
   registerAffinityCurse();
   registerAffinityDamage();

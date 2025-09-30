@@ -12,7 +12,6 @@ export const acrobaticsId = 'Acrobatics';
 export default function registerAcrobatics() {
     registerModifiers(acrobaticsId, {
         description: 'Movement spells now cost Stamina instead of Mana',
-        stage: "Amount Multiplier",
         _costPerUpgrade: 200,
         quantityPerUpgrade: 1,
         maxUpgradeCount: 1,

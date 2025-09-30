@@ -7,7 +7,7 @@ import { freezeCardId } from "./cards/freeze";
 
 // Grants a unit invulnerability to its own damage (I.E. explosives)
 export const frozenSolidId = 'Frozen Solid';
-export default function registerSelfInvulnerability() {
+export default function registerFrozenSolid() {
     registerModifiers(frozenSolidId, {
         description: 'Take no damage when frozen',
         stage: "Amount Override",
@@ -20,13 +20,6 @@ export default function registerSelfInvulnerability() {
         }
     });
     registerEvents(frozenSolidId, {
-        onTooltip: (unit: Unit.IUnit, underworld: Underworld) => {
-            const modifier = unit.modifiers[frozenSolidId];
-            if (modifier) {
-                // Set tooltip:
-                modifier.tooltip = `Immune to damage when frozen`;
-            }
-        },
         onTakeDamage: (unit: Unit.IUnit, amount: number, underworld: Underworld, prediction: boolean, damageDealer?: Unit.IUnit) => {
             const modifier = unit.modifiers[frozenSolidId];
             if (modifier) {
