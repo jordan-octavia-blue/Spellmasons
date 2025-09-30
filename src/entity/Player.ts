@@ -27,6 +27,7 @@ import { visualPolymorphPlayerUnit } from '../cards/polymorph';
 import { GORU_UNIT_ID } from './units/goru';
 import { undyingModifierId } from '../modifierUndying';
 import { bossmasonUnitId } from './units/deathmason';
+import { startingSoulsId } from '../modifierGoruConstants';
 
 const elInGameLobby = document.getElementById('in-game-lobby') as (HTMLElement | undefined);
 elInGameLobby?.addEventListener('click', (e) => {
@@ -58,6 +59,7 @@ export interface IPlayer {
   // color of robe
   color: number;
   wizardType: WizardType;
+  companion?: string;
   lockedDiscardCards: string[];
   // color of the player's magic
   colorMagic: number;
@@ -101,6 +103,7 @@ export interface IPlayer {
   stats: Stats;
   cursesChosen: number;
   statPointsUnspent: number;
+  extraStatPointsPerRound: number;
   lockedRunes: { index: number, key: string, runePresentedIndexWhenLocked?: number }[];
   runePresentedIndex: number;
   gameVersion?: string;
@@ -163,6 +166,7 @@ export function create(clientId: string, playerId: string, underworld: Underworl
     },
     // backfill stat upgrades for players who join late
     statPointsUnspent: Math.max(0, underworld.levelIndex) * config.STAT_POINTS_PER_LEVEL,
+    extraStatPointsPerRound: 0,
     lockedRunes: [],
     runePresentedIndex: 0,
     skippedCards: 0,
@@ -262,7 +266,11 @@ export function initializeWizardStatsForLevelStart(player: IPlayer, underworld: 
       if (underworld.levelIndex <= 0 && !player.unit.modifiers[undyingModifierId]) {
         Unit.addModifier(player.unit, undyingModifierId, underworld, false);
       }
-      player.unit.soulFragments = config.GORU_PLAYER_STARTING_SOUL_FRAGMENTS + Math.floor(underworld.levelIndex / 2);
+      const additionalStartingSouls = player.unit.modifiers[startingSoulsId]?.quantity || 0;
+      player.unit.soulFragments = config.GORU_PLAYER_STARTING_SOUL_FRAGMENTS + Math.floor(underworld.levelIndex / 2) + additionalStartingSouls;
+      player.unit.soulLeftToCollectMax = config.BASE_SOULS_LEFT_TO_COLLECT;
+      player.unit.soulLeftToCollect = player.unit.soulLeftToCollectMax;
+
     }
     if (player.wizardType == 'Deathmason') {
       // Do not allow keeping locked cards between levels
@@ -412,8 +420,12 @@ export function restoreWizardTypeVisuals(player: IPlayer, underworld: Underworld
   // Restore visuals for wizard types
   const sourceUnit = player.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID] : allUnits[spellmasonUnitId];
   if (sourceUnit) {
-    visualPolymorphPlayerUnit(player.unit, sourceUnit)
-    Unit.returnToDefaultSprite(player.unit);
+    const notPolymorphed = ['playerIdle', 'guruIdle'].includes(player.unit.defaultImagePath)
+    // Only revert the player image if they are not polymorphed
+    if (notPolymorphed) {
+      visualPolymorphPlayerUnit(player.unit, sourceUnit)
+      Unit.returnToDefaultSprite(player.unit);
+    }
   } else {
     console.error('Attempted to change player units sprite but found no sourceUnit');
   }
@@ -437,6 +449,7 @@ export function restoreWizardTypeVisuals(player: IPlayer, underworld: Underworld
       underworld.syncPredictionEntities();
     }
   }
+  underworld.addMissingCompanions(player);
 
 }
 

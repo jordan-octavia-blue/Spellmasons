@@ -242,6 +242,10 @@ export default class Underworld {
     target: Vec2,
     keepOnDeath?: boolean
   }[] = [];
+  companions: {
+    image: Image.IImageAnimated,
+    target: Vec2,
+  }[] = [];
   activeMods: string[] = [];
   generatingLevel: boolean = false;
   simulatingMovePredictions: boolean = false;
@@ -1121,6 +1125,25 @@ export default class Underworld {
       } else {
         stopAndDestroyForeverEmitter(emitter);
       }
+    }
+    for (let companion of this.companions) {
+      if (isNaN(companion.image.sprite.x) || isNaN(companion.image.sprite.y)) {
+        companion.image.sprite.x = 0;
+        companion.image.sprite.y = 0;
+      }
+      const multX = Unit.isUnit(companion.target) ? companion.target.image?.sprite.scale.x || 1 : 1
+      const offsetTarget = Vec.add(companion.target, { x: multX * 30, y: -30 });
+      const distance = math.distance(companion.image.sprite, offsetTarget)
+      const speed = math.lerp(0.5, 6, distance / 600);
+      const next = math.getCoordsAtDistanceTowardsTarget(companion.image.sprite, offsetTarget, speed);
+      // Orient:
+      if (offsetTarget.x >= companion.image.sprite.x) {
+        companion.image.sprite.scale.x = -Math.abs(companion.image.sprite.scale.x);
+      } else {
+        companion.image.sprite.scale.x = Math.abs(companion.image.sprite.scale.x);
+      }
+      companion.image.sprite.x = next.x;
+      companion.image.sprite.y = next.y;
     }
     for (let p of this.pickups) {
       Pickup.sync(p);
@@ -2212,6 +2235,10 @@ export default class Underworld {
     // turn-scoped emitters
     this.particleFollowers = [];
     cleanUpEmitters(false);
+    for (let companion of this.companions) {
+      Image.cleanup(companion.image);
+    }
+    this.companions = [];
 
     // Now that it's a new level clear out the level's dodads such as
     // bone dust left behind from destroyed corpses
@@ -2381,7 +2408,7 @@ export default class Underworld {
         if (player.wizardType == 'Deathmason' || player.wizardType == 'Goru') {
           points *= 0.6;
         }
-        player.statPointsUnspent += points;
+        player.statPointsUnspent += points + (player.extraStatPointsPerRound || 0);
         Player.incrementPresentedRunesForPlayer(player, this);
         if (!tutorialChecklist.spendUpgradePoints.complete && levelIndex >= 3) {
           tutorialShowTask('spendUpgradePoints');
@@ -3033,6 +3060,25 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
 
     CardUI.updateCardBadges(this);
   }
+  addMissingCompanions(player: Player.IPlayer) {
+    // Add missing companions
+    if (player.companion) {
+      let found = this.companions.find(c => c.target == player.unit);
+      // If familiar is the wrong kind, remove it so the right one can be created
+      if (found && found.image.sprite.imagePath != player.companion) {
+        this.companions = this.companions.filter(c => c.image !== found?.image);
+        Image.cleanup(found.image);
+        found = undefined;
+      }
+      if (!found) {
+        const newCompanionImage = Image.create({ x: 0, y: 0 }, player.companion, containerUnits)
+        if (newCompanionImage) {
+          this.companions.push({ image: newCompanionImage, target: player.unit });
+        }
+      }
+    }
+
+  }
   async executePlayerTurn() {
     this.battleLog(`Begin Player Turn Phase`);
     await Unit.startTurnForUnits(this.players.map(p => p.unit), this, false, Faction.ALLY);
@@ -3048,6 +3094,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
           playSFXKey('yourTurn');
         }
       }
+      this.addMissingCompanions(player);
     }
     this.syncTurnMessage();
     // Update unit health / mana bars, etc
@@ -3542,7 +3589,13 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       return 0;
     }
     // .filter out freeSpells because they shouldn't count against upgrades available since they are given to you
-    return this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
+    const upgradesLeftToChoose = this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
+    console.debug('Player upgrades left to choose: ', upgradesLeftToChoose, `;
++ cardDropsDropped: ${this.cardDropsDropped} 
++ config.STARTING_CARD_COUNT ${config.STARTING_CARD_COUNT} 
+- player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length: ${player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length} 
+- (player.skippedCards || 0): ${(player.skippedCards || 0)}`)
+    return upgradesLeftToChoose;
   }
   upgradeRune(runeModifierId: string, player: Player.IPlayer, payload: { newSP: number }) {
     const isCurrentPlayer = player == globalThis.player;
@@ -4499,7 +4552,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     const { pie, overworld, random, players, units, pickups, walls, pathingPolygons, liquidSprites,
       unitsPrediction, pickupsPrediction, particleFollowers, forceMove, triggerGameLoopHeadless, _gameLoopHeadless,
       awaitForceMoves, queueGameLoop, gameLoop, gameLoopForceMove, gameLoopUnit,
-      removeEventListeners, ...rest } = this;
+      removeEventListeners, companions, ...rest } = this;
     return {
       ...rest,
       // isRestarting is an id for SetTimeout and cannot be serialized
@@ -4517,6 +4570,33 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
   }
   updateAccessibilityOutlines() {
     this.units.forEach(u => Unit.updateAccessibilityOutline(u, false));
+    this.companions.forEach(c => {
+      if (globalThis.accessibilityOutline) {
+        if (!c.image.sprite.filters) {
+          c.image.sprite.filters = [];
+        }
+        const outlineSettings = globalThis.accessibilityOutline[Faction.ALLY]['regular'];
+        let outlineFilter: OutlineFilter | undefined;
+        // @ts-ignore __proto__ is not typed
+        outlineFilter = c.image.sprite.filters.find(f => f.__proto__ == OutlineFilter.prototype)
+        if (outlineFilter) {
+          if (outlineSettings.thickness) {
+            // +1 because I want the thickness to be between 2-5 because one is way to pencil thin and looks bad
+            outlineFilter.thickness = outlineSettings.thickness + 1;
+            outlineFilter.color = outlineSettings.color;
+          } else {
+            // If thickness is 0, remove the filter:
+            c.image.sprite.filters = c.image.sprite.filters.filter(x => x !== outlineFilter);
+          }
+        } else {
+          // Only add the filter if thickness is not 0
+          if (outlineSettings.thickness) {
+            outlineFilter = new OutlineFilter(outlineSettings.thickness, outlineSettings.color, 0.1);
+            c.image.sprite.filters.push(outlineFilter);
+          }
+        }
+      }
+    })
     this.setContainerUnitsFilter();
   }
   setContainerUnitsFilter() {
@@ -4576,7 +4656,7 @@ type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? nev
 type UnderworldNonFunctionProperties = Exclude<NonFunctionPropertyNames<Underworld>, null | undefined>;
 export type IUnderworldSerialized = Omit<Pick<Underworld, UnderworldNonFunctionProperties>, "pie" | "overworld" | "prototype" | "players" | "units"
   | "unitsPrediction" | "pickups" | "pickupsPrediction" | "random" | "turnInterval" | "liquidSprites"
-  | "particleFollowers"
+  | "particleFollowers" | "companions"
   // walls and pathingPolygons are omitted because they are derived from obstacles when cacheWalls() in invoked
   | "walls" | "pathingPolygons" | "triggerGameLoopHeadless" | "_gameLoopHeadless" | "awaitForceMoves" | "queueGameLoop" | "gameLoop" | "gameLoopForceMove" | "gameLoopUnit"
   | "removeEventListeners"> & {

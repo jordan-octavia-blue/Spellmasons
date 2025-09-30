@@ -4,7 +4,7 @@ import { UnitSubType } from '../../types/commonTypes';
 import * as math from '../../jmath/math';
 import * as config from '../../config';
 import Underworld from '../../Underworld';
-import { makeDarkPriestAttackParticles } from '../../graphics/ParticleCollection';
+import { makeDarkPriestAttackParticles, makeParticleExplosion } from '../../graphics/ParticleCollection';
 
 const manaCostToCast = 60;
 const NUMBER_OF_GEYSERS = 6;
@@ -19,7 +19,7 @@ const unit: UnitSource = {
   unitProps: {
     damage: 40,
     attackRange: 264,
-    healthMax: 60,
+    healthMax: 120,
     mana: 90,
     manaMax: 90,
     manaPerTurn: 30,
@@ -46,29 +46,40 @@ const unit: UnitSource = {
     // If they have enough mana
     if (unit.mana >= manaCostToCast) {
       if (attackTargets.length) {
-        let geyserPromises = [];
+        let geyserPromises: Promise<void>[] = [];
+        playSFXKey('darkPriestAttack');
         await Unit.playAnimation(unit, unit.animations.attack);
         // Remove mana once the cast occurs
         unit.mana -= manaCostToCast;
         didAction = true;
-        for (let i = 0; i < attackTargets.length; i++) {
-          const attackTarget = attackTargets[i];
-          if (attackTarget) {
+        makeParticleExplosion(unit, unit.attackRange / 140, 0x513b5f, 0x2c2134, false);
+        attackTargets.forEach(u => {
+          if (headless) {
+            Unit.takeDamage({
+              unit: u,
+              amount: unit.damage,
+              sourceUnit: unit,
+              fromVec2: unit,
+            }, underworld, false);
 
-            geyserPromises.push(new Promise<void>((resolve) => {
-              // Space them out in time
+          } else {
+
+            const dist = math.distance(unit, u);
+            geyserPromises.push(new Promise<void>(res => {
               setTimeout(() => {
                 Unit.takeDamage({
-                  unit: attackTarget,
+                  unit: u,
                   amount: unit.damage,
                   sourceUnit: unit,
                   fromVec2: unit,
                 }, underworld, false);
-                makeDarkPriestAttackParticles(attackTarget, false, resolve);
-              }, math.distance(unit, attackTarget));
-            }));
+                makeDarkPriestAttackParticles(u, false);
+                res();
+              }, dist)
+            }))
           }
-        }
+        })
+
         await Promise.all(geyserPromises);
       }
     }
@@ -86,8 +97,6 @@ const unit: UnitSource = {
   getUnitAttackTargets: (unit: Unit.IUnit, underworld: Underworld) => {
     return Unit.livingUnitsInDifferentFaction(unit, underworld.units)
       .filter(u => Unit.inRange(unit, u))
-      .sort(math.sortCosestTo(unit))
-      .slice(0, NUMBER_OF_GEYSERS);
   }
 };
 

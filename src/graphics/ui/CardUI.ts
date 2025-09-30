@@ -18,6 +18,7 @@ import { chooseBookmark } from '../../views';
 import { quantityWithUnit } from '../../cards/util';
 import { presentRunes } from '../../jmath/RuneUtil';
 import { sellCardId } from '../../cards/sell';
+import { STATUE_ID } from '../../maladyStatue';
 
 const elCardHolders = document.getElementById('card-holders') as HTMLElement;
 const elInvContent = document.getElementById('inventory-content') as HTMLElement;
@@ -588,6 +589,10 @@ export function renderRunesMenu(underworld: Underworld) {
 
   const constantRunes: string[] = Object.entries(Cards.allModifiers).flatMap(([key, modifier]) => {
     if (modifier._costPerUpgrade && modifier.constant && globalThis.player && !(modifier.omitForWizardType || []).includes(globalThis.player.wizardType)) {
+      // Exception: Units with Statue modifier cannot upgrade stamina
+      if (key == 'Stamina' && globalThis.player.unit.modifiers[STATUE_ID]) {
+        return [];
+      }
       return [key];
     } else {
       return [];
@@ -608,7 +613,7 @@ export function renderRunesMenu(underworld: Underworld) {
     // Note: The &nbsp; is to align the rune-name with the top of the button
     return `<div class="stat-row flex" data-stat="${modifierKey}">
               <div class="stat-row-left">
-                <div class="plus-btn-container" style="color:black"><div class="stat-value" style="color:black">${exists(modifierCost) && `${modifierCost < 0 ? '+' : ''}${Math.abs(modifierCost)}sp` || '&nbsp;'}</div></div>
+                <div class="plus-btn-container${modifier?.isMalady ? ' malady' : ''}" style="color:black"><div class="stat-value" style="color:black">${exists(modifierCost) && `${modifierCost < 0 ? '+' : ''}${Math.abs(modifierCost)}sp` || '&nbsp;'}</div></div>
                 <div>
                   <div>&nbsp;</div>
                   <div class="rune-name-holder">
@@ -1653,6 +1658,10 @@ export function cardListToImages(cardIds: string[]): string {
 }
 
 export function animateDrawCard(card: Cards.ICard, underworld: Underworld) {
+  // Accessibility
+  if (globalThis.noCardDraw) {
+    return;
+  }
   const elHolder = document.getElementById('card-draw-animation-holder') as HTMLElement;
   if (!elHolder) {
     console.error('animateDrawCard el not found');

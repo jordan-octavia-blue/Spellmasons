@@ -7,9 +7,12 @@ import { MESSAGE_TYPES } from '../../types/MessageTypes';
 export const elChatbox = document.getElementById('chatbox');
 export const elChatinput = <HTMLInputElement>document.getElementById('chatinput');
 export const elChatInner = document.getElementById('chatbox-inner');
+export const elChatClose = document.getElementById('chatbox-close');
 export const elChatMessages = document.getElementById('messages');
-var chatTimeout: NodeJS.Timeout;
-var NotificationTime = 5000; // time in seconds the chat stays open after a message is sent
+
+elChatClose?.addEventListener('click', () => {
+  document.body.classList.toggle('showChat', false);
+});
 
 // send message when enter is pressed TODO: send message packet so players in the server can receive the message
 export function sendChatHandler(overworld: Overworld, e: KeyboardEvent) {
@@ -23,8 +26,6 @@ export function sendChatHandler(overworld: Overworld, e: KeyboardEvent) {
         message,
       });
       elChatinput.value = ''; // clear chat after sending message
-    } else {
-      document.body.classList.toggle('showChat', false); // user hit enter while chat is empty, go ahead and hide it
     }
   }
 }
@@ -66,14 +67,6 @@ export function ReceiveMessage(chatter: Player.IPlayer | undefined, message: str
         elChatInner.scrollTop = elChatInner.scrollHeight;
       }
     }, 0);
-    if (chatTimeout) {
-      clearTimeout(chatTimeout);
-    }
-    chatTimeout = setTimeout(() => {
-      if (document.activeElement !== elChatinput) {
-        document.body.classList.toggle('showChat', false)
-      }
-    }, NotificationTime)
   }
 }
 

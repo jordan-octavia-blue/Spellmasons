@@ -11,8 +11,20 @@
 - Test saving if you modify underworld with new elements added to the level that need to be serialized
 - Test loading an old save file for backwards compatibility
 
+Oct 24:
+- [ ]  Test merging GreenGlop with GreenGlop champion
+    - Make sure it keeps modifiers
+- Make sure modded maps and familiars are only in the pool if the mod is enabled.
+- [ ] Ensure you cannot reject cards with Deathmason if you have insufficient SP
+
 Next:
 - [ ] Back compat: underworld.events is not iterable
+- Test familiars on multiplayers
+- QA modded maps
+- Update i18n
+- Thank KendoWeed69 for starting soul amount rune
+- Test Send Mana and Potion provides cards and souls
+- Test Goru soul limit when picking up from multiple units simultaneously (and in multiplayer)
 
 August:
 - [x] Verify that new license is included with game
@@ -22,7 +34,7 @@ August:
 
 
 
-NEW Content for July:
+NEW Content for July 
 - [x] After playing a game as deathmason if you switch to spellmason you have no mana
 - [x] Test deathmason discard count on multiplayer (non host)
 - [x] Test cardmason sync on new multiplayer game

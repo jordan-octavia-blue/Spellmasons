@@ -79,7 +79,7 @@ const spell: Spell = {
   },
 };
 
-async function meteorProjectiles(meteorLocations: Vec2[], underworld: Underworld, state: EffectState) {
+export async function meteorProjectiles(meteorLocations: Vec2[], underworld: Underworld, state: EffectState) {
   // We want all meteors to hit at the same time.
   // Fore cinematic purposes, they will start at different times
   // and come from different angles (30 to -30 degrees from "up")

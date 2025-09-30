@@ -142,6 +142,8 @@ import { registerDeathmasonEvents } from '../entity/units/deathmason';
 // import trap from './trap';
 import ephemerate from './ephemerate';
 import bubble_burst from './bubble_burst';
+import { registerGripthuluAction } from '../entity/units/gripthulu';
+
 import * as config from '../config';
 
 import { IUpgrade, upgradeCardsSource } from '../Upgrade';
@@ -169,6 +171,7 @@ import registerTargetImmune, { targetImmuneId } from '../modifierTargetImmune';
 import registerGrowth from '../modifierGrowth';
 import registerModifierStatUpgrades from '../modifierStatUpgrades';
 import { registerSoulmuncher, registerWitchyVibes, registerFairIsFair } from '../modifierDeathmasonConstants';
+import { registerGoruConstantRunes } from '../modifierGoruConstants';
 import registerReroll from '../modifierReroll';
 import registerDareDevil from '../modifierDareDevil';
 import registerEndlessQuiver from '../modifierEndlessQuiver';
@@ -256,6 +259,12 @@ import registerFrozenSolid from '../modifierFrozenSolid';
 import registerAlwaysBounty from '../globalEvents/alwaysBounty';
 import registerTestUnderworldEvents from '../globalEvents/testUnderworldEvents';
 import registerLycanthropy from '../modifierLycanthropy';
+import registerAnemia from '../maladyAnemic';
+import registerStatue from '../maladyStatue';
+import registerNuclearOption from '../maladyNuclearOption';
+import registerDoomed from '../maladyDoomed';
+import registerRift from '../maladyRift';
+import registerHemorrhage from '../maladyHemorrhage';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -298,6 +307,8 @@ export interface Modifiers {
   keepBetweenLevels?: boolean;
   // Prevent this rune from showing for given wizardtypes
   omitForWizardType?: WizardType[];
+  // Creates a negative effect in exchange for SP
+  isMalady?: boolean;
 }
 export function calcluateModifierCostPerUpgrade(mod: Modifiers, underworld: Underworld, player?: Player.IPlayer): number {
   if (isNullOrUndef(mod._costPerUpgrade)) {
@@ -599,6 +610,7 @@ export function registerCards(overworld: Overworld) {
   registerSoulmuncher();
   registerWitchyVibes();
   registerFairIsFair();
+  registerGoruConstantRunes();
   registerReroll();
   registerDareDevil();
 
@@ -698,9 +710,18 @@ export function registerCards(overworld: Overworld) {
   registerUrnExplosiveExplode();
   registerDeathmasonEvents();
 
+  registerGripthuluAction();
   // Global Events
   registerAlwaysBounty()
   registerTestUnderworldEvents()
+
+  // Register maladies
+  registerAnemia();
+  registerStatue();
+  registerNuclearOption();
+  registerDoomed();
+  registerRift();
+  registerHemorrhage();
 }
 
 // This is necessary because unit stats change with difficulty.
