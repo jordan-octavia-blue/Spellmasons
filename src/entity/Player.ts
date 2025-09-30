@@ -420,8 +420,12 @@ export function restoreWizardTypeVisuals(player: IPlayer, underworld: Underworld
   // Restore visuals for wizard types
   const sourceUnit = player.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID] : allUnits[spellmasonUnitId];
   if (sourceUnit) {
-    visualPolymorphPlayerUnit(player.unit, sourceUnit)
-    Unit.returnToDefaultSprite(player.unit);
+    const notPolymorphed = ['playerIdle', 'guruIdle'].includes(player.unit.defaultImagePath)
+    // Only revert the player image if they are not polymorphed
+    if (notPolymorphed) {
+      visualPolymorphPlayerUnit(player.unit, sourceUnit)
+      Unit.returnToDefaultSprite(player.unit);
+    }
   } else {
     console.error('Attempted to change player units sprite but found no sourceUnit');
   }
