@@ -1,11 +1,11 @@
-import { Spell } from './index';
-import * as Pickup from '../entity/Pickup';
-import { CardCategory } from '../types/commonTypes';
-import { CardRarity, probabilityMap } from '../types/commonTypes';
-import { IUnit } from '../entity/Unit';
-import * as Unit from '../entity/Unit';
-import type Underworld from '../Underworld';
-import { getOrInitModifier } from './util';
+import { Spell } from '../../../cards/index';
+import * as Pickup from '../../../entity/Pickup';
+import { CardCategory } from '../../../types/commonTypes';
+import { CardRarity, probabilityMap } from '../../../types/commonTypes';
+import { IUnit } from '../../../entity/Unit';
+import * as Unit from '../../../entity/Unit';
+import type Underworld from '../../../Underworld';
+import { getOrInitModifier } from '../../../cards/util';
 export const id = 'Ephemerate';
 function add(unit: IUnit, underworld: Underworld, prediction: boolean, quantity: number, extra?: any) {
     const modifier = getOrInitModifier(unit, id, {
