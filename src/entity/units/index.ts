@@ -62,6 +62,7 @@ import ghost_archer from './ghost_archer';
 import urn_ice from './urn_ice';
 import urn_poison from './urn_poison';
 import urn_explosive from './urn_explosive';
+//import werewolf from '../../DevelopmentMods/RunicAlphabet/units/werewolf';
 import Underworld from '../../Underworld';
 import { Localizable } from '../../localization';
 
@@ -95,6 +96,7 @@ export function registerUnits() {
   registerUnit(urn_ice);
   registerUnit(urn_poison);
   registerUnit(urn_explosive);
+  //registerUnit(werewolf);
 }
 
 

@@ -1,10 +1,11 @@
 import { Mod } from '../types/commonTypes';
 import SamplePickup from './SamplePickup/SamplePickup';
 import SampleModifier from './SampleModifier/SampleModifier';
-
+import RunicAlphabet from './RunicAlphabet/RunicAlphabet';
 const developmentMods: Mod[] = [
     SamplePickup,
-    SampleModifier
+    SampleModifier,
+    //RunicAlphabet
     // Attention Modder!
     // Add your in-progress mod here.
     // See Modding.md for more information

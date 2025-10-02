@@ -127,6 +127,10 @@ import sell from './sell';
 import novas from './novas';
 import nukitsuke from './nukitsuke';
 import nukitsuke2 from './nukitsuke2';
+/*
+import wildSwipe from '../DevelopmentMods/RunicAlphabet/cards/wild_swipe';
+import lunge from '../DevelopmentMods/RunicAlphabet/cards/lunge';
+*/
 // Not used as a card, for making half of looped enemies immune
 // on first turn
 import registerSummoningSickness from '../modifierSummoningSickness';
@@ -140,6 +144,10 @@ import { registerUrnPoisonExplode } from '../entity/units/urn_poison';
 import { registerUrnExplosiveExplode } from '../entity/units/urn_explosive';
 import { registerDeathmasonEvents } from '../entity/units/deathmason';
 // import trap from './trap';
+/*
+import ephemerate from '../DevelopmentMods/RunicAlphabet/cards/ephemerate';
+import bubble_burst from '../DevelopmentMods/RunicAlphabet/cards/bubble_burst';
+*/
 import { registerGripthuluAction } from '../entity/units/gripthulu';
 
 import * as config from '../config';
@@ -243,11 +251,21 @@ import registerReflex from '../modifierReflex';
 import registerPlagueDoctor from '../modifierPlagueDoctor';
 import registerWhirlpool from '../modifierWhirlpool';
 import registerPrecision from '../modifierPrecision';
-
-
+/*import registerHardLanding from '../modifierHardLanding';
+import registerVampirism from '../modifierVampirism';
+import registerEffervescence from '../modifierEffervescence';
+import registerMagnetism from '../modifierMagnetism';
+import registerSafetyNumbers from '../modifierSafetyNumbers';
+import registerAcrobatics from '../modifierAcrobatics';
+import registerBlur from '../modifierBlur';
+import registerNimble from '../modifierNimble';
+import registerHeavyHitter from '../modifierHeavyHitter';
+import registerFrozenSolid from '../modifierFrozenSolid';
+*/
 // Global events
 import registerAlwaysBounty from '../globalEvents/alwaysBounty';
 import registerTestUnderworldEvents from '../globalEvents/testUnderworldEvents';
+import registerLycanthropy from '../modifierLycanthropy';
 import registerAnemia from '../maladyAnemic';
 import registerStatue from '../maladyStatue';
 import registerNuclearOption from '../maladyNuclearOption';
@@ -468,7 +486,10 @@ export function registerCards(overworld: Overworld) {
   );
   config.IS_JULY25_UPDATE_OUT && registerSpell(nukitsuke, overworld);
   config.IS_JULY25_UPDATE_OUT && registerSpell(nukitsuke2, overworld);
-
+  /*
+  registerSpell(bubble_burst, overworld);
+  registerSpell(wildSwipe, overworld);
+  */
   // Blessings
   registerSpell(heal, overworld);
   registerSpell(heal_greater, overworld);
@@ -541,7 +562,10 @@ export function registerCards(overworld: Overworld) {
   registerSpell(teleport, overworld);
   config.IS_ANNIVERSARY_UPDATE_OUT &&
     registerSpell(recall, overworld);
-
+  /*
+  registerSpell(ephemerate, overworld);
+  registerSpell(lunge, overworld);
+  */
 
   // Targeting Spells
   registerSpell(target_arrow, overworld);
@@ -621,7 +645,18 @@ export function registerCards(overworld: Overworld) {
   registerLiquidmancer();
   registerHeavyImpacts();
   registerWhirlpool();
-
+  /*registerHardLanding();
+  registerVampirism();
+  registerEffervescence();
+  registerMagnetism();
+  registerSafetyNumbers();
+  registerAcrobatics();
+  registerBlur();
+  registerNimble();
+  registerHeavyHitter();
+  registerFrozenSolid();
+  registerLycanthropy();
+  */
   registerAffinityBlessing();
   registerAffinityCurse();
   registerAffinityDamage();

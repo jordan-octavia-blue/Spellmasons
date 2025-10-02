@@ -2843,12 +2843,12 @@ const spell$a = {
         if (unit2) {
           Unit$9.takeDamage({
             unit: unit2,
-            amount: damage$1,
+            amount: damage$2,
             sourceUnit: projectile.sourceUnit,
             fromVec2: projectile.startPoint,
             thinBloodLine: true
           }, underworld, prediction);
-          const modifiersToExclude = [summoningSicknessId$1, corpseDecayId$1];
+          const modifiersToExclude = [summoningSicknessId$2, corpseDecayId$2];
           const curses = Object.entries(projectile.sourceUnit.modifiers).map(([id2, mod2]) => ({ modId: id2, modifier: mod2 })).filter((x) => x.modifier.isCurse).filter((x) => !modifiersToExclude.includes(x.modId));
           for (let curse of curses) {
             if (!prediction) {
@@ -2918,12 +2918,12 @@ const spell$9 = {
         if (unit2) {
           Unit$8.takeDamage({
             unit: unit2,
-            amount: damage,
+            amount: damage$1,
             sourceUnit: projectile.sourceUnit,
             fromVec2: projectile.startPoint,
             thinBloodLine: true
           }, underworld, prediction);
-          const modifiersToExclude = [summoningSicknessId, corpseDecayId];
+          const modifiersToExclude = [summoningSicknessId$1, corpseDecayId$1];
           const curses = Object.entries(projectile.sourceUnit.modifiers).map(([id2, mod2]) => ({ modId: id2, modifier: mod2 })).filter((x) => x.modifier.isCurse).filter((x) => !modifiersToExclude.includes(x.modId));
           for (let curse of curses) {
             if (!prediction) {
@@ -3107,7 +3107,7 @@ const spell$7 = {
             const startPoint = casterPositionAtTimeOfCast;
             const velocity = math$2.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$2.distance(startPoint, target), config$5.ARROW_PROJECTILE_SPEED);
             if (!prediction) {
-              image = JImage.create(casterPositionAtTimeOfCast, "pillar", containerProjectiles);
+              image = JImage$1.create(casterPositionAtTimeOfCast, "pillar", containerProjectiles$1);
               if (image) {
                 image.sprite.rotation = Math.PI / 6;
               }
@@ -3144,7 +3144,7 @@ const spell$7 = {
             const startPoint = casterPositionAtTimeOfCast;
             const velocity = math$2.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$2.distance(startPoint, target), config$5.ARROW_PROJECTILE_SPEED);
             if (!prediction && urn.image) {
-              image = JImage.load(JImage.serialize(urn.image), containerProjectiles);
+              image = JImage$1.load(JImage$1.serialize(urn.image), containerProjectiles$1);
               if (image) {
                 image.sprite.rotation = Math.atan2(velocity.y, velocity.x);
               }
@@ -3364,10 +3364,10 @@ const {
   commonTypes: commonTypes$6,
   Unit: Unit$3,
   units,
-  config: config$3,
-  Vec: Vec$3,
-  moveWithCollision: moveWithCollision$2,
-  cards: cards$5,
+  config: config$4,
+  Vec: Vec$4,
+  moveWithCollision: moveWithCollision$3,
+  cards: cards$6,
   cardUtils: cardUtils$4,
   PlanningView: PlanningView$4,
   VisualEffects,
@@ -3384,15 +3384,15 @@ const { skyBeam } = VisualEffects;
 const { allUnits } = units;
 const id$2 = "Raise Wall";
 const baseWidth$2 = 48;
-const spell$5 = {
+const spell$6 = {
   card: {
     id: id$2,
-    category: CardCategory$5.Soul,
+    category: CardCategory$6.Soul,
     supportQuantity: true,
     manaCost: 30,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$5[CardRarity$5.SPECIAL],
+    probability: probabilityMap$6[CardRarity$6.SPECIAL],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconRaise_Wall.png",
     requiresFollowingCard: false,
     description: "Raise a wall of pillars at the target location, blocking enemy movement but allowing projectiles through.",
@@ -3428,7 +3428,7 @@ const spell$5 = {
             if (prediction) {
               drawUICirclePrediction$1(target, 32, 16777215);
             }
-            const unit2 = Unit$3.create(
+            const unit2 = Unit$5.create(
               sourceUnit.id,
               summonLocation.x,
               summonLocation.y,
@@ -3438,8 +3438,8 @@ const spell$5 = {
               sourceUnit.info.subtype,
               {
                 ...sourceUnit.unitProps,
-                healthMax: sourceUnit.unitProps.healthMax || config$3.UNIT_BASE_HEALTH,
-                health: sourceUnit.unitProps.health || config$3.UNIT_BASE_HEALTH,
+                healthMax: sourceUnit.unitProps.healthMax || config$4.UNIT_BASE_HEALTH,
+                health: sourceUnit.unitProps.health || config$4.UNIT_BASE_HEALTH,
                 damage: (sourceUnit.unitProps.damage || 0) * quantity,
                 strength: quantity
               },
@@ -3497,8 +3497,151 @@ async function pillarExplode(caster2, radius, damage2, underworld, prediction, s
   });
 }
 const {
-  commonTypes: commonTypes$5,
-  Unit: Unit$2,
+  commonTypes: commonTypes$7,
+  Unit: Unit$4,
+  colors: colors$1,
+  math: math$2,
+  config: config$3,
+  Vec: Vec$3,
+  cards: cards$5,
+  PixiUtils,
+  moveWithCollision: moveWithCollision$2,
+  modifierSummonerSickness,
+  JImage,
+  FloatingText
+} = globalThis.SpellmasonsAPI;
+const floatingText = FloatingText.default;
+const { getCurrentTargets: getCurrentTargets$4 } = cards$5;
+const { containerProjectiles } = PixiUtils;
+const { makeForceMoveProjectile } = moveWithCollision$2;
+const { CardCategory: CardCategory$5, CardRarity: CardRarity$5, probabilityMap: probabilityMap$5 } = commonTypes$7;
+const { summoningSicknessId } = modifierSummonerSickness;
+const damage = 20;
+const corpseDecayId = "Corpse Decay";
+const spell$5 = {
+  card: {
+    id: "Sterile Arrow",
+    category: CardCategory$5.Curses,
+    probability: probabilityMap$5[CardRarity$5.UNCOMMON],
+    manaCost: 0,
+    healthCost: 15,
+    expenseScaling: 1,
+    supportQuantity: true,
+    ignoreRange: true,
+    // so that you can fire the arrow at targets out of range
+    allowNonUnitTarget: true,
+    // This ensures that "target scamming" doesn't work with target arrow
+    // due to it being able to fire out of range
+    noInitialTarget: true,
+    requiresFollowingCard: false,
+    animationPath: "",
+    replaces: [bloodArrowCardId],
+    sfx: "",
+    thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconBloodThorn.png",
+    description: "Conjures a mystical arrow that deals 20 damage and transfers curses from the caster to enemies.",
+    effect: async (state, card, quantity, underworld, prediction) => {
+      state.castLocation;
+      let targets = getCurrentTargets$4(state);
+      targets = targets.length ? targets : [state.castLocation];
+      let timeoutToNextArrow = 200;
+      for (let i = 0; i < quantity; i++) {
+        for (let target of targets) {
+          let casterPositionAtTimeOfCast = state.casterPositionAtTimeOfCast;
+          const startPoint = casterPositionAtTimeOfCast;
+          const velocity = math$2.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$2.distance(startPoint, target), config$3.ARROW_PROJECTILE_SPEED);
+          let image;
+          if (!prediction) {
+            image = JImage.create(casterPositionAtTimeOfCast, "arrow", containerProjectiles);
+            if (image) {
+              image.sprite.rotation = Math.atan2(velocity.y, velocity.x);
+            }
+          }
+          const pushedObject = {
+            x: casterPositionAtTimeOfCast.x,
+            y: casterPositionAtTimeOfCast.y,
+            radius: 1,
+            inLiquid: false,
+            image,
+            immovable: false,
+            beingPushed: false,
+            debugName: "bloodthorn arrow"
+          };
+          makeForceMoveProjectile({
+            sourceUnit: state.casterUnit,
+            pushedObject,
+            startPoint,
+            velocity,
+            piercesRemaining: state.aggregator.additionalPierce,
+            bouncesRemaining: state.aggregator.additionalBounce,
+            collidingUnitIds: [state.casterUnit.id],
+            collideFnKey: "Bloodthorn Arrow",
+            state
+          }, underworld, prediction);
+          if (!prediction && !globalThis.headless) {
+            const timeout = Math.max(0, timeoutToNextArrow);
+            await new Promise((resolve) => setTimeout(resolve, timeout));
+            timeoutToNextArrow -= 5;
+          }
+        }
+      }
+      await underworld.awaitForceMoves();
+      if (!prediction && !globalThis.headless && globalThis.predictionGraphicsGreen) {
+        const promises = [];
+        targets.forEach((t) => {
+          promises.push(new Promise((resolve) => {
+            if (globalThis.predictionGraphicsGreen) {
+              globalThis.predictionGraphicsGreen.lineStyle(2, 16777215, 1);
+              globalThis.predictionGraphicsGreen.drawCircle(t.x, t.y, config$3.COLLISION_MESH_RADIUS);
+              setTimeout(resolve, 300);
+            }
+          }));
+        });
+        await Promise.all(promises);
+        globalThis.predictionGraphicsGreen.clear();
+      }
+      return state;
+    }
+  },
+  events: {
+    onProjectileCollision: ({ unit: unit2, pickup, underworld, projectile, prediction }) => {
+      if (projectile.state && projectile.sourceUnit) {
+        if (unit2) {
+          Unit$4.takeDamage({
+            unit: unit2,
+            amount: damage,
+            sourceUnit: projectile.sourceUnit,
+            fromVec2: projectile.startPoint,
+            thinBloodLine: true
+          }, underworld, prediction);
+          const modifiersToExclude = [summoningSicknessId, corpseDecayId];
+          const curses = Object.entries(projectile.sourceUnit.modifiers).map(([id2, mod2]) => ({ modId: id2, modifier: mod2 })).filter((x) => x.modifier.isCurse).filter((x) => !modifiersToExclude.includes(x.modId));
+          for (let curse of curses) {
+            let animationPromise = Promise.resolve();
+            animationPromise.then(() => {
+              if (!prediction) {
+                floatingText({ coords: unit2, text: curse.modId });
+              }
+              if (unit2.alive) {
+                const quantityToAdd = curse.modifier.quantity;
+                Unit$4.addModifier(unit2, curse.modId, underworld, prediction, quantityToAdd, curse.modifier);
+                if (projectile.sourceUnit) {
+                  Unit$4.removeModifier(projectile.sourceUnit, curse.modId, underworld);
+                }
+              }
+            });
+          }
+        } else {
+          projectile.state.castLocation = projectile.pushedObject;
+        }
+      } else {
+        console.error("State was not passed through projectile");
+      }
+    }
+  }
+};
+const {
+  commonTypes: commonTypes$6,
+  Unit: Unit$3,
   config: config$2,
   math: math$1,
   Vec: Vec$2,
@@ -3511,7 +3654,7 @@ const {
   EffectsHeal,
   cards: cards$4
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$4, CardRarity: CardRarity$4, probabilityMap: probabilityMap$4 } = commonTypes$5;
+const { CardCategory: CardCategory$4, CardRarity: CardRarity$4, probabilityMap: probabilityMap$4 } = commonTypes$6;
 const { distance: distance$1, sortCosestTo } = math$1;
 const { getAngleBetweenVec2s } = Vec$2;
 const { healUnits } = EffectsHeal;
@@ -3555,10 +3698,10 @@ const spell$4 = {
       let withinRadiusAndAngle = [];
       underworld.getPotentialTargets(
         prediction
-      ).filter((t) => Unit$2.isUnit(t)).filter((t) => {
+      ).filter((t) => Unit$3.isUnit(t)).filter((t) => {
         return withinCone(state.casterUnit, target, depth, startAngle, endAngle, t);
       }).filter((e) => e !== state.casterUnit).forEach((u) => {
-        if (Unit$2.isUnit(u))
+        if (Unit$3.isUnit(u))
           withinRadiusAndAngle.push(u);
       });
       withinRadiusAndAngle.sort(sortCosestTo(target));
@@ -3577,8 +3720,8 @@ function withinCone(origin, coneStartPoint, radius, startAngle, endAngle, target
   return distanceToConeStart <= radius && (isAngleBetweenAngles(targetAngle, startAngle, endAngle) || Math.abs(endAngle - startAngle) >= 2 * Math.PI);
 }
 const {
-  Unit: Unit$1,
-  commonTypes: commonTypes$4,
+  Unit: Unit$2,
+  commonTypes: commonTypes$5,
   cards: cards$3
 } = globalThis.SpellmasonsAPI;
 const { isUnit } = Unit$1;
@@ -3613,23 +3756,23 @@ const spell$3 = {
   }
 };
 const {
-  commonTypes: commonTypes$3,
+  commonTypes: commonTypes$4,
   math,
   colors,
   forcePushTowards,
   cardUtils: cardUtils$2,
   cards: cards$2,
-  Unit,
+  Unit: Unit$1,
   JAudio: JAudio$2,
   PlanningView: PlanningView$2,
   ParticleCollection,
   Particles
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$2, CardRarity: CardRarity$2, probabilityMap: probabilityMap$2 } = commonTypes$3;
+const { CardCategory: CardCategory$2, CardRarity: CardRarity$2, probabilityMap: probabilityMap$2 } = commonTypes$4;
 const { distance } = math;
 const { playDefaultSpellSFX: playDefaultSpellSFX$2 } = cardUtils$2;
 const { addTarget } = cards$2;
-const { takeDamage } = Unit;
+const { takeDamage } = Unit$1;
 const { playSFXKey: playSFXKey$2 } = JAudio$2;
 const { drawUICirclePrediction } = PlanningView$2;
 const { makeParticleExplosion } = ParticleCollection;
@@ -3714,7 +3857,7 @@ function makeStompWindupParticles(position, prediction) {
   }
 }
 const {
-  commonTypes: commonTypes$2,
+  commonTypes: commonTypes$3,
   config: config$1,
   Vec: Vec$1,
   JPromise: JPromise$1,
@@ -3727,7 +3870,7 @@ const {
   forcePushToDestination: forcePushToDestination$1,
   PlanningView: PlanningView$1
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$1, CardRarity: CardRarity$1, probabilityMap: probabilityMap$1 } = commonTypes$2;
+const { CardCategory: CardCategory$1, CardRarity: CardRarity$1, probabilityMap: probabilityMap$1 } = commonTypes$3;
 const { raceTimeout: raceTimeout$1 } = JPromise$1;
 const { playDefaultSpellSFX: playDefaultSpellSFX$1 } = cardUtils$1;
 const { easeOutCubic: easeOutCubic$1 } = Easing$1;
@@ -3849,7 +3992,7 @@ function animateFrame$1(columns, startTime, entitiesTargeted, underworld, resolv
   };
 }
 const {
-  commonTypes: commonTypes$1,
+  commonTypes: commonTypes$2,
   config,
   Vec,
   JPromise,
@@ -3862,7 +4005,7 @@ const {
   forcePushToDestination,
   PlanningView
 } = globalThis.SpellmasonsAPI;
-const { CardCategory, CardRarity, probabilityMap } = commonTypes$1;
+const { CardCategory, CardRarity, probabilityMap } = commonTypes$2;
 const { raceTimeout } = JPromise;
 const { playDefaultSpellSFX } = cardUtils;
 const { easeOutCubic } = Easing;
@@ -3993,14 +4136,14 @@ function animateFrame(columns, startTime, entitiesTargeted, underworld, resolve)
     }
   };
 }
-const { commonTypes } = globalThis.SpellmasonsAPI;
-const { UnitSubType } = commonTypes;
-const unit = {
+const { commonTypes: commonTypes$1 } = globalThis.SpellmasonsAPI;
+const { UnitSubType: UnitSubType$1 } = commonTypes$1;
+const unit$1 = {
   id: "pillar",
   info: {
     description: "An earthen pillar raised by a geomancer that blocks the path of enemies. Will not block projectiles.",
     image: "pillar",
-    subtype: UnitSubType.DOODAD
+    subtype: UnitSubType$1.DOODAD
   },
   animations: {
     idle: "pillar",
@@ -4046,6 +4189,7 @@ const mod = {
     spell$9,
     spell$7,
     spell$8,
+    spell$9,
     spell$6,
     spell$5,
     spell$4,

@@ -1,0 +1,165 @@
+{
+	"frames": {
+		"spellIconBubbleBurst.png": {
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 64,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 64,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 64,
+				"h": 64
+			}
+		},
+		"spellIconEphemerate.png": {
+			"frame": {
+				"x": 64,
+				"y": 0,
+				"w": 64,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 64,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 64,
+				"h": 64
+			}
+		},
+		"wolfIdle_1.png": {
+			"frame": {
+				"x": 0,
+				"y": 64,
+				"w": 128,
+				"h": 128
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 128,
+				"h": 128
+			},
+			"sourceSize": {
+				"w": 128,
+				"h": 128
+			}
+		},
+		"wolfIdle_2.png": {
+			"frame": {
+				"x": 0,
+				"y": 192,
+				"w": 128,
+				"h": 128
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 128,
+				"h": 128
+			},
+			"sourceSize": {
+				"w": 128,
+				"h": 128
+			}
+		},
+		"wolfIdle_3.png": {
+			"frame": {
+				"x": 0,
+				"y": 320,
+				"w": 128,
+				"h": 128
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 128,
+				"h": 128
+			},
+			"sourceSize": {
+				"w": 128,
+				"h": 128
+			}
+		},
+		"wolfIdle_4.png": {
+			"frame": {
+				"x": 0,
+				"y": 448,
+				"w": 128,
+				"h": 128
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 128,
+				"h": 128
+			},
+			"sourceSize": {
+				"w": 128,
+				"h": 128
+			}
+		},
+		"wolfIdle_5.png": {
+			"frame": {
+				"x": 0,
+				"y": 576,
+				"w": 128,
+				"h": 128
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 128,
+				"h": 128
+			},
+			"sourceSize": {
+				"w": 128,
+				"h": 128
+			}
+		}
+	},
+	"animations": {
+		"wolfIdle": [
+			"wolfIdle_1.png",
+			"wolfIdle_2.png",
+			"wolfIdle_3.png",
+			"wolfIdle_4.png",
+			"wolfIdle_5.png"
+		]
+	},
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "1.1",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 128,
+			"h": 704
+		},
+		"scale": "1",
+		"smartupdate": "$TexturePacker:SmartUpdate:a4c25e4abdb6541d0fc79f5d7ee07af6:dcb4cfc79dfc3d1c32fb7e9f96d51bf6:729adc6043343cfda41c447ce8f464d6$"
+	}
+}
