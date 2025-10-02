@@ -537,6 +537,6 @@ const mod: Mod = {
         lunge
     ],
     units: [werewolf],
-    spritesheet: 'DevelopmentMods/RunicAlphabet/graphics/spritesheet.json'
+    spritesheet: 'src/DevelopmentMods/RunicAlphabet/graphics/spritesheet.json'
 };
 export default mod;
