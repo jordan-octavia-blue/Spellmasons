@@ -2,6 +2,7 @@ import { raceTimeout } from "../Promise";
 import Underworld from "../Underworld";
 import { HasSpace } from "../entity/Type";
 import { IUnit } from "../entity/Unit";
+import Events from './Events';
 import { Vec2, multiply, normalized, subtract, add, isInvalid } from "../jmath/Vec";
 import { ForceMove, ForceMoveType, ForceMoveUnitOrPickup, isForceMoveUnitOrPickup } from "../jmath/moveWithCollision";
 
@@ -24,7 +25,13 @@ export async function forcePushDelta(pushedObject: HasSpace, deltaMovement: Vec2
   // Calculate velocity needed to move object
   let velocity = movementToVelocity(deltaMovement);
   pushedObject.beingPushed = true;
-
+  const events = [...underworld.events];
+  for (let eventName of events) {
+    const fn = Events.onForcePushSource[eventName];
+    if (fn) {
+      velocity = fn(pushedObject, velocity, sourceUnit?);
+    }
+  }
   let forceMoveInst: ForceMoveUnitOrPickup;
   return await raceTimeout(2000, 'Push', new Promise<void>((resolve) => {
     forceMoveInst = { type: ForceMoveType.UNIT_OR_PICKUP, canCreateSecondOrderPushes: false, alreadyCollided: [], pushedObject, velocity, velocity_falloff, resolve, sourceUnit }
