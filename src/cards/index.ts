@@ -629,7 +629,7 @@ export function registerCards(overworld: Overworld) {
   registerAffinitySoul();
   registerAffinityTargeting();
 
-  registerSelfInvulnerability();
+  // registerSelfInvulnerability();
   registerArmor();
   registerThorns();
   registerHealthRegen();
