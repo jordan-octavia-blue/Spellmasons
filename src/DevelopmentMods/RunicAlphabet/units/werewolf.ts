@@ -10,7 +10,7 @@ const unit: UnitSource = {
     id: werewolf_unit_id,
     info: {
         description: 'werewolf description',
-        image: 'wolfIdle',
+        image: 'newWolfIdle',
         subtype: UnitSubType.MELEE,
     },
     unitProps: {
@@ -21,7 +21,7 @@ const unit: UnitSource = {
         moveSpeed: 20,
     },
     animations: {
-        idle: 'wolfIdle',
+        idle: 'newWolfIdle',
         hit: 'wolfIdle',
         attack: 'wolfIdle',
         die: 'wolfIdle',

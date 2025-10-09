@@ -29,6 +29,7 @@ const {
     forcePushAwayFrom,
     forcePushTowards,
     commonTypes,
+    CardUI,
     explode,
     PlanningView,
     units,
@@ -145,6 +146,23 @@ const modifierNimble: Modifiers = {
     },
 }
 
+const meanderId = 'Meander';
+const modifierMeander: Modifiers = {
+    id: meanderId,
+    description: 'Decrease movement speed by 10% per stack',
+    _costPerUpgrade: -10,
+    isMalady: true,
+    add: (unit: IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
+        const player = underworld.players.find(p => p.unit == unit);
+        if (player) {
+            getOrInitModifier(unit, meanderId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
+            unit.moveSpeed *= (1 - 0.1 * quantity);
+        } else {
+            console.error(`Cannot add rune ${meanderId}, no player is associated with unit`);
+        }
+    },
+};
+
 const BlurId = 'Blur';
 const modifierBlur: Modifiers = {
     id: BlurId,
@@ -218,6 +236,38 @@ const modifierMagnetism: Modifiers = {
             Unit.addEvent(unit, magnetismId);
         });
     },
+}
+
+const selectiveMemoryId = 'Selective Memory';
+const modifierSelectiveMemory: Modifiers = {
+    id: selectiveMemoryId,
+    description: 'One random spell in your inventory is disabled each level.',
+    _costPerUpgrade: -100,
+    maxUpgradeCount: 1,
+    stage: 'Reactive Effects',
+    isMalady: true,
+    add: (unit: IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
+        getOrInitModifier(unit, selectiveMemoryId, { isCurse: false, quantity, keepOnDeath: true, lastLevel: 0, stolenSpell: 'null' }, () => {
+            Unit.addEvent(unit, selectiveMemoryId);
+        });
+        const player = underworld.players.find(p => p.unit == unit);
+        if (player && unit.modifiers[selectiveMemoryId]) {
+            if (!player.disabledCards) {
+                player.disabledCards = [];
+            }
+            const availableSpells = player.inventory.filter(card => !player.disabledCards.includes(card));
+            const spellStealIndex = randInt(0, player.inventory.length - 1);
+            if (availableSpells[spellStealIndex]) {
+                player.disabledCards.push(availableSpells[spellStealIndex]);
+                //this if statement returns false because the modifier doesn't exist yet
+                if (unit.modifiers[selectiveMemoryId]) {
+                    unit.modifiers[selectiveMemoryId].stolenSpell = availableSpells[spellStealIndex];
+                }
+            }
+            CardUI.recalcPositionForCards(player, underworld);
+            CardUI.syncInventory(undefined, underworld);
+        }
+    }
 }
 ///EVENTS -----------------------------------
 ////////////////////////////////////////////////
@@ -412,6 +462,8 @@ const lycanthropyEvent: Events = {
                 player.cardsInToolbar[i] = spell;
                 i++;
             }
+            CardUI.recalcPositionForCards(player, underworld);
+            CardUI.syncInventory(undefined, underworld);
         }
     }
 }
@@ -501,6 +553,32 @@ const magnetismEvent: Events = {
 
     }
 }
+
+const selectiveMemoryEvent: Events = {
+    id: selectiveMemoryId,
+    onSpawn: (unit: IUnit, underworld: Underworld, prediction: boolean) => {
+        const modifier = unit.modifiers[selectiveMemoryId];
+        const wolfModifier = unit.modifiers[lycanthropyId];
+        const player = underworld.players.find(p => p.unit == unit);
+        if (modifier && modifier.lastLevel != underworld.levelIndex && player) {
+            modifier.lastLevel = underworld.levelIndex;
+            if (!player.disabledCards) {
+                player.disabledCards = [];
+            }
+            if (modifier.stolenSpell != 'null') {
+                player.disabledCards = player.disabledCards.filter(card => card != modifier.stolenSpell);
+            }
+            const availableSpells = player.inventory.filter(card => !player.disabledCards.includes(card) && (!wolfModifier ? true : !wolfModifier.werewolfSpells.includes(card)));
+            const spellStealIndex = randInt(0, availableSpells.length - 1);
+            if (availableSpells[spellStealIndex]) {
+                player.disabledCards.push(availableSpells[spellStealIndex]);
+                modifier.stolenSpell = availableSpells[spellStealIndex];
+            }
+        }
+        CardUI.recalcPositionForCards(player, underworld);
+        CardUI.syncInventory(undefined, underworld);
+    }
+}
 //mod definition
 const mod: Mod = {
     modName: 'Runic Alphabet',
@@ -513,11 +591,13 @@ const mod: Mod = {
         modifierSafetyNumbers,
         modifierLycanthropy,
         modifierNimble,
+        modifierMeander,
         modifierBlur,
         modifierHeavyHitter,
         modifierFrozenSolid,
         modifierEffervescence,
         modifierMagnetism,
+        modifierSelectiveMemory
     ],
     events: [hardLandingEvent,
         vampirismEvent,
@@ -529,6 +609,7 @@ const mod: Mod = {
         frozenSolidEvent,
         effervescenceEvent,
         magnetismEvent,
+        selectiveMemoryEvent
     ],
     spells: [
         bubble_burst,
