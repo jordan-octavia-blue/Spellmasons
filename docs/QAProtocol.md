@@ -12,6 +12,7 @@
 - Test loading an old save file for backwards compatibility
 
 Oct 24:
+- [ ] Remove extra textures from map editor file. https://discord.com/channels/1032294536640200766/1060649713679994900/1423349467700002907
 - [ ]  Test merging GreenGlop with GreenGlop champion
     - Make sure it keeps modifiers
 - Make sure modded maps and familiars are only in the pool if the mod is enabled.
