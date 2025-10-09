@@ -20,6 +20,7 @@ import Events, {
   onPickup,
   onFullTurnCycle,
   onCostCalculation,
+  onForceMove,
 } from '../Events';
 import Subsprites, { Subsprite } from '../Subsprites';
 // Register spells:
@@ -331,6 +332,7 @@ export interface Events {
   onDrawSelected?: onDrawSelected;
   onProjectileCollision?: onProjectileCollision;
   onCostCalculation?: onCostCalculation;
+  onForceMove?: onForceMove;
 }
 export interface Spell {
   card: ICard;
@@ -993,3 +995,4 @@ export function eventsSorter(lookup: typeof allModifiers): (eventA: string, even
   }
 
 }
+
