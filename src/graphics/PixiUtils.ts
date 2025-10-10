@@ -725,6 +725,7 @@ function loadTextures(): Promise<void> {
       loader.onComplete.add((loader, resources) => {
         const sheetPaths = Object.keys(resources).filter(path => path.endsWith('.json'));
         for (let sheetPath of sheetPaths) {
+          console.log('Load: checking mod spritesheet', sheetPath);
           const resource = resources[sheetPath]
           if (resource && resource.spritesheet && sheets.indexOf(resource.spritesheet) === -1) {
             console.log('Load: register spritesheet', resource.url);
