@@ -207,6 +207,19 @@ const modifierFrozenSolid: Modifiers = {
     }
 }
 
+const immovableId = 'Immovable';
+const modifierImmovable: Modifiers = {
+    id: immovableId,
+    description: 'Become immune to knockback and pull effects',
+    _costPerUpgrade: 120,
+    maxUpgradeCount: 1,
+    add: (unit: IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
+        getOrInitModifier(unit, immovableId, { isCurse: false, quantity, keepOnDeath: true }, () => {
+            Unit.addEvent(unit, immovableId);
+        });
+    }
+}
+
 const effervescenceId = 'Effervescence';
 const modifierEffervescence: Modifiers = {
     id: effervescenceId,
@@ -525,6 +538,11 @@ const frozenSolidEvent: Events = {
 
         return amount;
     }
+}
+
+const immovableEvent: Events = {
+    id: immovableId,
+    //onForceMove: 
 }
 
 const effervescenceEvent: Events = {
