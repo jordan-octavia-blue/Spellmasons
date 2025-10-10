@@ -20,6 +20,7 @@ import Events, {
   onPickup,
   onFullTurnCycle,
   onCostCalculation,
+  onForceMove,
 } from '../Events';
 import Subsprites, { Subsprite } from '../Subsprites';
 // Register spells:
@@ -349,6 +350,7 @@ export interface Events {
   onDrawSelected?: onDrawSelected;
   onProjectileCollision?: onProjectileCollision;
   onCostCalculation?: onCostCalculation;
+  onForceMove?: onForceMove;
 }
 export interface Spell {
   card: ICard;
@@ -664,7 +666,7 @@ export function registerCards(overworld: Overworld) {
   registerAffinitySoul();
   registerAffinityTargeting();
 
-  registerSelfInvulnerability();
+  // registerSelfInvulnerability();
   registerArmor();
   registerThorns();
   registerHealthRegen();
@@ -1028,3 +1030,4 @@ export function eventsSorter(lookup: typeof allModifiers): (eventA: string, even
   }
 
 }
+

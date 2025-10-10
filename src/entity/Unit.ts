@@ -2165,7 +2165,7 @@ export function drawCharges(unit: IUnit, underworld: Underworld, count: number =
 }
 export function getMaxCharges(unit: IUnit, underworld: Underworld): number {
   if (unit.charges) {
-    return 3 + underworld.levelIndex * 3 + (unit.chargesMaxAdditional || 0)
+    return 3 + underworld.levelIndex * 2 + (unit.chargesMaxAdditional || 0)
   } else {
     return 0;
   }

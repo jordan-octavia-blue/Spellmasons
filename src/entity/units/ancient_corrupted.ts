@@ -7,23 +7,24 @@ import { makeAncientParticles } from '../../graphics/ParticleCollection';
 import { makeManaTrail } from '../../graphics/Particles';
 
 const numberOfTargets = 6;
+const PERCENT_DAMAGE = 0.1;
 export const CORRUPTED_ANCIENT_UNIT_ID = 'Corrupted Ancient';
 const unit: UnitSource = {
   id: CORRUPTED_ANCIENT_UNIT_ID,
   info: {
-    description: 'ancient description',
+    description: 'ancient_corrupted_description',
     image: 'ancient_corrupted',
     subtype: UnitSubType.RANGED_RADIUS,
   },
   unitProps: {
-    damage: 6,
+    damage: 0,
     attackRange: 1200,
     staminaMax: 0,
     healthMax: 30,
     mana: 30,
     manaMax: 30,
-    manaPerTurn: 5,
-    manaCostToCast: 10,
+    manaPerTurn: 10,
+    manaCostToCast: 20,
     bloodColor: 0x426061,
   },
   spawnParams: {
@@ -61,7 +62,7 @@ const unit: UnitSource = {
           promises.push(makeManaTrail(unit, attackTarget, underworld, '#5a7879', '#304748', numberOfAllyAncients).then(() => {
             Unit.takeDamage({
               unit: attackTarget,
-              amount: unit.damage,
+              amount: attackTarget.healthMax * PERCENT_DAMAGE,
               sourceUnit: unit,
               fromVec2: unit,
             }, underworld, false);

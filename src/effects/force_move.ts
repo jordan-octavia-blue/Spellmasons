@@ -27,9 +27,9 @@ export async function forcePushDelta(pushedObject: HasSpace, deltaMovement: Vec2
   pushedObject.beingPushed = true;
   const events = [...underworld.events];
   for (let eventName of events) {
-    const fn = Events.onForcePushSource[eventName];
+    const fn = Events.onForceMoveSource[eventName];
     if (fn) {
-      velocity = fn(pushedObject, velocity, sourceUnit?);
+      velocity = fn(pushedObject, velocity, sourceUnit);
     }
   }
   let forceMoveInst: ForceMoveUnitOrPickup;
