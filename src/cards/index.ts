@@ -128,6 +128,10 @@ import sell from './sell';
 import novas from './novas';
 import nukitsuke from './nukitsuke';
 import nukitsuke2 from './nukitsuke2';
+import gunSniper from './gun_sniper';
+// import gunShotgun from './gun_shotgun';
+// import gunPistol from './gun_pistol';
+// import gunMini from './gun_mini';
 // Not used as a card, for making half of looped enemies immune
 // on first turn
 import registerSummoningSickness from '../modifierSummoningSickness';
@@ -255,6 +259,7 @@ import registerNuclearOption from '../maladyNuclearOption';
 import registerDoomed from '../maladyDoomed';
 import registerRift from '../maladyRift';
 import registerHemorrhage from '../maladyHemorrhage';
+import { registerGuns } from '../modifierGuns';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -458,6 +463,10 @@ export function registerCards(overworld: Overworld) {
   registerSpell(arrowTriple, overworld);
   registerSpell(arrowMulti, overworld);
   registerSpell(arrowFar, overworld);
+  registerSpell(gunSniper, overworld);
+  // registerSpell(gunShotgun, overworld);
+  // registerSpell(gunPistol, overworld);
+  // registerSpell(gunMini, overworld);
   // registerSpell(explosive_arrow, overworld);
   registerSpell(phantom_arrow, overworld);
   config.IS_ANNIVERSARY_UPDATE_OUT &&
@@ -701,6 +710,7 @@ export function registerCards(overworld: Overworld) {
   registerDoomed();
   registerRift();
   registerHemorrhage();
+  registerGuns();
 }
 
 // This is necessary because unit stats change with difficulty.
