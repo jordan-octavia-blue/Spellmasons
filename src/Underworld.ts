@@ -3010,6 +3010,8 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     }
     // Turn on auto follow if they are spawned, and off if they are not
     cameraAutoFollow(!!globalThis.player?.isSpawned);
+    if (globalThis.player)
+      Player.restoreWizardTypeVisuals(globalThis.player, this);
   }
 
   // IMPORTANT NOTE: when in a multiplayer context,
