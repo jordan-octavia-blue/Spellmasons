@@ -119,7 +119,7 @@ const spell: Spell = {
 };
 
 export function ModifyBoltRadius(sourceEntity: HasSpace, chainsLeft: number): number {
-  return (1 + (chainsLeft * 0.25)) * (sourceEntity.inLiquid ? liquidRadiusMultiplier : 1);
+  return sourceEntity.inLiquid ? liquidRadiusMultiplier : 1;
 }
 
 async function animate(chains: { entity: HasSpace, chainsRemaining: number }[][]) {

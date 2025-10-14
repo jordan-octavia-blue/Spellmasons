@@ -7,7 +7,7 @@ import Underworld from './Underworld';
 
 export const damagelimiterId = 'Damage Limiter';
 const limit = 45;
-const limitPercentage = 0.03;
+const limitPercentage = 0.10;
 const subspriteId = 'damage-limiter';
 function addModifierVisuals(unit: Unit.IUnit, underworld: Underworld) {
   Image.addSubSprite(unit.image, subspriteId);

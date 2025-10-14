@@ -7,6 +7,7 @@ import floatingText from '../graphics/FloatingText';
 import { CardRarity, probabilityMap } from '../types/commonTypes';
 import { getOrInitModifier } from './util';
 import { spellmasonUnitId } from '../entity/units/playerUnit';
+import { clone_id } from './clone';
 
 // callOnChange and memoizedFunction allow the `cb` callback to be invoked with
 // the arg of `message` only when `message` changes.
@@ -29,13 +30,13 @@ const spell: Spell = {
   card: {
     id: teachCardId,
     category: CardCategory.Blessings,
-    requires: [],
+    requires: [clone_id],
     sfx: 'teach',
     supportQuantity: false,
     manaCost: 80,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap[CardRarity.RARE],
+    probability: probabilityMap[CardRarity.SPECIAL],
     thumbnail: 'spellIconTeach.png',
     animationPath: '',
     requiresFollowingCard: true,

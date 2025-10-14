@@ -9,4 +9,11 @@ export default defineConfig(({ command, mode }) => ({
         assetsDir: '.',
     },
     base: '',
+    server: {
+        fs: {
+            allow: [
+                '.',
+            ]
+        }
+    }
 }));

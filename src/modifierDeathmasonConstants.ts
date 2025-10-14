@@ -9,7 +9,7 @@ export function registerSoulmuncher() {
   registerModifiers(soulmuncherId, {
     description: `soulmuncher-desc`,
     unitOfMeasure: '',
-    _costPerUpgrade: 50,
+    _costPerUpgrade: 100,
     quantityPerUpgrade: 1,
     maxUpgradeCount: 12,
     constant: true,
@@ -26,7 +26,7 @@ export function registerWitchyVibes() {
   registerModifiers(witchyVibesId, {
     description: `witchy-vibes-desc`,
     unitOfMeasure: '',
-    _costPerUpgrade: 50,
+    _costPerUpgrade: 75,
     quantityPerUpgrade: 1,
     maxUpgradeCount: 12,
     constant: true,
@@ -44,7 +44,7 @@ export function registerFairIsFair() {
   registerModifiers(fairIsFairId, {
     description: `fair-is-fair-desc`,
     unitOfMeasure: '',
-    _costPerUpgrade: 200,
+    _costPerUpgrade: 250,
     quantityPerUpgrade: 1,
     maxUpgradeCount: 1,
     constant: true,

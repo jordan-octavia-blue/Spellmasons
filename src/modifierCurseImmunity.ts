@@ -3,9 +3,8 @@ import { getOrInitModifier } from "./cards/util";
 import * as Image from './graphics/Image';
 import * as Unit from './entity/Unit';
 import Underworld from './Underworld';
-import { apply } from './cards/purify';
-import { animateSpell } from "./cards/cardUtils";
 import floatingText from "./graphics/FloatingText";
+import { oneOffHealAnimation } from "./effects/heal";
 
 export const curseimmunityId = 'CurseImmunity';
 const subspriteId = 'curseImmunity';
@@ -39,18 +38,26 @@ export default function registerCurseImmunity() {
     onTurnStart: async (unit: Unit.IUnit, underworld: Underworld, prediction: boolean) => {
       runCurseImmunity(unit, underworld);
     },
-    onTurnEnd: async (unit: Unit.IUnit, underworld: Underworld, prediction: boolean) => {
-      runCurseImmunity(unit, underworld);
-    }
   });
 }
 
 function runCurseImmunity(unit: Unit.IUnit, underworld: Underworld) {
   if (Object.values(unit.modifiers).some(m => m.isCurse)) {
-    animateSpell(unit, 'spellPurify');
-    playSFXKey('purify');
-    apply(unit, underworld);
-    floatingText({ coords: unit, text: curseimmunityId });
+    const percentIncrease = 0.1 * Object.entries(unit.modifiers).filter(([key, props]) => props.isCurse).length;
+    // if (unit.unitType == UnitType.PLAYER_CONTROLLED) {
+    //   const healAmount = unit.health * percentIncrease
+    //   healUnit(unit, healAmount, undefined, underworld, false);
+    //   floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${healAmount} HP` });
+    // } else {
+    oneOffHealAnimation(unit);
+    playSFXKey('potionPickupMana');
+    const prevHealth = unit.healthMax;
+    unit.healthMax *= 1 + percentIncrease;
+    unit.healthMax = Math.floor(unit.healthMax);
+    const delta = unit.healthMax - prevHealth
+    unit.health += delta;
+    floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${unit.healthMax - prevHealth} HP` });
+    // }
   }
 
 }

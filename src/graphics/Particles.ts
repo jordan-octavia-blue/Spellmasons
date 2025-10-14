@@ -365,7 +365,7 @@ export function updateParticles(delta: number, bloods: BloodParticle[], seedrand
         }
 
         // remove when inside liquid so it doesn't draw blood on top of liquid OR when done ticking
-        if (isInsideLiquid || tickParticle(blood)) {
+        if (isInsideLiquid || tickParticle(blood, underworld)) {
             bloods.splice(i, 1);
             i--;
         }
@@ -689,9 +689,14 @@ function updateFloatingParticleComplex(particle: FloatingParticle, deltaTime: nu
     particle.position.y += particle.velocity.y;
 }
 
-export function removeFloatingParticlesFor(target: Vec2): Vec2[] {
+export function removeFloatingParticlesFor(target: Vec2, upTo?: number): Vec2[] {
     const positions = [];
+    let i = 0;
     for (let p of floatingParticles) {
+        i++;
+        if (exists(upTo) && i > upTo) {
+            return positions;
+        }
         if (p.center == target) {
             positions.push(p.position);
             stopAndDestroyForeverEmitter(p.emitter);

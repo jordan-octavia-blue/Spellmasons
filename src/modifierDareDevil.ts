@@ -10,6 +10,7 @@ export default function registerDareDevil() {
     description: ['rune_dare_devil', COST.toString()],
     _costPerUpgrade: -COST,
     maxUpgradeCount: 4,
+    isMalady: true,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, dareDevilId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
       unit.healthMax = unit.healthMax / 2;

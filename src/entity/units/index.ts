@@ -55,6 +55,7 @@ import decoy from './decoy';
 import decoy2 from './decoy2';
 import decoy3 from './decoy3';
 import ancient from './ancient';
+import ancient_corrupted from './ancient_corrupted';
 import gripthulu from './gripthulu';
 import blood_archer from './blood_archer';
 import ghost_archer from './ghost_archer';
@@ -72,6 +73,7 @@ export function registerUnits() {
   registerUnit(archer);
   registerUnit(lobber);
   registerUnit(ancient);
+  registerUnit(ancient_corrupted);
   registerUnit(priest);
   registerUnit(poisoner);
   registerUnit(vampire);
@@ -96,6 +98,8 @@ export function registerUnits() {
 }
 
 
+export const allFamiliars: string[] = ['phoenix', 'spirit', 'octo'];
+globalThis.allFamiliars = allFamiliars;
 export const allUnits: { [id: string]: UnitSource } = {};
 // @ts-ignore: This is for the menu and does not need to be in the global type
 globalThis.allUnits = allUnits;

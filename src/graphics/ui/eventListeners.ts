@@ -203,7 +203,6 @@ function handleInputDown(keyCodeMapping: string | undefined, overworld: Overworl
   if (!underworld) {
     return;
   }
-  document.body.classList.toggle('showChat', false);
   switch (keyCodeMapping) {
     case 'adminPowerBar':
       if (globalThis.adminMode && elAdminPowerBarInput && elAdminPowerBar) {
@@ -869,8 +868,6 @@ export function clickHandler(overworld: Overworld, e: MouseEvent) {
     return;
   }
   const mousePos = underworld.getMousePos();
-  //hide chat if its active
-  document.body.classList.toggle('showChat', false);
 
   const cardIds = CardUI.getSelectedCardIds();
   // If the first card ignores range, it should also be castable out of bounds

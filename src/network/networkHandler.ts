@@ -362,17 +362,24 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
           console.error('COLLECT_SOULS desync soulFragments count');
           return;
         }
+        // failsafe, should not be needed
+        if (isNullOrUndef(fromPlayer.unit.soulLeftToCollect)) {
+          fromPlayer.unit.soulLeftToCollect = fromPlayer.unit.soulLeftToCollectMax || config.BASE_SOULS_LEFT_TO_COLLECT;
+        }
+        const soulFragmentsLeftToCollect = fromPlayer.unit.soulLeftToCollect;
 
-        const soulPositions = removeFloatingParticlesFor(victim);
-        victim.soulFragments = 0;
+        const ableToCollect = Math.min(soulFragmentsLeftToCollect, victim.soulFragments);
+        fromPlayer.unit.soulLeftToCollect -= ableToCollect;
+        const soulPositions = removeFloatingParticlesFor(victim, ableToCollect);
+        victim.soulFragments = Math.max(0, victim.soulFragments - ableToCollect);
         victim.soulsBeingCollected = false;
         // If a goru killed the unit that goru get's all the souls
         const colorStart = '#d9fff9';
         const colorEnd = '#566d70';
-        fromPlayer.unit.soulFragments += soulFragments;
+        fromPlayer.unit.soulFragments += ableToCollect;
         globalThis.totalSoulTrails = Math.max(0, globalThis.totalSoulTrails || 0);
-        globalThis.totalSoulTrails += soulFragments;
-        for (let i = 0; i < soulFragments; i++) {
+        globalThis.totalSoulTrails += ableToCollect;
+        for (let i = 0; i < ableToCollect; i++) {
           const promise = makeManaTrail(soulPositions[i] || victim, fromPlayer.unit, underworld, colorStart, colorEnd, globalThis.totalSoulTrails).then(() => {
             globalThis.totalSoulTrails--;
 
@@ -403,6 +410,18 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
         }
       } else {
         console.error('Cannot CHOOSE_UPGRADE, fromPlayer is undefined', fromClient, fromPlayer)
+      }
+      break;
+    case MESSAGE_TYPES.SKIP_UPGRADE:
+      if (fromPlayer && payload.spCost) {
+        fromPlayer.skippedCards += 1;
+        fromPlayer.statPointsUnspent += payload.spCost
+        // If there are more upgrades to be had, show them
+        if (globalThis.player == fromPlayer) {
+          underworld.showUpgrades();
+          playSFXKey('levelUp');
+
+        }
       }
       break;
     case MESSAGE_TYPES.LOAD_GAME_STATE:
@@ -805,7 +824,7 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
         // computer
         break;
       }
-      const { color, colorMagic, name, wizardType, lobbyReady, version } = payload;
+      const { color, colorMagic, name, wizardType, familiar, lobbyReady, version } = payload;
       if (fromPlayer) {
         fromPlayer.gameVersion = version;
         if (exists(lobbyReady)) {
@@ -830,6 +849,11 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
         }
         if (exists(name)) {
           fromPlayer.name = name;
+        }
+        if (exists(familiar)) {
+          fromPlayer.companion = familiar;
+          if (overworld.underworld)
+            overworld.underworld.addMissingCompanions(fromPlayer)
         }
         setPlayerNameUI(fromPlayer);
         Player.setPlayerRobeColor(fromPlayer, color, colorMagic);
@@ -899,7 +923,7 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
           teleport(fromPlayer.unit, payload, underworld, false);
 
           // Trigger onSpawn events
-          const events = [...fromPlayer.unit.events]
+          const events = [...fromPlayer.unit.events, ...underworld.events]
           for (let eventName of events) {
             if (eventName) {
               const fn = Events.onSpawnSource[eventName];
@@ -1246,6 +1270,7 @@ async function handleLoadGameState(payload: {
   underworld.cardDropsDropped = loadedGameState.cardDropsDropped;
   underworld.enemiesKilled = loadedGameState.enemiesKilled;
   underworld.activeMods = loadedGameState.activeMods;
+  underworld.events = loadedGameState.events;
   // simulatingMovePredictions should never be serialized, it is only for a running instance to keep track of if the simulateRunForceMovePredictions is running
   underworld.simulatingMovePredictions = false;
   // backwards compatible for save state that didn't have this:
@@ -1514,7 +1539,7 @@ async function handleSpell(caster: Player.IPlayer, payload: any, underworld: Und
 }
 
 export function setupNetworkHandlerGlobalFunctions(overworld: Overworld) {
-  globalThis.configPlayer = ({ color, colorMagic, name, wizardType, lobbyReady }: { color?: number, colorMagic?: number, name?: string, wizardType?: WizardType, lobbyReady?: boolean }) => {
+  globalThis.configPlayer = ({ color, colorMagic, name, wizardType, familiar, lobbyReady }: { color?: number, colorMagic?: number, name?: string, wizardType?: WizardType, familiar?: string, lobbyReady?: boolean }) => {
     if (exists(color)) {
       storage.set(storage.STORAGE_ID_PLAYER_COLOR, color);
     }
@@ -1531,13 +1556,20 @@ export function setupNetworkHandlerGlobalFunctions(overworld: Overworld) {
       // strings which is confusing as hell
       storage.set(storage.STORAGE_ID_WIZARD_TYPE, wizardType);
     }
+    if (exists(familiar)) {
+      // Booleans should not be stored in localStorage as booleans because they are converted to
+      // strings which is confusing as hell
+      storage.set(storage.STORAGE_ID_FAMILIAR, familiar);
+    }
     const storedWizardType = storage.get(storage.STORAGE_ID_WIZARD_TYPE);
+    const storedFamiliar = storage.get(storage.STORAGE_ID_FAMILIAR);
     if (overworld.underworld) {
       overworld.pie.sendData({
         type: MESSAGE_TYPES.PLAYER_CONFIG,
         color,
         colorMagic,
         wizardType: storedWizardType || 'Spellmason',
+        familiar: storedFamiliar || '',
         name: capped_name,
         lobbyReady,
         version: globalThis.SPELLMASONS_PACKAGE_VERSION
