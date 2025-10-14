@@ -1,11 +1,14 @@
 import type { Vec2 } from './jmath/Vec';
 import type { IUnit } from './entity/Unit';
+import type { HasSpace } from './entity/Type';
 import Underworld from './Underworld';
 import { IPickup } from './entity/Pickup';
 import { ForceMoveProjectile } from './jmath/moveWithCollision';
 import { CardCost } from './cards/cardUtils';
 import type { IPlayer } from './entity/Player';
 import { ICard } from './cards';
+import { Faction } from './types/commonTypes';
+import { ForceMoveType } from './jmath/moveWithCollision';
 
 export type onDealDamage = {
   // Returns a possibly modified damage
@@ -23,6 +26,11 @@ export type onCostCalculation = {
   (caster: IPlayer, card: ICard, timesUsedSoFar: number, cardCost: CardCost): CardCost;
 };
 const onCostCalculationSource: { [name: string]: onCostCalculation } = {};
+
+export type onForceMove = {
+  (pushedObject: HasSpace, velocity: Vec2, sourceUnit?: IUnit): Vec2;
+};
+const onForceMoveSource: { [name: string]: onForceMove } = {};
 
 export type onTakeDamage = {
   // Returns a possibly modified damage
@@ -81,12 +89,12 @@ export type onFullTurnCycle = {
 const onFullTurnCycleSource: { [name: string]: onFullTurnCycle } = {};
 
 export type onTurnStart = {
-  (unit: IUnit, underworld: Underworld, prediction: boolean): Promise<void>;
+  (unit: IUnit, underworld: Underworld, prediction: boolean, faction: Faction): Promise<void>;
 };
 const onTurnStartSource: { [name: string]: onTurnStart } = {};
 
 export type onTurnEnd = {
-  (unit: IUnit, underworld: Underworld, prediction: boolean): Promise<void>;
+  (unit: IUnit, underworld: Underworld, prediction: boolean, faction: Faction): Promise<void>;
 };
 const onTurnEndSource: { [name: string]: onTurnEnd } = {};
 
@@ -106,6 +114,7 @@ export default {
   onKillSource,
   onTooltipSource,
   onCostCalculationSource,
+  onForceMoveSource,
   onDeathSource,
   onMoveSource,
   onPickupSource,

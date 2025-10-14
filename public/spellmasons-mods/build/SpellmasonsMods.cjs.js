@@ -320,7 +320,7 @@ async function procEvents(unit2, underworld, prediction) {
     if (eventName) {
       const fns = Events.default.onTurnStartSource[eventName];
       if (fns) {
-        await fns(unit2, underworld, prediction);
+        await fns(unit2, underworld, prediction, unit2.faction);
       }
     }
   }
@@ -329,7 +329,7 @@ async function procEvents(unit2, underworld, prediction) {
     if (eventName) {
       const fne = Events.default.onTurnEndSource[eventName];
       if (fne) {
-        await fne(unit2, underworld, prediction);
+        await fne(unit2, underworld, prediction, unit2.faction);
       }
     }
   }
@@ -2833,7 +2833,7 @@ const spell$a = {
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconSterileArrow.png",
     description: "Conjures a mystical arrow that deals 20 damage and TRANSFERS curses from the caster to the victim.",
     effect: async (state, card, quantity, underworld, prediction) => serileArrowEffect(state, card, quantity, underworld, prediction).then((state2) => {
-      Purify.apply(state2.casterUnit, underworld);
+      Purify.apply(state2.casterUnit, underworld, prediction, state2);
       return state2;
     })
   },
@@ -4063,8 +4063,7 @@ const mod = {
     unit$1
   ],
   events: [modifierRemoveOnDeath],
-  spritesheet: "spellmasons-mods/The_Doom_Scroll/graphics/spritesheet.json",
-  maps: []
+  spritesheet: "spellmasons-mods/The_Doom_Scroll/graphics/spritesheet.json"
 };
 const mods = [
   mod$5,

@@ -117,6 +117,9 @@ export const sfx: { [key: string]: string[] } = {
   ],
   potionPickupHealth: ['./sound/sfx/potion-pickup-health.mp3'],
   potionPickupMana: ['./sound/sfx/potion-pickup-mana.mp3'],
+  darkPriestAttack: [
+    './sound/sfx/darkPriestAttack.mp3',
+  ],
   priestAttack: [
     './sound/sfx/priest-attack.mp3',
     './sound/sfx/priest-attack-001.mp3',
@@ -199,7 +202,14 @@ export const sfx: { [key: string]: string[] } = {
   purplePortal: ['./sound/sfx/purple_portal.mp3'],
   soulBind: ['./sound/sfx/RPG3_PlasmaMagic_Debuff02.mp3'],
   recallPlace: ['./sound/sfx/RPG3_WindMagic_Buff02_P1_Cast.mp3'],
-  blackCoin: ['./sound/sfx/RPG3_DarkMagicEpic2_P5_ImpactSpawn.mp3']
+  blackCoin: ['./sound/sfx/RPG3_DarkMagicEpic2_P5_ImpactSpawn.mp3'],
+  // https://pixabay.com/sound-effects/072807-heavy-machine-gun-50-caliber-39765/
+  gunSniper: [
+    // './sound/sfx/072807_heavy-machine-gun-50-caliber-39765.mp3',
+    './sound/sfx/072807_heavy-machine-gun-50-caliber-39765-bassy.mp3'],
+  // gunShotgun: ['./sound/sfx/gun_shot.mp3'],
+  // gunSilenced: ['./sound/sfx/gun_shot.mp3'],
+  // gunMinigun: ['./sound/sfx/gun_shot.mp3'],
 };
 const music = [
   './sound/music/TheDangerIsYou.mp3',

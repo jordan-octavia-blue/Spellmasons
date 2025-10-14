@@ -725,7 +725,7 @@ export function predictAIActions(underworld: Underworld, restartChunks: boolean)
   // Issue: https://github.com/jdoleary/Spellmasons/issues/388
 
   // TODO - Run turn start events for units that will run it?
-  //Unit.startTurnForUnits(aiUnits, underworld, true);
+  //Unit.startTurnForUnits(aiUnits, underworld, true, faction);
 
   // We want to draw attention markers above enemies
   // who plan to attack the player next turn.
@@ -835,6 +835,9 @@ export function drawUICone(graphics: PIXI.Graphics, target: Vec2, radius: number
 export function drawUICircle(graphics: PIXI.Graphics, target: Vec2, radius: number, color: number, text?: string) {
   graphics.lineStyle(2, color, 1.0)
   graphics.endFill();
+  // Optimization: even if the radius is larger, don't draw the circle larger than 1500
+  // because it'll just tax the rendering engine and it'll be so big it wont show anything anyways
+  radius = Math.min(1500, radius);
   graphics.drawCircle(target.x, target.y, radius);
   if (text && labelText) {
     //labelText.style.fill = color;
@@ -992,6 +995,7 @@ ${globalThis.selectedUnit.faction == Faction.ALLY ? '🤝' : '⚔️️'} ${i18n
 🎯 ${txt(globalThis.selectedUnit.attackRange)} ${i18n(['attack range'])}` : ''}
 ❤️ ${txt(globalThis.selectedUnit.health)}/${txt(globalThis.selectedUnit.healthMax)} ${i18n(['health capacity'])}
 🔵 ${txt(globalThis.selectedUnit.mana)}/${txt(globalThis.selectedUnit.manaMax)} + ${txt(globalThis.selectedUnit.manaPerTurn)} ${i18n('Mana')} ${i18n('per turn')}
+💪 ${txt(globalThis.selectedUnit.strength)} ${i18n(['strength'])}
 ⚪ ${txt(globalThis.selectedUnit.soulFragments)} ${i18n('Soul Fragments')}
 ${extraText}
 ${playerSpecificInfo}

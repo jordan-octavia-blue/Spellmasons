@@ -116,6 +116,8 @@ import { LogLevel } from './RemoteLogging';
 import PiePeer from './network/PiePeer';
 import { investmentId } from './modifierInvestment';
 import { isSinglePlayer } from './network/wsPieSetup';
+import { alwaysBounty } from './globalEvents/alwaysBounty';
+import { testUnderworldEventsId } from './globalEvents/testUnderworldEvents';
 
 const loopCountLimit = 10000;
 export enum turn_phase {
@@ -205,6 +207,7 @@ export default class Underworld {
   processedMessageCount: number = 0;
   cardDropsDropped: number = 0;
   enemiesKilled: number = 0;
+  events: string[] = [alwaysBounty];
   // Not to be synced between clients but should belong to the underworld as they are unique
   // to each game lobby:
   // A list of units and pickups and an endPosition that they are moved to via a "force",
@@ -238,6 +241,10 @@ export default class Underworld {
     emitter?: Emitter,
     target: Vec2,
     keepOnDeath?: boolean
+  }[] = [];
+  companions: {
+    image: Image.IImageAnimated,
+    target: Vec2,
   }[] = [];
   activeMods: string[] = [];
   generatingLevel: boolean = false;
@@ -296,6 +303,13 @@ export default class Underworld {
     this.serverStabilityMaxUnits = globalThis.serverStabilityMaxUnits;
     if (this.serverStabilityMaxPickups || this.serverStabilityMaxUnits) {
       console.log('Server Stability: ', this.serverStabilityMaxUnits, this.serverStabilityMaxPickups);
+    }
+  }
+  addEvent(eventId: string) {
+    if (!this.events.includes(eventId)) {
+      this.events.push(eventId);
+      // TODO
+      // this.events.sort(Cards.eventsSorter(Cards.allModifiers));
     }
   }
   getAllUnits(prediction: boolean): Unit.IUnit[] {
@@ -1111,6 +1125,25 @@ export default class Underworld {
       } else {
         stopAndDestroyForeverEmitter(emitter);
       }
+    }
+    for (let companion of this.companions) {
+      if (isNaN(companion.image.sprite.x) || isNaN(companion.image.sprite.y)) {
+        companion.image.sprite.x = 0;
+        companion.image.sprite.y = 0;
+      }
+      const multX = Unit.isUnit(companion.target) ? companion.target.image?.sprite.scale.x || 1 : 1
+      const offsetTarget = Vec.add(companion.target, { x: multX * 30, y: -30 });
+      const distance = math.distance(companion.image.sprite, offsetTarget)
+      const speed = math.lerp(0.5, 6, distance / 600);
+      const next = math.getCoordsAtDistanceTowardsTarget(companion.image.sprite, offsetTarget, speed);
+      // Orient:
+      if (offsetTarget.x >= companion.image.sprite.x) {
+        companion.image.sprite.scale.x = -Math.abs(companion.image.sprite.scale.x);
+      } else {
+        companion.image.sprite.scale.x = Math.abs(companion.image.sprite.scale.x);
+      }
+      companion.image.sprite.x = next.x;
+      companion.image.sprite.y = next.y;
     }
     for (let p of this.pickups) {
       Pickup.sync(p);
@@ -2202,6 +2235,10 @@ export default class Underworld {
     // turn-scoped emitters
     this.particleFollowers = [];
     cleanUpEmitters(false);
+    for (let companion of this.companions) {
+      Image.cleanup(companion.image);
+    }
+    this.companions = [];
 
     // Now that it's a new level clear out the level's dodads such as
     // bone dust left behind from destroyed corpses
@@ -2319,7 +2356,7 @@ export default class Underworld {
 
     // each bounty hunter places a bounty on a random unit in an opposing faction
     this.units.forEach(u => {
-      if (u.modifiers[bountyHunterId]) {
+      if (u.modifiers[bountyHunterId] || levelIndex > 4) {
         placeRandomBounty(u, this, false);
       }
     });
@@ -2371,7 +2408,7 @@ export default class Underworld {
         if (player.wizardType == 'Deathmason' || player.wizardType == 'Goru') {
           points *= 0.6;
         }
-        player.statPointsUnspent += points;
+        player.statPointsUnspent += points + (player.extraStatPointsPerRound || 0);
         Player.incrementPresentedRunesForPlayer(player, this);
         if (!tutorialChecklist.spendUpgradePoints.complete && levelIndex >= 3) {
           tutorialShowTask('spendUpgradePoints');
@@ -2973,6 +3010,8 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     }
     // Turn on auto follow if they are spawned, and off if they are not
     cameraAutoFollow(!!globalThis.player?.isSpawned);
+    if (globalThis.player)
+      Player.restoreWizardTypeVisuals(globalThis.player, this);
   }
 
   // IMPORTANT NOTE: when in a multiplayer context,
@@ -3023,9 +3062,28 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
 
     CardUI.updateCardBadges(this);
   }
+  addMissingCompanions(player: Player.IPlayer) {
+    // Add missing companions
+    if (player.companion) {
+      let found = this.companions.find(c => c.target == player.unit);
+      // If familiar is the wrong kind, remove it so the right one can be created
+      if (found && found.image.sprite.imagePath != player.companion) {
+        this.companions = this.companions.filter(c => c.image !== found?.image);
+        Image.cleanup(found.image);
+        found = undefined;
+      }
+      if (!found) {
+        const newCompanionImage = Image.create({ x: 0, y: 0 }, player.companion, containerUnits)
+        if (newCompanionImage) {
+          this.companions.push({ image: newCompanionImage, target: player.unit });
+        }
+      }
+    }
+
+  }
   async executePlayerTurn() {
     this.battleLog(`Begin Player Turn Phase`);
-    await Unit.startTurnForUnits(this.players.map(p => p.unit), this, false);
+    await Unit.startTurnForUnits(this.players.map(p => p.unit), this, false, Faction.ALLY);
 
     for (let player of this.players) {
       player.endedTurn = false;
@@ -3038,6 +3096,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
           playSFXKey('yourTurn');
         }
       }
+      this.addMissingCompanions(player);
     }
     this.syncTurnMessage();
     // Update unit health / mana bars, etc
@@ -3082,7 +3141,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     if (units.length) {
       this.battleLog(`Begin ${faction === 0 ? 'Ally' : 'Enemy'} NPC Turn Phase`);
     }
-    await Unit.startTurnForUnits(units, this, false);
+    await Unit.startTurnForUnits(units, this, false, faction);
 
     // TODO - Define/Control actions and smart targeting
     // in Unit rather than gameLoopUnit, for more versatility?
@@ -3124,7 +3183,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
 
     // End turn events, liquid damage, mana regen, etc.
     // Use new units list in case it has changed (I.E. summons)
-    await Unit.endTurnForUnits(this.units.filter(u => u.unitType == UnitType.AI && u.faction == faction), this, false);
+    await Unit.endTurnForUnits(this.units.filter(u => u.unitType == UnitType.AI && u.faction == faction), this, false, faction);
   }
   // This function is invoked when all factions have finished their turns
   async endFullTurnCycle() {
@@ -3356,7 +3415,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     // Trigger full turn cycle events now that it's restarting at the playerTurn
     if (phase == turn_phase[turn_phase.PlayerTurns]) {
       for (let unit of this.units) {
-        const events = [...unit.events];
+        const events = [...unit.events, ...this.events];
         await Promise.all(events.map(
           async (eventName) => {
             const fn = Events.onFullTurnCycleSource[eventName];
@@ -3394,7 +3453,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       }
       case turn_phase[turn_phase.NPC_ALLY]: {
         // End player turn now that it is about to start NPC_ALLY turn
-        await Unit.endTurnForUnits(this.players.map(p => p.unit), this, false);
+        await Unit.endTurnForUnits(this.players.map(p => p.unit), this, false, Faction.ALLY);
         this.endPlayerTurnCleanup();
 
         await this.executeNPCTurn(Faction.ALLY);
@@ -3532,7 +3591,13 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       return 0;
     }
     // .filter out freeSpells because they shouldn't count against upgrades available since they are given to you
-    return this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length;
+    const upgradesLeftToChoose = this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
+    console.debug('Player upgrades left to choose: ', upgradesLeftToChoose, `;
++ cardDropsDropped: ${this.cardDropsDropped} 
++ config.STARTING_CARD_COUNT ${config.STARTING_CARD_COUNT} 
+- player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length: ${player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length} 
+- (player.skippedCards || 0): ${(player.skippedCards || 0)}`)
+    return upgradesLeftToChoose;
   }
   upgradeRune(runeModifierId: string, player: Player.IPlayer, payload: { newSP: number }) {
     const isCurrentPlayer = player == globalThis.player;
@@ -3669,6 +3734,34 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       // Empty before adding new reroll btn
       rerollBtnContainer.innerHTML = '';
       rerollBtnContainer.appendChild(elReroll);
+      if (player.inventory.length >= 3 && globalThis.player) {
+        const spCost = globalThis.player.wizardType == 'Deathmason' ? -30 : 60
+        const elSkipCard = document.createElement('div');
+        elSkipCard.classList.add('skip-card-btn');
+        elSkipCard.style.color = 'white';
+        const isDisabled = () => spCost < 0 && globalThis.player && globalThis.player.statPointsUnspent < Math.abs(spCost)
+        if (isDisabled()) {
+          elSkipCard.classList.toggle('disabled', true)
+        }
+        elSkipCard.innerHTML = `${spCost > 0 ? '+' : ''}${spCost} SP`;
+        elSkipCard.addEventListener('click', () => {
+          if (isDisabled()) {
+            playSFXKey('deny');
+          } else {
+            playSFXKey('click');
+            // Clear upgrades
+            document.body?.classList.toggle(showUpgradesClassName, false);
+            this.pie.sendData({
+              type: MESSAGE_TYPES.SKIP_UPGRADE,
+              spCost,
+            });
+          }
+        });
+        elSkipCard.addEventListener('mouseenter', (e) => {
+          playSFXKey('click');
+        });
+        rerollBtnContainer.appendChild(elSkipCard);
+      }
     }
   }
   getRandomCoordsWithinBounds(bounds: Limits, seed?: prng): Vec2 {
@@ -4461,7 +4554,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     const { pie, overworld, random, players, units, pickups, walls, pathingPolygons, liquidSprites,
       unitsPrediction, pickupsPrediction, particleFollowers, forceMove, triggerGameLoopHeadless, _gameLoopHeadless,
       awaitForceMoves, queueGameLoop, gameLoop, gameLoopForceMove, gameLoopUnit,
-      removeEventListeners, ...rest } = this;
+      removeEventListeners, companions, ...rest } = this;
     return {
       ...rest,
       // isRestarting is an id for SetTimeout and cannot be serialized
@@ -4479,6 +4572,33 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
   }
   updateAccessibilityOutlines() {
     this.units.forEach(u => Unit.updateAccessibilityOutline(u, false));
+    this.companions.forEach(c => {
+      if (globalThis.accessibilityOutline) {
+        if (!c.image.sprite.filters) {
+          c.image.sprite.filters = [];
+        }
+        const outlineSettings = globalThis.accessibilityOutline[Faction.ALLY]['regular'];
+        let outlineFilter: OutlineFilter | undefined;
+        // @ts-ignore __proto__ is not typed
+        outlineFilter = c.image.sprite.filters.find(f => f.__proto__ == OutlineFilter.prototype)
+        if (outlineFilter) {
+          if (outlineSettings.thickness) {
+            // +1 because I want the thickness to be between 2-5 because one is way to pencil thin and looks bad
+            outlineFilter.thickness = outlineSettings.thickness + 1;
+            outlineFilter.color = outlineSettings.color;
+          } else {
+            // If thickness is 0, remove the filter:
+            c.image.sprite.filters = c.image.sprite.filters.filter(x => x !== outlineFilter);
+          }
+        } else {
+          // Only add the filter if thickness is not 0
+          if (outlineSettings.thickness) {
+            outlineFilter = new OutlineFilter(outlineSettings.thickness, outlineSettings.color, 0.1);
+            c.image.sprite.filters.push(outlineFilter);
+          }
+        }
+      }
+    })
     this.setContainerUnitsFilter();
   }
   setContainerUnitsFilter() {
@@ -4538,7 +4658,7 @@ type NonFunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? nev
 type UnderworldNonFunctionProperties = Exclude<NonFunctionPropertyNames<Underworld>, null | undefined>;
 export type IUnderworldSerialized = Omit<Pick<Underworld, UnderworldNonFunctionProperties>, "pie" | "overworld" | "prototype" | "players" | "units"
   | "unitsPrediction" | "pickups" | "pickupsPrediction" | "random" | "turnInterval" | "liquidSprites"
-  | "particleFollowers"
+  | "particleFollowers" | "companions"
   // walls and pathingPolygons are omitted because they are derived from obstacles when cacheWalls() in invoked
   | "walls" | "pathingPolygons" | "triggerGameLoopHeadless" | "_gameLoopHeadless" | "awaitForceMoves" | "queueGameLoop" | "gameLoop" | "gameLoopForceMove" | "gameLoopUnit"
   | "removeEventListeners"> & {

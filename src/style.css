@@ -855,6 +855,10 @@ body.view-Game.hide-card-holders #in-game-lobby,
   display: none;
 }
 
+.hide-card-holders .floating-card-holder {
+  display: none;
+}
+
 body.your-turn #end-turn-btn {
   opacity: 1.0;
 }
@@ -2120,6 +2124,19 @@ body.auto-camera #camera-recenter-tip {
   display: block;
 }
 
+#chatbox-close {
+  cursor: pointer;
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  border-radius: 2px;
+  padding: 5px;
+}
+
+#chatbox-close:hover {
+  background-color: red
+}
+
 #chatbox-inner {
   min-width: 300px;
   max-width: 300px;
@@ -2128,6 +2145,7 @@ body.auto-camera #camera-recenter-tip {
   flex-direction: column;
   overflow: auto;
   overflow-x: hidden;
+  position: relative;
 }
 
 #chatinput {
@@ -2321,6 +2339,10 @@ body:not(.view-Game) #chatbox {
   background-size: contain;
 }
 
+.plus-btn-container.malady .plus-btn {
+  background-image: url('/ui/iconPlusUpMalady.png');
+}
+
 .plus-btn.disabled {
   opacity: 0.5;
 }
@@ -2333,11 +2355,20 @@ body:not(.view-Game) #chatbox {
   background-image: url('/ui/iconPlusDown.png');
 }
 
+.plus-btn-container.malady .plus-btn:not(.disabled):active {
+  background-image: url('/ui/iconPlusDownMalady.png');
+}
+
+#reroll-btn-container {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
 .reroll-btn {
   width: 94px;
   height: 95px;
   background-image: url('/ui/iconRerollUp.png');
-  margin: 8px auto;
 }
 
 .reroll-btn:hover {
@@ -2348,6 +2379,26 @@ body:not(.view-Game) #chatbox {
   background-image: url('/ui/iconRerollDown.png');
 }
 
+.skip-card-btn {
+  width: 94px;
+  height: 95px;
+  background-image: url('/ui/iconButtonSkipCardUp.png');
+  text-align: center;
+  line-height: 208px;
+}
+
+.skip-card-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.skip-card-btn:hover {
+  filter: drop-shadow(0 0 0.4rem rgb(255, 255, 255));
+}
+
+.skip-card-btn:active {
+  background-image: url('/ui/iconButtonSkipCardDown.png');
+}
 
 /* Extra toolbars for cards */
 #floating-card-holder-left {

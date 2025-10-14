@@ -19,6 +19,7 @@ const spell: Spell = {
     healthCost: 0,
     probability: probabilityMap[CardRarity.RARE],
     expenseScaling: 2,
+    supportQuantity: true,
     thumbnail: 'spellIconCaptureSoul.png',
     sfx: 'captureSoul',
     description: ['spell_capture_soul', healthThreshold.toString()],
@@ -26,7 +27,7 @@ const spell: Spell = {
       const player = state.casterPlayer;
       if (player) {
         let targets = state.targetedUnits.filter(u => {
-          return u.alive && u.health < healthThreshold;
+          return u.alive && u.health < healthThreshold * quantity;
         });
         for (let target of targets) {
           if (target) {
@@ -36,9 +37,7 @@ const spell: Spell = {
               if (upgrade) {
                 floatingText({ coords: target, text: 'Soul Captured!' });
                 underworld.forceUpgrade(player, upgrade, true);
-                makeManaTrail(target, state.casterUnit, underworld, '#321d73', '#9526cc', targets.length).then(() => {
-                  playDefaultSpellSFX(card, prediction);
-                });
+                playDefaultSpellSFX(card, prediction);
               } else {
                 console.error('Cannot capture soul, upgrade not found with title:', newCardId)
               }
