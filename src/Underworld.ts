@@ -3739,13 +3739,13 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
         const elSkipCard = document.createElement('div');
         elSkipCard.classList.add('skip-card-btn');
         elSkipCard.style.color = 'white';
-        const isDisabled = spCost < 0 && globalThis.player.statPointsUnspent < Math.abs(spCost)
-        if (isDisabled) {
+        const isDisabled = () => spCost < 0 && globalThis.player && globalThis.player.statPointsUnspent < Math.abs(spCost)
+        if (isDisabled()) {
           elSkipCard.classList.toggle('disabled', true)
         }
         elSkipCard.innerHTML = `${spCost > 0 ? '+' : ''}${spCost} SP`;
         elSkipCard.addEventListener('click', () => {
-          if (isDisabled) {
+          if (isDisabled()) {
             playSFXKey('deny');
           } else {
             playSFXKey('click');
