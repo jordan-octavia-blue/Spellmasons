@@ -9,6 +9,7 @@ import { Container, ParticleContainer } from 'pixi.js';
 import { emitterStopFrequency, stopAndDestroyForeverEmitter } from './ParticleCollection';
 import { JEmitter } from '../types/commonTypes';
 import { distance } from '../jmath/math';
+import { IUnit } from '../entity/Unit';
 
 export const containerParticles = !globalThis.pixi ? undefined : new globalThis.pixi.ParticleContainer(5000, {
     scale: true,
@@ -577,11 +578,12 @@ interface FloatingParticle {
     floatAmplitude: number;
     swirlRadius: number;
     emitter: particles.Emitter;
+    ownerUnitId: number;
 }
 
 
 function createFloatingParticle(
-    center: Vec2,
+    center: IUnit,
     floatSpeed: number = 1,
     swirlSpeed: number = 2,
     floatAmplitude: number = 20,
@@ -661,7 +663,8 @@ function createFloatingParticle(
         swirlSpeed,
         floatAmplitude,
         swirlRadius,
-        emitter
+        emitter,
+        ownerUnitId: center.id,
     };
 }
 
@@ -689,24 +692,24 @@ function updateFloatingParticleComplex(particle: FloatingParticle, deltaTime: nu
     particle.position.y += particle.velocity.y;
 }
 
-export function removeFloatingParticlesFor(target: Vec2, upTo?: number): Vec2[] {
+export function removeFloatingParticlesFor(target: IUnit, upTo?: number): Vec2[] {
     const positions = [];
-    let i = 0;
+    let removed = 0;
     for (let p of floatingParticles) {
-        i++;
-        if (exists(upTo) && i > upTo) {
+        if (exists(upTo) && removed >= upTo) {
             return positions;
         }
-        if (p.center == target) {
+        if (p.ownerUnitId == target.id) {
             positions.push(p.position);
             stopAndDestroyForeverEmitter(p.emitter);
+            removed++;
+
         }
     }
     return positions;
 }
 // Create multiple floating particles with slight variations
-export function createFloatingParticleSystem(center: Vec2, count: number = 1) {
-
+export function createFloatingParticleSystem(center: IUnit, count: number = 1) {
     const magnitude = Math.min(4, Math.max(1, Math.floor(count / 2)));
     for (let i = 0; i < count; i++) {
         // Add some randomness to each particle's properties
