@@ -152,7 +152,7 @@ export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], under
     for (const modifierKey of Object.keys(unit.modifiers)) {
       const modifier = allModifiers[modifierKey];
       const modifierInstance = unit.modifiers[modifierKey];
-      storedModifiers.push({ modifier, modifierInstance });
+      storedModifiers.push({ key: modifierKey, modifier, modifierInstance });
     }
 
     // Kill/Delete the unit that got merged
@@ -171,8 +171,9 @@ export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], under
       if (state) {
         state.targetedUnits = state.targetedUnits.filter(u => u != unit);
       }
-      if (unit.image) {
-        restoreSubsprites(target.image, getSubspriteImagePaths(unit.image));
+      if (unit.image?.sprite.children) {
+        for (let child of unit.image.sprite.children)
+          target.image?.sprite.addChild(child)
       }
 
       Unit.cleanup(unit);
@@ -186,14 +187,18 @@ export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], under
 
   // Modifiers are stored and added at the end to prevent weird scenarios
   // such as suffocate killing the primary target mid-merge
-  for (const { modifier, modifierInstance } of storedModifiers) {
+  for (const { key, modifier, modifierInstance } of storedModifiers) {
     if (modifier && modifierInstance) {
-      if (!isRune(modifier) && modifier?.add) {
-        modifier.add(target, underworld, prediction, modifierInstance.quantity, modifierInstance);
+      if (!isRune(modifier) && modifier) {
+        Unit.addModifier(target, key, underworld, prediction, modifierInstance.quantity, modifierInstance);
       }
     } else {
       console.error("Modifier doesn't exist? This shouldn't happen.");
     }
+  }
+
+  if (target.image) {
+    restoreSubsprites(target.image, getSubspriteImagePaths(target.image));
   }
 
 
