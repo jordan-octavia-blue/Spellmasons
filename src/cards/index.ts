@@ -577,15 +577,17 @@ export function registerCards(overworld: Overworld) {
   registerSpell(plus_radius, overworld);
   // registerSpell(trap, overworld);
   for (let unitId of Object.keys(allUnits)) {
-    const spell = summon_generic(unitId, false);
-    if (spell) {
-      registerSpell(spell, overworld);
-    }
+    if (!allUnits[unitId]?.spawnParams?.excludeSummonCard) {
+      const spell = summon_generic(unitId, false);
+      if (spell) {
+        registerSpell(spell, overworld);
+      }
 
-    if (!allUnits[unitId]?.spawnParams?.excludeMiniboss) {
-      const spellMiniboss = summon_generic(unitId, true);
-      if (spellMiniboss) {
-        registerSpell(spellMiniboss, overworld);
+      if (!allUnits[unitId]?.spawnParams?.excludeMiniboss) {
+        const spellMiniboss = summon_generic(unitId, true);
+        if (spellMiniboss) {
+          registerSpell(spellMiniboss, overworld);
+        }
       }
     }
   }

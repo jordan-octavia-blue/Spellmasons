@@ -3233,6 +3233,13 @@ const unit$1 = {
     radius: 48,
     bloodColor: 8082207
   },
+  spawnParams: {
+    probability: 0,
+    excludeMiniboss: true,
+    excludeSummonCard: true,
+    budgetCost: 0,
+    unavailableUntilLevelIndex: 20
+  },
   init: (unit2, underworld) => {
     Unit$5.addEvent(unit2, EVENT_REMOVE_ON_DEATH_ID);
     cardsUtil.getOrInitModifier(unit2, "Target Cursed", { isCurse: false, quantity: 1e4, keepOnDeath: false }, () => {
@@ -4026,6 +4033,13 @@ const unit = {
     immovable: true,
     radius: 48,
     bloodColor: 8082207
+  },
+  spawnParams: {
+    probability: 0,
+    excludeMiniboss: true,
+    excludeSummonCard: true,
+    budgetCost: 0,
+    unavailableUntilLevelIndex: 20
   },
   init: (unit2, underworld) => {
     if (unit2.image) {

@@ -33,6 +33,7 @@ interface SpawnParams {
   budgetCost: number;
   unavailableUntilLevelIndex: number;
   excludeMiniboss?: boolean;
+  excludeSummonCard?: boolean;
 }
 
 /// Units to register
