@@ -56,6 +56,9 @@ export function getSavedData() {
         if (exists(options.cinematicCameraEnabled)) {
           globalThis.cinematicCameraEnabled = options.cinematicCameraEnabled;
         }
+        if (exists(options.textSizeOverride)) {
+          globalThis.changeTextSizeOverride?.(options.textSizeOverride, false)
+        }
         if (exists(options.volume)) {
           globalThis.changeVolume?.(options.volume, false)
         }

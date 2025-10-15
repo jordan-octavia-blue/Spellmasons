@@ -88,6 +88,7 @@ declare global {
   var configPlayer: undefined | (({ color, name }: { color?: number, name?: string, lobbyReady?: boolean }) => void);
   var playMusic: undefined | (() => void);
   var changeVolume: undefined | ((volume: number, saveSetting: boolean) => void);
+  var changeTextSizeOverride: undefined | ((volume: number, saveSetting: boolean) => void);
   var changeVolumeMusic: undefined | ((volume: number, saveSetting: boolean) => void);
   var changeVolumeGame: undefined | ((volume: number, saveSetting: boolean) => void);
   var setOption: undefined | ((key: string, value: any) => void);
@@ -95,6 +96,7 @@ declare global {
   var volume: undefined | number;
   var volumeMusic: undefined | number;
   var volumeGame: undefined | number;
+  var textSizeOverride: undefined | number;
   // connectToSingleplayer connects pieclient in solomode, it is called when loading a game
   // or from startSingleplayer
   var connectToSingleplayer: undefined | (() => Promise<void>);
