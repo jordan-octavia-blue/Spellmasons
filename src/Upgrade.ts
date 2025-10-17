@@ -164,7 +164,6 @@ export function createUpgradeElement(upgrade: IUpgrade, player: IPlayer, underwo
     elCardSoulBadge.classList.add('card-soul-badge', 'card-badge');
     elCardSoulBadge.innerHTML = upgrade.cost.soulFragmentCost.toString();
     elCardBadgeHolder.appendChild(elCardSoulBadge);
-
   }
   if (upgrade.cost.manaCost) {
     const elCardManaBadge = document.createElement('div');
@@ -177,6 +176,12 @@ export function createUpgradeElement(upgrade: IUpgrade, player: IPlayer, underwo
     elCardHealthBadge.classList.add('card-health-badge', 'card-badge');
     elCardHealthBadge.innerHTML = upgrade.cost.healthCost.toString();
     elCardBadgeHolder.appendChild(elCardHealthBadge);
+  }
+  if (upgrade.cost.staminaCost) {
+    const elCardStaminaBadge = document.createElement('div');
+    elCardStaminaBadge.classList.add('card-stamina-badge', 'card-badge');
+    elCardStaminaBadge.innerHTML = upgrade.cost.staminaCost.toString();
+    elCardBadgeHolder.appendChild(elCardStaminaBadge);
   }
 
   const thumbHolder = document.createElement('div');
