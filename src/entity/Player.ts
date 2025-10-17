@@ -262,10 +262,6 @@ export function initializeWizardStatsForLevelStart(player: IPlayer, underworld: 
   // If in the beginning of a level set charges to full
   if (!player.isSpawned) {
     if (player.wizardType == 'Goru') {
-      // Player goru only gets undying once
-      if (underworld.levelIndex <= 0 && !player.unit.modifiers[undyingModifierId]) {
-        Unit.addModifier(player.unit, undyingModifierId, underworld, false);
-      }
       const additionalStartingSouls = player.unit.modifiers[startingSoulsId]?.quantity || 0;
       player.unit.soulFragments = config.GORU_PLAYER_STARTING_SOUL_FRAGMENTS + Math.floor(underworld.levelIndex / 2) + additionalStartingSouls;
       player.unit.soulFragmentsMax = config.SOUL_FRAGMENTS_MAX_STARTING;
