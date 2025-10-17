@@ -8,7 +8,7 @@ import * as config from "../config";
 import Underworld from '../Underworld';
 import * as Image from '../graphics/Image';
 import { playSpellSFX } from './cardUtils';
-import { findWherePointIntersectLineSegmentAtRightAngle } from '../jmath/lineSegment';
+import { closestLineSegmentIntersectionWithLine, findWherePointIntersectLineSegmentAtRightAngle, LineSegment } from '../jmath/lineSegment';
 import seedrandom from 'seedrandom';
 import { getUniqueSeedString } from '../jmath/rand';
 import { forcePushAwayFrom } from '../effects/force_move';
@@ -35,15 +35,16 @@ const spell: Spell = {
     description: ['gun_shotgun_desc', damage.toString()],
     effect: async (state: EffectState, card: ICard, quantity: number, underworld: Underworld, prediction: boolean, outOfRange?: boolean) => {
       playSpellSFX('gunShotgun', prediction);
-      // START: Shoot multiple arrows at offset
       let casterPositionAtTimeOfCast = state.casterPositionAtTimeOfCast;
-      let castLocation = state.castLocation;//math.getCoordsAtDistanceTowardsTarget(casterPositionAtTimeOfCast, state.castLocation, 500, true);
+      let castLocation = state.castLocation;
+      // let castLocation = math.getCoordsAtDistanceTowardsTarget(casterPositionAtTimeOfCast, state.castLocation, 1000, true);
       const startPoint = casterPositionAtTimeOfCast;
       const seed = seedrandom(getUniqueSeedString(underworld, state.casterPlayer));
       let shotLocations: Vec2[] = [];
       for (let s = 0; s < shots * quantity; s++) {
         const radius = 100 * (state.aggregator.radiusBoost || 1);
-        const shotLocation = jitter(castLocation, radius, seed);
+        let shotLocation = jitter(castLocation, radius, seed);
+        shotLocation = gunShotLOS(startPoint, shotLocation, underworld);
         shotLocations.push(shotLocation);
 
         if (prediction && predictionGraphicsRed) {
@@ -80,6 +81,21 @@ const spell: Spell = {
     },
   },
 };
+export function gunShotLOS(start: Vec2, end: Vec2, underworld: Underworld): Vec2 {
+
+  const lineOfSight: LineSegment = { p1: start, p2: end };
+  const closest = closestLineSegmentIntersectionWithLine(lineOfSight, underworld.walls)
+  if (closest) {
+    return closest.intersection;
+  } else {
+    return end;
+  }
+  // for (let w of underworld.walls) {
+  //   if (lineSegmentIntersection(lineOfSight, w)) {
+  //     return false
+  //   }
+  // }
+}
 function doDraw(start: Vec2, ends: Vec2[], prediction: boolean, endTime: number) {
   if (!headless && !prediction && projectileGraphics) {
     projectileGraphics.clear();
