@@ -18,7 +18,7 @@ const unit: UnitSource = {
   id: gripthulu_id,
   info: {
     description: 'gripthulu copy',
-    image: 'poisIdle',
+    image: 'gripthulu/poisIdle',
     subtype: UnitSubType.SPECIAL_LOS,
   },
   unitProps: {
@@ -37,11 +37,11 @@ const unit: UnitSource = {
     unavailableUntilLevelIndex: 5,
   },
   animations: {
-    idle: 'poisIdle',
-    hit: 'poisHit',
-    attack: 'poisAttack',
-    die: 'poisDeath',
-    walk: 'poisWalk',
+    idle: 'gripthulu/poisIdle',
+    hit: 'gripthulu/poisHit',
+    attack: 'gripthulu/poisAttack',
+    die: 'gripthulu/poisDeath',
+    walk: 'gripthulu/poisWalk',
   },
   sfx: {
     damage: 'poisonerHurt',
@@ -51,23 +51,6 @@ const unit: UnitSource = {
     const modifier = getOrInitModifier(unit, gripthuluAction, { isCurse: false, quantity: 1 }, () => {
       Unit.addEvent(unit, gripthuluAction);
     });
-    if (unit.image && unit.image.sprite && unit.image.sprite.filters) {
-      unit.image.sprite.filters.unshift(
-        new MultiColorReplaceFilter(
-          [
-            [0x93d491, 0x90c7cf], //head
-            [0x8fce8e, 0x79b1b9], //head darker slightly
-            [0x86eb83, 0x84d5ec], // light arm
-            [0x74b675, 0x7faaba], // dark arm
-            [0x859784, 0x6e868a], // cloak top
-            [0x728771, 0x5f7377], // cloak medium
-            [0x60775f, 0x516468], //cloak dark
-            [0x374937, 0x374849],//pants
-          ],
-          0.05
-        )
-      );
-    }
   },
   action: async (unit: Unit.IUnit, attackTargets, underworld) => {
     // Gripthulhu just checks attackTarget, not canAttackTarget to know if it can attack because getBestRangedLOSTarget() will return undefined
