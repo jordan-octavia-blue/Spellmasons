@@ -1179,12 +1179,7 @@ body.wizardtype-goru #mana .fill:nth-child(3) {
 }
 
 body.wizardtype-goru #mana .label {
-  /* color: #363636; */
-  color: #1F3842;
-}
-
-body.wizardtype-goru #mana .label.souldebt {
-  color: red;
+  text-shadow: 1px 1px 0px #000000;
 }
 
 #mana .fill:nth-child(3) {
