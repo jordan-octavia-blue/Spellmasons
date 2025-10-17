@@ -159,6 +159,13 @@ export function createUpgradeElement(upgrade: IUpgrade, player: IPlayer, underwo
     upgrade.cost = calculateCostForSingleCard(card, 0, player);
   }
 
+  if (upgrade.cost.soulFragmentCost) {
+    const elCardSoulBadge = document.createElement('div');
+    elCardSoulBadge.classList.add('card-soul-badge', 'card-badge');
+    elCardSoulBadge.innerHTML = upgrade.cost.soulFragmentCost.toString();
+    elCardBadgeHolder.appendChild(elCardSoulBadge);
+
+  }
   if (upgrade.cost.manaCost) {
     const elCardManaBadge = document.createElement('div');
     elCardManaBadge.classList.add('card-mana-badge', 'card-badge');
