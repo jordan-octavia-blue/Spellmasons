@@ -4711,7 +4711,7 @@ function getEnemiesForAltitude(underworld: Underworld, levelIndex: number): stri
   const { unitMinLevelIndexSubtractor, budgetMultiplier: difficultyBudgetMultiplier } = unavailableUntilLevelIndexDifficultyModifier(underworld);
   let possibleUnitsToChoose = Object.values(allUnits)
     .filter(u => u.spawnParams && (u.spawnParams.unavailableUntilLevelIndex - unitMinLevelIndexSubtractor) <= adjustedLevelIndex && u.spawnParams.probability > 0 && isModActive(u, underworld))
-    .map(u => ({ id: u.id, probability: u.spawnParams?.probability || 1, budgetCost: u.spawnParams?.budgetCost || 1 }))
+    .map(u => ({ id: u.id, probability: u.spawnParams?.probability || 1, budgetCost: u.spawnParams?.budgetCost || 1, maxQuantityPerLevel: u.spawnParams?.maxQuantityPerLevel || undefined }))
   const unitTypes = Array(numberOfTypesOfEnemies).fill(null)
     // flatMap is used to remove any undefineds
     .flatMap(() => {
@@ -4785,12 +4785,17 @@ function getEnemiesForAltitude(underworld: Underworld, levelIndex: number): stri
         budgetLeft--;
         continue;
       }
+      const allowedQuantityLeftOfUnitType = exists(chosenUnitType.maxQuantityPerLevel) ? chosenUnitType.maxQuantityPerLevel - units.filter(id => chosenUnitType.id == id).length : undefined;
       // Never let one unit type take up more than 70% of the budget (this prevents a level from being
       // mostly an expensive unit)
       // and never let one unit type have more instances than the levelIndex (this prevents
       // late game levels with a huge budget from having an absurd amount of cheap units)
       const maxNumberOfThisUnit = Math.min(Math.max(levelIndex, 1), Math.floor(totalBudget * 0.7 / chosenUnitType.budgetCost));
-      const howMany = randInt(1, maxNumberOfThisUnit, underworld.random);
+      let howMany = randInt(1, maxNumberOfThisUnit, underworld.random);
+      if (exists(allowedQuantityLeftOfUnitType)) {
+        howMany = Math.min(howMany, allowedQuantityLeftOfUnitType);
+      }
+
       for (let i = 0; i < howMany; i++) {
         units.push(chosenUnitType.id);
         budgetLeft -= chosenUnitType.budgetCost;

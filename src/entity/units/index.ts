@@ -32,6 +32,7 @@ interface SpawnParams {
   // but not 4 super powerful and 1 small.
   budgetCost: number;
   unavailableUntilLevelIndex: number;
+  maxQuantityPerLevel?: number;
   excludeMiniboss?: boolean;
   excludeSummonCard?: boolean;
 }

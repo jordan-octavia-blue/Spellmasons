@@ -31,9 +31,10 @@ const unit: UnitSource = {
     bloodColor: bloodGripthulu,
   },
   spawnParams: {
-    probability: 10,
+    probability: 100,
     budgetCost: 4,
-    unavailableUntilLevelIndex: 7,
+    maxQuantityPerLevel: 3,
+    unavailableUntilLevelIndex: 5,
   },
   animations: {
     idle: 'poisIdle',
@@ -74,8 +75,11 @@ const unit: UnitSource = {
     const attackTarget = attackTargets && attackTargets[0];
     // Attack
     if (attackTarget && unit.mana >= unit.manaCostToCast) {
-
+      //@ts-ignore: Prevent attacking after moving
+      unit.movedThisTurn = false;
     } else {
+      //@ts-ignore: Prevent attacking after moving
+      unit.movedThisTurn = true;
       // If it gets to this block it means it is either out of range or cannot see enemy
       await rangedLOSMovement(unit, underworld);
     }
@@ -171,6 +175,10 @@ export function registerGripthuluAction() {
   registerEvents(gripthuluAction, {
 
     onTurnEnd: async (unit: Unit.IUnit, underworld: Underworld, prediction: boolean) => {
+      //@ts-ignore: Prevent attacking after moving
+      if (unit.movedThisTurn) {
+        return;
+      }
       const unitSource = allUnits[unit.unitSourceId]
       if (unitSource) {
         const attackTargets = unitSource.getUnitAttackTargets(unit, underworld);
