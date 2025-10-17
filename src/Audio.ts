@@ -205,9 +205,8 @@ export const sfx: { [key: string]: string[] } = {
   blackCoin: ['./sound/sfx/RPG3_DarkMagicEpic2_P5_ImpactSpawn.mp3'],
   // https://pixabay.com/sound-effects/072807-heavy-machine-gun-50-caliber-39765/
   gunSniper: [
-    // './sound/sfx/072807_heavy-machine-gun-50-caliber-39765.mp3',
     './sound/sfx/072807_heavy-machine-gun-50-caliber-39765-bassy.mp3'],
-  // gunShotgun: ['./sound/sfx/gun_shot.mp3'],
+  gunShotgun: ['./sound/sfx/shotgun-03-38220.mp3'],
   // gunSilenced: ['./sound/sfx/gun_shot.mp3'],
   // gunMinigun: ['./sound/sfx/gun_shot.mp3'],
 };

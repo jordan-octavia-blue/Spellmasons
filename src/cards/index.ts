@@ -129,7 +129,7 @@ import novas from './novas';
 import nukitsuke from './nukitsuke';
 import nukitsuke2 from './nukitsuke2';
 import gunSniper from './gun_sniper';
-// import gunShotgun from './gun_shotgun';
+import gunShotgun from './gun_shotgun';
 // import gunPistol from './gun_pistol';
 // import gunMini from './gun_mini';
 // Not used as a card, for making half of looped enemies immune
@@ -464,7 +464,7 @@ export function registerCards(overworld: Overworld) {
   registerSpell(arrowMulti, overworld);
   registerSpell(arrowFar, overworld);
   registerSpell(gunSniper, overworld);
-  // registerSpell(gunShotgun, overworld);
+  registerSpell(gunShotgun, overworld);
   // registerSpell(gunPistol, overworld);
   // registerSpell(gunMini, overworld);
   // registerSpell(explosive_arrow, overworld);

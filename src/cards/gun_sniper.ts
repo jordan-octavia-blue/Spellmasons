@@ -37,7 +37,7 @@ const spell: Spell = {
       let castLocation = math.getCoordsAtDistanceTowardsTarget(casterPositionAtTimeOfCast, state.castLocation, 10000, true);
       const startPoint = casterPositionAtTimeOfCast;
       if (prediction && predictionGraphicsRed) {
-        predictionGraphicsRed.lineStyle(1, 0xff0000, 1.0)
+        predictionGraphicsRed.lineStyle(1, 0xff0000, 0.4)
         predictionGraphicsRed.moveTo(startPoint.x, startPoint.y);
         predictionGraphicsRed.lineTo(castLocation.x, castLocation.y);
       }

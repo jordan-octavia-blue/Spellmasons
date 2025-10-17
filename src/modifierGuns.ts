@@ -1,5 +1,6 @@
 import { registerModifiers } from "./cards";
 import { gunSniperId } from "./cards/gun_sniper";
+import { gunShotgunId } from "./cards/gun_shotgun";
 import { getOrInitModifier } from "./cards/util";
 import * as Player from './entity/Player';
 import * as Unit from './entity/Unit';
@@ -8,7 +9,7 @@ import Underworld from './Underworld';
 import * as Upgrade from './Upgrade';
 
 export const gunsId = 'Guns?!?'
-const gunUpgrades = [gunSniperId];
+const gunUpgrades = [gunSniperId, gunShotgunId];
 export function registerGuns() {
     registerModifiers(gunsId, {
         description: `Guns`,
