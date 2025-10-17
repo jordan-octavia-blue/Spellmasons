@@ -62,14 +62,29 @@ const spell: Spell = {
             fromVec2: ls.p1,
             thinBloodLine: true
           }, underworld, prediction);
-
         }
-
       }
+      doDraw(startPoint, castLocation, prediction, Date.now() + 100);
       return state;
     },
   },
 };
+function doDraw(start: Vec2, end: Vec2, prediction: boolean, endTime: number) {
+  if (!headless && !prediction && projectileGraphics) {
+    projectileGraphics.clear();
+    projectileGraphics.lineStyle(2, 0xffffff, .7)
+    projectileGraphics.moveTo(start.x, start.y);
+    projectileGraphics.lineTo(end.x, end.y);
+  }
+
+  // Show the electricity for a moment
+  if (Date.now() < endTime) {
+    requestAnimationFrame(() => doDraw(start, end, prediction, endTime))
+  } else {
+    projectileGraphics?.clear();
+  }
+
+}
 
 
 

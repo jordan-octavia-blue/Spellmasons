@@ -1021,7 +1021,6 @@ export default class Underworld {
 
     ImmediateMode.loop();
 
-    globalThis.projectileGraphics?.clear();
     globalThis.unitOverlayGraphics?.clear();
 
     // Make liquid move to the right:
