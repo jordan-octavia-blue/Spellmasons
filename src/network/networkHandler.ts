@@ -362,14 +362,9 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
           console.error('COLLECT_SOULS desync soulFragments count');
           return;
         }
-        // failsafe, should not be needed
-        if (isNullOrUndef(fromPlayer.unit.soulLeftToCollect)) {
-          fromPlayer.unit.soulLeftToCollect = fromPlayer.unit.soulLeftToCollectMax || config.BASE_SOULS_LEFT_TO_COLLECT;
-        }
-        const soulFragmentsLeftToCollect = fromPlayer.unit.soulLeftToCollect;
+        const soulFragmentsLeftToCollect = fromPlayer.unit.soulFragmentsMax ? fromPlayer.unit.soulFragmentsMax - fromPlayer.unit.soulFragments : 100;
 
         const ableToCollect = Math.min(soulFragmentsLeftToCollect, victim.soulFragments);
-        fromPlayer.unit.soulLeftToCollect -= ableToCollect;
         const soulPositions = removeFloatingParticlesFor(victim, ableToCollect);
         victim.soulFragments = Math.max(0, victim.soulFragments - ableToCollect);
         victim.soulsBeingCollected = false;

@@ -268,8 +268,7 @@ export function initializeWizardStatsForLevelStart(player: IPlayer, underworld: 
       }
       const additionalStartingSouls = player.unit.modifiers[startingSoulsId]?.quantity || 0;
       player.unit.soulFragments = config.GORU_PLAYER_STARTING_SOUL_FRAGMENTS + Math.floor(underworld.levelIndex / 2) + additionalStartingSouls;
-      player.unit.soulLeftToCollectMax = config.BASE_SOULS_LEFT_TO_COLLECT;
-      player.unit.soulLeftToCollect = player.unit.soulLeftToCollectMax;
+      player.unit.soulFragmentsMax = config.SOUL_FRAGMENTS_MAX_STARTING;
 
     }
     if (player.wizardType == 'Deathmason') {

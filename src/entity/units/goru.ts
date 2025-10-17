@@ -444,7 +444,8 @@ export function tryCollectSoul(player: IPlayer, u: Unit.IUnit, underworld: Under
   ) {
     return;
   }
-  if (exists(player.unit.soulLeftToCollect) && player.unit.soulLeftToCollect <= 0) {
+  // Don't let player collect over max
+  if (exists(player.unit.soulFragmentsMax) && player.unit.soulFragments >= player.unit.soulFragmentsMax) {
     return;
   }
   const distanceFromCorpse = math.distance(u, player.unit);
