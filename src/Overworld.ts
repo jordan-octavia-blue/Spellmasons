@@ -56,10 +56,15 @@ export default function makeOverworld(pie: Pie): Overworld {
     }
   });
   const desktopPetDLC = 4026960;
+  console.log('DLC: checking for dlc');
   globalThis.steamworks?.dlc(({ appId, isInstalled }) => {
     if (isInstalled) {
       console.log(`DLC: ${appId} is installed`);
-      globalThis.dlc.push(appId);
+      if (globalThis.dlc) {
+        globalThis.dlc.push(appId);
+      } else {
+        console.warn('globalThis.dlc is undefined');
+      }
       if (appId == desktopPetDLC) {
         // Enable familiars
         allFamiliars.push('phoenix', 'spirit', 'octo')
