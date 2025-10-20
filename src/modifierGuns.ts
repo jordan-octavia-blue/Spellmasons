@@ -7,9 +7,10 @@ import * as Unit from './entity/Unit';
 import { chooseOneOfSeeded, getUniqueSeedString, seedrandom } from "./jmath/rand";
 import Underworld from './Underworld';
 import * as Upgrade from './Upgrade';
+import { gunSilencedId } from "./cards/gun_silenced";
 
 export const gunsId = 'Guns?!?'
-const gunUpgrades = [gunSniperId, gunShotgunId];
+const gunUpgrades = [gunSniperId, gunShotgunId, gunSilencedId];
 export function registerGuns() {
     registerModifiers(gunsId, {
         description: `Guns`,

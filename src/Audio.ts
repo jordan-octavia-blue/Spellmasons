@@ -207,7 +207,7 @@ export const sfx: { [key: string]: string[] } = {
   gunSniper: [
     './sound/sfx/072807_heavy-machine-gun-50-caliber-39765-bassy.mp3'],
   gunShotgun: ['./sound/sfx/shotgun-03-38220.mp3'],
-  // gunSilenced: ['./sound/sfx/gun_shot.mp3'],
+  gunSilenced: ['./sound/sfx/silenced-gunshot-81063.mp3'],
   // gunMinigun: ['./sound/sfx/gun_shot.mp3'],
 };
 const music = [

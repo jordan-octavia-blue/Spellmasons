@@ -130,8 +130,7 @@ import nukitsuke from './nukitsuke';
 import nukitsuke2 from './nukitsuke2';
 import gunSniper from './gun_sniper';
 import gunShotgun from './gun_shotgun';
-// import gunPistol from './gun_pistol';
-// import gunMini from './gun_mini';
+import gunSilenced from './gun_silenced';
 // Not used as a card, for making half of looped enemies immune
 // on first turn
 import registerSummoningSickness from '../modifierSummoningSickness';
@@ -465,9 +464,8 @@ export function registerCards(overworld: Overworld) {
   registerSpell(arrowFar, overworld);
   registerSpell(gunSniper, overworld);
   registerSpell(gunShotgun, overworld);
-  // registerSpell(gunPistol, overworld);
-  // registerSpell(gunMini, overworld);
-  // registerSpell(explosive_arrow, overworld);
+  registerSpell(gunSilenced, overworld);
+  registerSpell(explosive_arrow, overworld);
   registerSpell(phantom_arrow, overworld);
   config.IS_ANNIVERSARY_UPDATE_OUT &&
     registerSpell(bolt, overworld);
