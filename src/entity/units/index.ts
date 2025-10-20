@@ -100,7 +100,7 @@ export function registerUnits() {
 }
 
 
-export const allFamiliars: string[] = ['phoenix', 'spirit', 'octo'];
+export const allFamiliars: string[] = [];
 globalThis.allFamiliars = allFamiliars;
 export const allUnits: { [id: string]: UnitSource } = {};
 // @ts-ignore: This is for the menu and does not need to be in the global type

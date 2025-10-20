@@ -233,6 +233,8 @@ declare global {
   var p2pSend: (message: any, peerSteamId?: bigint) => void;
   var steamworks: undefined | {
     shiftTab: () => void;
+    isDLCInstalled: (appId: any) => void;
+    dlc: (cb: (arg: { appId: any, isInstalled: boolean }) => void) => void;
     achievements: (value: number) => void;
     subscribeToLobbyJoinRequested: (cb: () => void) => void;
     subscribeToLobbyDataUpdate: (cb: (arg: { lobby: string, member: string, success: string }) => void) => void;
@@ -365,4 +367,5 @@ declare global {
   var totalSoulTrails: number;
   var forceCustomMapName: string;
   var allFamiliars: string[];
+  var dlc: string[];
 }

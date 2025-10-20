@@ -55,6 +55,21 @@ export default function makeOverworld(pie: Pie): Overworld {
       console.warn(`Lost connection to ${player?.name || peerId}`);
     }
   });
+  const desktopPetDLC = '4026960';
+  globalThis.steamworks?.dlc(({ appId, isInstalled }) => {
+    if (isInstalled) {
+      console.log(`DLC: ${appId} is installed`);
+      globalThis.dlc.push(appId);
+      if (appId == desktopPetDLC) {
+        // Enable familiars
+        allFamiliars.push('phoenix', 'spirit', 'octo')
+      }
+    } else {
+      console.log(`DLC: ${appId} is **not** installed`);
+    }
+  });
+  // Desktop pet
+  globalThis.steamworks?.isDLCInstalled(desktopPetDLC);
 
   // Initialize content
   // Note: Units must be registered before cards so that summon_generic
