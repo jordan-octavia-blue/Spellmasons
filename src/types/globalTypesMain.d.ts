@@ -87,8 +87,8 @@ declare global {
   var acceptPrivacyPolicyAndEULA: undefined | (() => void);
   var configPlayer: undefined | (({ color, name }: { color?: number, name?: string, lobbyReady?: boolean }) => void);
   var playMusic: undefined | (() => void);
+  var changeTextSizeOverride: undefined | ((size: number, saveSetting: boolean) => void);
   var changeVolume: undefined | ((volume: number, saveSetting: boolean) => void);
-  var changeTextSizeOverride: undefined | ((volume: number, saveSetting: boolean) => void);
   var changeVolumeMusic: undefined | ((volume: number, saveSetting: boolean) => void);
   var changeVolumeGame: undefined | ((volume: number, saveSetting: boolean) => void);
   var setOption: undefined | ((key: string, value: any) => void);
