@@ -55,7 +55,7 @@ export default function makeOverworld(pie: Pie): Overworld {
       console.warn(`Lost connection to ${player?.name || peerId}`);
     }
   });
-  const desktopPetDLC = '4026960';
+  const desktopPetDLC = 4026960;
   globalThis.steamworks?.dlc(({ appId, isInstalled }) => {
     if (isInstalled) {
       console.log(`DLC: ${appId} is installed`);
