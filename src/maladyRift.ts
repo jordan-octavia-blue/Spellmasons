@@ -16,6 +16,7 @@ export default function registerRift() {
   registerModifiers(RIFT_ID, {
     description: ['rune_rift'],
     stage: "Amount Override",
+    unitOfMeasure: "Red Portal",
     _costPerUpgrade: -5,
     isMalady: true,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {

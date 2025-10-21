@@ -12,7 +12,9 @@
 - Test loading an old save file for backwards compatibility
 
 Oct 24:
+- [ ] Test self-revival
 - Test new translations
+    - check translations for all maladies
 - [ ] Retest doom scroll
 - Make sure modded maps and familiars are only in the pool if the mod is enabled.
 - [ ] Back compat: underworld.events is not iterable

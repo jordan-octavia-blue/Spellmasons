@@ -831,7 +831,9 @@
         "gun_shotgun_desc": "Fires a random spread of bulelts that each deal 🍞 damage, powerful enough to knock you backwards.  Does not synergize with targeting spells.",
         "shotgun": "Shotgun",
         "silenced pistol": "Silenced Pistol",
-        "gun_silenced_desc": "Deals 🍞 damage, and restores mana / souls/ cards for every unit killed"
+        "gun_silenced_desc": "Deals 🍞 damage, and restores mana / souls/ cards for every unit killed",
+        "rift": "Rift",
+        "rune_rift": "Create red portals at the start of your turn"
     },
     {
         "language": "Français",
@@ -1665,7 +1667,9 @@
         "gun_shotgun_desc": "Tire une rafale de balles aléatoires infligeant chacune 🍞 dégâts, suffisamment puissante pour te repousser en arrière. Ne se synergise pas avec les sorts de ciblage.",
         "shotgun": "Fusil à pompe",
         "silenced pistol": "Pistolet silencieux",
-        "gun_silenced_desc": "Inflige 🍞 dégâts et restaure du mana/ des âmes/ des cartes pour chaque unité tuée."
+        "gun_silenced_desc": "Inflige 🍞 dégâts et restaure du mana/ des âmes/ des cartes pour chaque unité tuée.",
+        "rift": "Faille",
+        "rune_rift": "Créez des portails rouges au début de votre tour."
     },
     {
         "language": "italiano",
@@ -2499,7 +2503,9 @@
         "gun_shotgun_desc": "Spara una raffica casuale di proiettili, ognuno dei quali infligge 🍞 danni, abbastanza potente da farti indietreggiare. Non sinergizza con incantesimi di mira.",
         "shotgun": "Fucile a pompa",
         "silenced pistol": "Pistola silenziata",
-        "gun_silenced_desc": "Infligge 🍞 danni e ripristina mana / anime / carte per ogni unità uccisa."
+        "gun_silenced_desc": "Infligge 🍞 danni e ripristina mana / anime / carte per ogni unità uccisa.",
+        "rift": "Frattura",
+        "rune_rift": "Crea portali rossi all'inizio del tuo turno."
     },
     {
         "language": "Deutsch",
@@ -3333,7 +3339,9 @@
         "gun_shotgun_desc": "Feuert eine zufällige Streuung von Geschossen ab, die jeweils 🍞 Schaden verursachen, stark genug, um dich zurückzustoßen. Harmoniert nicht mit Zielzaubern.",
         "shotgun": "Schrotflinte",
         "silenced pistol": "Schallgedämpfte Pistole",
-        "gun_silenced_desc": "Verursacht 🍞 Schaden und stellt Mana / Seelen / Karten für jede getötete Einheit wieder her."
+        "gun_silenced_desc": "Verursacht 🍞 Schaden und stellt Mana / Seelen / Karten für jede getötete Einheit wieder her.",
+        "rift": "Riss",
+        "rune_rift": "Erzeuge rote Portale zu Beginn deines Zuges."
     },
     {
         "language": "español",
@@ -4167,7 +4175,9 @@
         "gun_shotgun_desc": "Dispara una ráfaga aleatoria de balas que infligen 🍞 de daño, lo suficientemente potente como para hacerte retroceder. No sinergiza con hechizos de apuntado.",
         "shotgun": "Escopeta",
         "silenced pistol": "Pistola silenciada",
-        "gun_silenced_desc": "Causa 🍞 de daño y restaura maná/almas/cartas por cada unidad eliminada."
+        "gun_silenced_desc": "Causa 🍞 de daño y restaura maná/almas/cartas por cada unidad eliminada.",
+        "rift": "Grieta",
+        "rune_rift": "Crea portales rojos al comienzo de tu turno."
     },
     {
         "language": "日本",
@@ -5001,7 +5011,9 @@
         "gun_shotgun_desc": "ランダムに広がった弾丸を発射し、それぞれが🍞のダメージを与え、後ろに吹き飛ばすほど強力です。ターゲット指定の呪文とはシナジーがありません。",
         "shotgun": "ショットガン",
         "silenced pistol": "消音ピストル",
-        "gun_silenced_desc": "敵に🍞のダメージを与え、倒したユニットごとにマナ/ソウル/カードを回復する。"
+        "gun_silenced_desc": "敵に🍞のダメージを与え、倒したユニットごとにマナ/ソウル/カードを回復する。",
+        "rift": "裂け目",
+        "rune_rift": "ターンの開始時に赤いポータルを作成する。"
     },
     {
         "language": "Português",
@@ -5835,7 +5847,9 @@
         "gun_shotgun_desc": "Dispara uma propagação aleatória de balas, cada uma causando 🍞 de dano, poderosa o suficiente para te empurrar para trás. Não tem sinergia com feitiços de mira.",
         "shotgun": "Espingarda",
         "silenced pistol": "Pistola Silenciada",
-        "gun_silenced_desc": "Causa 🍞 de dano e restaura mana / almas / cartas para cada unidade morta."
+        "gun_silenced_desc": "Causa 🍞 de dano e restaura mana / almas / cartas para cada unidade morta.",
+        "rift": "Fenda",
+        "rune_rift": "Crie portais vermelhos no início do seu turno."
     },
     {
         "language": "عربى",
@@ -6669,7 +6683,9 @@
         "gun_shotgun_desc": "يطلق انتشار عشوائي من الرصاصات التي تسبب كل منها ضررًا 🍞، قوية بما يكفي لتجعلك تتراجع للخلف. لا يتآزر مع تعاويذ الاستهداف.",
         "shotgun": "بندقية الشوزن",
         "silenced pistol": "مسدس مكتوم",
-        "gun_silenced_desc": "يلحق ضررًا يساوي 🍞، ويستعيد المانا/الأرواح/البطاقات عن كل وحدة تُقتل."
+        "gun_silenced_desc": "يلحق ضررًا يساوي 🍞، ويستعيد المانا/الأرواح/البطاقات عن كل وحدة تُقتل.",
+        "rift": "صدع",
+        "rune_rift": "أنشئ بوابات حمراء في بداية دورك"
     },
     {
         "language": "한국어",
@@ -7503,7 +7519,9 @@
         "gun_shotgun_desc": "무작위로 퍼지는 총알을 발사하며 각각 🍞의 피해를 입히고, 충분히 강력해서 당신을 뒤로 밀쳐낼 수 있습니다. 타겟팅 주문과는 시너지 효과가 없습니다.",
         "shotgun": "산탄총",
         "silenced pistol": "소음 권총",
-        "gun_silenced_desc": "공격 시 🍞 피해를 주고, 처치한 적 하나당 마나/영혼/카드를 회복합니다."
+        "gun_silenced_desc": "공격 시 🍞 피해를 주고, 처치한 적 하나당 마나/영혼/카드를 회복합니다.",
+        "rift": "릴",
+        "rune_rift": "자신의 턴 시작 시 붉은 포털 생성"
     },
     {
         "language": "Русский",
@@ -8337,7 +8355,9 @@
         "gun_shotgun_desc": "Выпускает случайный разлет пуль, каждая из которых наносит 🍞 урона, достаточно мощного, чтобы отбросить вас назад. Не взаимодействует с заклинаниями нацеливания.",
         "shotgun": "Дробовик",
         "silenced pistol": "Пистолет с глушителем",
-        "gun_silenced_desc": "Наносит 🍞 урон и восстанавливает ману / души / карты за каждую убитую единицу."
+        "gun_silenced_desc": "Наносит 🍞 урон и восстанавливает ману / души / карты за каждую убитую единицу.",
+        "rift": "Разлом",
+        "rune_rift": "Создайте красные порталы в начале вашего хода."
     },
     {
         "language": "中文(简)",
@@ -9171,7 +9191,9 @@
         "gun_shotgun_desc": "发射随机弹幕，每颗子弹造成🍞伤害，威力足以将你击退。无法与定位法术协同。",
         "shotgun": "霰弹枪",
         "silenced pistol": "消音手枪",
-        "gun_silenced_desc": "对每个被击杀的单位造成🍞伤害，并恢复法力/灵魂/卡牌。"
+        "gun_silenced_desc": "对每个被击杀的单位造成🍞伤害，并恢复法力/灵魂/卡牌。",
+        "rift": "裂隙",
+        "rune_rift": "在你的回合开始时创建红色传送门。"
     },
     {
         "language": "中文(繁)",
@@ -10005,7 +10027,9 @@
         "gun_shotgun_desc": "發射隨機散佈的子彈，每顆造成 🍞 傷害，威力足以將你擊退。無法與目標類法術產生協同效果。",
         "shotgun": "霰彈槍",
         "silenced pistol": "消音手槍",
-        "gun_silenced_desc": "造成🍞點傷害，每殺死一個單位就恢復法力/靈魂/卡牌。"
+        "gun_silenced_desc": "造成🍞點傷害，每殺死一個單位就恢復法力/靈魂/卡牌。",
+        "rift": "裂隙",
+        "rune_rift": "在你回合開始時創造紅色傳送門。"
     },
     {
         "language": "Polski",
@@ -10839,7 +10863,9 @@
         "gun_shotgun_desc": "Wystrzeliwuje losowy rozrzut pocisków, z których każdy zadaje 🍞 obrażeń, na tyle silnych, by odrzucić cię do tyłu. Nie współpracuje z zaklęciami celowania.",
         "shotgun": "Strzelba",
         "silenced pistol": "Wyciszony pistolet",
-        "gun_silenced_desc": "Zadaje obrażenia 🍞 i przywraca manę / dusze / karty za każdą zabitą jednostkę."
+        "gun_silenced_desc": "Zadaje obrażenia 🍞 i przywraca manę / dusze / karty za każdą zabitą jednostkę.",
+        "rift": "Szczelina",
+        "rune_rift": "Stwórz czerwone portale na początku swojej tury."
     },
     {
         "language": "Dutch",
@@ -11673,7 +11699,9 @@
         "gun_shotgun_desc": "Vuurt een willekeurige spreiding van kogels die elk 🍞 schade aanrichten, krachtig genoeg om je achteruit te duwen. Synchroniseert niet met gerichte spreuken.",
         "shotgun": "Jachtgeweer",
         "silenced pistol": "Geluidsdemper Pistool",
-        "gun_silenced_desc": "Veroorzaakt 🍞 schade en herstelt mana / zielen / kaarten voor elke eenheid die gedood wordt."
+        "gun_silenced_desc": "Veroorzaakt 🍞 schade en herstelt mana / zielen / kaarten voor elke eenheid die gedood wordt.",
+        "rift": "Ravijn",
+        "rune_rift": "Maak rode portalen aan het begin van je beurt."
     },
     {
         "language": "Предреформенный русскій",
@@ -12507,6 +12535,8 @@
         "gun_shotgun_desc": "",
         "shotgun": "",
         "silenced pistol": "",
-        "gun_silenced_desc": ""
+        "gun_silenced_desc": "",
+        "rift": "",
+        "rune_rift": ""
     }
 ]
