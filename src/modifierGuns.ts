@@ -21,20 +21,19 @@ export function registerGuns() {
         add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
             const player = underworld.players.find(p => p.unit == unit);
             if (player) {
-                getOrInitModifier(unit, gunsId, { isCurse: false, quantity, keepOnDeath: true }, () => {
-                    const random = seedrandom(getUniqueSeedString(underworld, player));
-                    const upgradeTitle = chooseOneOfSeeded(gunUpgrades, random);
-                    if (upgradeTitle) {
-                        const upgrade = Upgrade.getUpgradeByTitle(upgradeTitle);
-                        if (upgrade) {
-                            underworld.forceUpgrade(player, upgrade, true);
-                        } else {
-                            console.error('Could not find gun upgrade for Guns rune');
-                        }
+                getOrInitModifier(unit, gunsId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
+                const random = seedrandom(getUniqueSeedString(underworld, player));
+                const upgradeTitle = chooseOneOfSeeded(gunUpgrades.filter(x => !player.inventory.includes(x)), random);
+                if (upgradeTitle) {
+                    const upgrade = Upgrade.getUpgradeByTitle(upgradeTitle);
+                    if (upgrade) {
+                        underworld.forceUpgrade(player, upgrade, true);
                     } else {
-                        console.error('Could not find gun upgrade for Guns rune - name');
+                        console.error('Could not find gun upgrade for Guns rune');
                     }
-                });
+                } else {
+                    console.error('Could not find gun upgrade for Guns rune - name');
+                }
             } else {
                 console.error(`Cannot add rune ${gunsId}, no player is associated with unit`);
             }
