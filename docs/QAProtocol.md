@@ -12,6 +12,7 @@
 - Test loading an old save file for backwards compatibility
 
 Oct 24:
+- [ ] Make sure modded familiars are visible to everyone even if the host doesn't have the mod on
 - [ ] Test self-revival
 - Test new translations
     - check translations for all maladies
