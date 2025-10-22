@@ -833,7 +833,16 @@
         "silenced pistol": "Silenced Pistol",
         "gun_silenced_desc": "Deals 🍞 damage, and restores mana / souls/ cards for every unit killed",
         "rift": "Rift",
-        "rune_rift": "Create red portals at the start of your turn"
+        "rune_rift": "Create red portals at the start of your turn",
+        "plague": "Plague",
+        "rune_plague": "Gain 1 stack of \"Suffocate\". Repeats at the start of your turn if you do not already have it.",
+        "bleeding": "Bleeding",
+        "bleeding_desc": "At the start of your turn, take damage.  Healing removes this curse.",
+        "bloody robes": "Bloody Robes",
+        "rune_bloody_robes": "Gain \"Bleeding\" whenever you take damage.  \"Bleeding\" causes you to take damage on the start of your turn until you are healed.",
+        "pacifist": "Pacifist",
+        "rune_pacifist": "On turn start, take a percentage of your max health as damage for each Damage spell, Curse Spell, or Summon Spell that you own (including sold spells) .",
+        "percent": "Percent"
     },
     {
         "language": "Français",
@@ -1669,7 +1678,16 @@
         "silenced pistol": "Pistolet silencieux",
         "gun_silenced_desc": "Inflige 🍞 dégâts et restaure du mana/ des âmes/ des cartes pour chaque unité tuée.",
         "rift": "Faille",
-        "rune_rift": "Créez des portails rouges au début de votre tour."
+        "rune_rift": "Créez des portails rouges au début de votre tour.",
+        "plague": "Peste",
+        "rune_plague": "Gagnez 1 pile de \"Suffocation\". Se répète au début de votre tour si vous ne l'avez pas déjà.",
+        "bleeding": "Saignement",
+        "bleeding_desc": "Au début de votre tour, subissez des dégâts. La guérison enlève cette malédiction.",
+        "bloody robes": "Robes sanglantes",
+        "rune_bloody_robes": "Gagnez \"Saignement\" chaque fois que vous subissez des dégâts. \"Saignement\" vous inflige des dégâts au début de votre tour jusqu'à ce que vous soyez soigné.",
+        "pacifist": "Pacifiste",
+        "rune_pacifist": "Au début du tour, subissez un pourcentage de vos points de vie maximum en tant que dégâts pour chaque sort de dégâts, sort de malédiction ou sort d'invocation que vous possédez (y compris les sorts vendus).",
+        "percent": "Pourcentage"
     },
     {
         "language": "italiano",
@@ -2505,7 +2523,16 @@
         "silenced pistol": "Pistola silenziata",
         "gun_silenced_desc": "Infligge 🍞 danni e ripristina mana / anime / carte per ogni unità uccisa.",
         "rift": "Frattura",
-        "rune_rift": "Crea portali rossi all'inizio del tuo turno."
+        "rune_rift": "Crea portali rossi all'inizio del tuo turno.",
+        "plague": "Piaga",
+        "rune_plague": "Ottieni 1 accumulo di \"Soffocare\". Si ripete all'inizio del tuo turno se non lo hai già.",
+        "bleeding": "Sanguinamento",
+        "bleeding_desc": "All'inizio del tuo turno, subisci danno. La guarigione rimuove questa maledizione.",
+        "bloody robes": "Vesti Insanguinate",
+        "rune_bloody_robes": "Ottieni \"Sanguinamento\" ogni volta che subisci danni. \"Sanguinamento\" ti causa danni all'inizio del tuo turno finché non vieni curato.",
+        "pacifist": "Pacifista",
+        "rune_pacifist": "All'inizio del turno, subisci una percentuale della tua salute massima come danno per ogni incantesimo di danno, incantesimo di maledizione o incantesimo di evocazione che possiedi (inclusi gli incantesimi venduti).",
+        "percent": "Percentuale"
     },
     {
         "language": "Deutsch",
@@ -3341,7 +3368,16 @@
         "silenced pistol": "Schallgedämpfte Pistole",
         "gun_silenced_desc": "Verursacht 🍞 Schaden und stellt Mana / Seelen / Karten für jede getötete Einheit wieder her.",
         "rift": "Riss",
-        "rune_rift": "Erzeuge rote Portale zu Beginn deines Zuges."
+        "rune_rift": "Erzeuge rote Portale zu Beginn deines Zuges.",
+        "plague": "Seuche",
+        "rune_plague": "Erhalte 1 Stapel \"Ersticken\". Wiederholt sich zu Beginn deines Zuges, wenn du ihn nicht bereits hast.",
+        "bleeding": "Bluten",
+        "bleeding_desc": "Zu Beginn deines Zuges erleidest du Schaden. Heilung hebt diesen Fluch auf.",
+        "bloody robes": "Blutige Roben",
+        "rune_bloody_robes": "Erhalte \"Bluten\", wann immer du Schaden nimmst. \"Bluten\" führt dazu, dass du zu Beginn deines Zuges Schaden nimmst, bis du geheilt wirst.",
+        "pacifist": "Pazifist",
+        "rune_pacifist": "Bei Rundenbeginn erleidest du einen Prozentsatz deiner maximalen Gesundheit als Schaden für jeden Schadenszauber, Fluchzauber oder Beschwörungszauber, den du besitzt (einschließlich verkaufter Zauber).",
+        "percent": "Prozent"
     },
     {
         "language": "español",
@@ -4177,7 +4213,16 @@
         "silenced pistol": "Pistola silenciada",
         "gun_silenced_desc": "Causa 🍞 de daño y restaura maná/almas/cartas por cada unidad eliminada.",
         "rift": "Grieta",
-        "rune_rift": "Crea portales rojos al comienzo de tu turno."
+        "rune_rift": "Crea portales rojos al comienzo de tu turno.",
+        "plague": "Plaga",
+        "rune_plague": "Gana 1 acumulación de \"Asfixiar\". Se repite al comienzo de tu turno si no lo tienes ya.",
+        "bleeding": "Sangrado",
+        "bleeding_desc": "Al comienzo de tu turno, recibe daño. La sanación elimina esta maldición.",
+        "bloody robes": "Túnicas Ensangrentadas",
+        "rune_bloody_robes": "Obtén \"Sangrado\" cada vez que recibas daño. \"Sangrado\" hace que recibas daño al comienzo de tu turno hasta que seas curado.",
+        "pacifist": "Pacifista",
+        "rune_pacifist": "Al inicio del turno, recibe un porcentaje de tu salud máxima como daño por cada hechizo de Daño, Maldición o Invocación que poseas (incluyendo hechizos vendidos).",
+        "percent": "Porcentaje"
     },
     {
         "language": "日本",
@@ -5013,7 +5058,16 @@
         "silenced pistol": "消音ピストル",
         "gun_silenced_desc": "敵に🍞のダメージを与え、倒したユニットごとにマナ/ソウル/カードを回復する。",
         "rift": "裂け目",
-        "rune_rift": "ターンの開始時に赤いポータルを作成する。"
+        "rune_rift": "ターンの開始時に赤いポータルを作成する。",
+        "plague": "疫病",
+        "rune_plague": "「窒息」のスタックを1獲得する。すでに持っていない場合、ターン開始時に繰り返す。",
+        "bleeding": "出血",
+        "bleeding_desc": "ターンの開始時にダメージを受ける。回復するとこの呪いが解かれる。",
+        "bloody robes": "血塗られたローブ",
+        "rune_bloody_robes": "ダメージを受けるたびに「出血」を得る。「出血」は、ヒールされるまで自分のターン開始時にダメージを受けます。",
+        "pacifist": "平和主義者",
+        "rune_pacifist": "ターン開始時、所持している（売却したものも含む）ダメージスペル、呪いスペル、召喚スペルの各1つにつき、最大体力の一定割合をダメージとして受ける。",
+        "percent": "パーセント"
     },
     {
         "language": "Português",
@@ -5849,7 +5903,16 @@
         "silenced pistol": "Pistola Silenciada",
         "gun_silenced_desc": "Causa 🍞 de dano e restaura mana / almas / cartas para cada unidade morta.",
         "rift": "Fenda",
-        "rune_rift": "Crie portais vermelhos no início do seu turno."
+        "rune_rift": "Crie portais vermelhos no início do seu turno.",
+        "plague": "Praga",
+        "rune_plague": "Ganhe 1 acúmulo de \"Sufocar\". Repete no início do seu turno se você ainda não o tiver.",
+        "bleeding": "Sangramento",
+        "bleeding_desc": "No início do seu turno, receba dano. A cura remove esta maldição.",
+        "bloody robes": "Vestes Ensanguentadas",
+        "rune_bloody_robes": "Ganha \"Sangramento\" sempre que sofrer dano. \"Sangramento\" faz você sofrer dano no início do seu turno até ser curado.",
+        "pacifist": "Pacifista",
+        "rune_pacifist": "No início do turno, receba uma porcentagem do seu máximo de saúde como dano para cada Feitiço de Dano, Feitiço de Maldição ou Feitiço de Invocação que você possui (incluindo feitiços vendidos).",
+        "percent": "Porcentagem"
     },
     {
         "language": "عربى",
@@ -6685,7 +6748,16 @@
         "silenced pistol": "مسدس مكتوم",
         "gun_silenced_desc": "يلحق ضررًا يساوي 🍞، ويستعيد المانا/الأرواح/البطاقات عن كل وحدة تُقتل.",
         "rift": "صدع",
-        "rune_rift": "أنشئ بوابات حمراء في بداية دورك"
+        "rune_rift": "أنشئ بوابات حمراء في بداية دورك",
+        "plague": "الطاعون",
+        "rune_plague": "اكتسب 1 طبقة من \"الاختناق\". يتكرر في بداية دورك إذا لم تكن تمتلكها بالفعل.",
+        "bleeding": "نزيف",
+        "bleeding_desc": "في بداية دورك، تتلقى ضررًا. إزالة هذه اللعنة تكون عبر الشفاء.",
+        "bloody robes": "أرواب دامية",
+        "rune_bloody_robes": "اكتسب \"نزيف\" كلما تلقيت ضرر. يسبب \"النزيف\" لك تلقي الضرر في بداية دورك حتى تُشفى.",
+        "pacifist": "مسالم",
+        "rune_pacifist": "عند بدء الدور، تأخذ نسبة من الحد الأقصى لصحتك كضرر لكل تعويذة ضرر، تعويذة لعنة، أو تعويذة استدعاء تمتلكها (بما في ذلك التعويذات المباعة).",
+        "percent": "نسبة مئوية"
     },
     {
         "language": "한국어",
@@ -7521,7 +7593,16 @@
         "silenced pistol": "소음 권총",
         "gun_silenced_desc": "공격 시 🍞 피해를 주고, 처치한 적 하나당 마나/영혼/카드를 회복합니다.",
         "rift": "릴",
-        "rune_rift": "자신의 턴 시작 시 붉은 포털 생성"
+        "rune_rift": "자신의 턴 시작 시 붉은 포털 생성",
+        "plague": "역병",
+        "rune_plague": "질식 스택 1개 획득. 이미 가지고 있지 않은 경우 자신의 턴 시작 시 반복.",
+        "bleeding": "출혈",
+        "bleeding_desc": "자신의 턴이 시작될 때 피해를 입습니다. 치유는 이 저주를 제거합니다.",
+        "bloody robes": "피 묻은 로브",
+        "rune_bloody_robes": "피해를 입을 때마다 \"출혈\" 상태가 됩니다. \"출혈\" 상태에서는 치료될 때까지 당신의 턴이 시작될 때마다 피해를 입습니다.",
+        "pacifist": "평화주의자",
+        "rune_pacifist": "턴이 시작될 때, 소유한 각 피해 마법, 저주 마법, 소환 마법 (판매한 마법 포함)에 대해 최대 체력의 일정 비율만큼 피해를 입습니다.",
+        "percent": "퍼센트"
     },
     {
         "language": "Русский",
@@ -8357,7 +8438,16 @@
         "silenced pistol": "Пистолет с глушителем",
         "gun_silenced_desc": "Наносит 🍞 урон и восстанавливает ману / души / карты за каждую убитую единицу.",
         "rift": "Разлом",
-        "rune_rift": "Создайте красные порталы в начале вашего хода."
+        "rune_rift": "Создайте красные порталы в начале вашего хода.",
+        "plague": "Чума",
+        "rune_plague": "Получите 1 заряд \"Удушье\". Повторяется в начале вашего хода, если у вас его еще нет.",
+        "bleeding": "Кровотечение",
+        "bleeding_desc": "В начале вашего хода получаете урон. Исцеление снимает это проклятие.",
+        "bloody robes": "Кровавые мантии",
+        "rune_bloody_robes": "Получите \"Кровотечение\", когда получаете урон. \"Кровотечение\" заставляет получать урон в начале вашего хода, пока вы не будете исцелены.",
+        "pacifist": "Пацифист",
+        "rune_pacifist": "В начале хода получайте процент от вашего максимального здоровья в виде урона за каждое заклинание урона, проклятие или призывное заклинание, которым вы владеете (включая проданные заклинания).",
+        "percent": "Процент"
     },
     {
         "language": "中文(简)",
@@ -9193,7 +9283,16 @@
         "silenced pistol": "消音手枪",
         "gun_silenced_desc": "对每个被击杀的单位造成🍞伤害，并恢复法力/灵魂/卡牌。",
         "rift": "裂隙",
-        "rune_rift": "在你的回合开始时创建红色传送门。"
+        "rune_rift": "在你的回合开始时创建红色传送门。",
+        "plague": "瘟疫",
+        "rune_plague": "获得1层“窒息”。如果你还没有它，则在你的回合开始时重复获得。",
+        "bleeding": "流血",
+        "bleeding_desc": "在你的回合开始时受到伤害。治疗可解除此诅咒。",
+        "bloody robes": "血腥长袍",
+        "rune_bloody_robes": "每当你受到伤害时获得\"流血\"效果。\"流血\"会在你的回合开始时使你受到伤害，直到你被治疗。",
+        "pacifist": "和平主义者",
+        "rune_pacifist": "在每回合开始时，根据你的每个伤害法术、诅咒法术或召唤法术（包括已出售的法术），承受相当于你最大生命值百分比的伤害。",
+        "percent": "百分比"
     },
     {
         "language": "中文(繁)",
@@ -10029,7 +10128,16 @@
         "silenced pistol": "消音手槍",
         "gun_silenced_desc": "造成🍞點傷害，每殺死一個單位就恢復法力/靈魂/卡牌。",
         "rift": "裂隙",
-        "rune_rift": "在你回合開始時創造紅色傳送門。"
+        "rune_rift": "在你回合開始時創造紅色傳送門。",
+        "plague": "瘟疫",
+        "rune_plague": "獲得1層「窒息」。如果您尚未擁有，則在您回合開始時重複此效果。",
+        "bleeding": "流血",
+        "bleeding_desc": "在你的回合開始時，受到傷害。治療可移除此詛咒。",
+        "bloody robes": "血染長袍",
+        "rune_bloody_robes": "每當你受到傷害時獲得「流血」。 「流血」會在你的回合開始時讓你受到傷害，直到你被治癒。",
+        "pacifist": "和平主義者",
+        "rune_pacifist": "回合開始時，為你擁有的每個傷害法術、詛咒法術或召喚法術（包括已售出的法術）承受你最大生命值的百分比作為傷害。",
+        "percent": "百分比"
     },
     {
         "language": "Polski",
@@ -10865,7 +10973,16 @@
         "silenced pistol": "Wyciszony pistolet",
         "gun_silenced_desc": "Zadaje obrażenia 🍞 i przywraca manę / dusze / karty za każdą zabitą jednostkę.",
         "rift": "Szczelina",
-        "rune_rift": "Stwórz czerwone portale na początku swojej tury."
+        "rune_rift": "Stwórz czerwone portale na początku swojej tury.",
+        "plague": "Zaraza",
+        "rune_plague": "Zdobądź 1 stos \"Dusić\". Powtarza się na początku twojej tury, jeśli go jeszcze nie masz.",
+        "bleeding": "Krwawienie",
+        "bleeding_desc": "Na początku swojej tury otrzymujesz obrażenia. Leczenie usuwa tę klątwę.",
+        "bloody robes": "Krwiste Szaty",
+        "rune_bloody_robes": "Otrzymujesz \"Krwawienie\" za każdym razem, gdy otrzymujesz obrażenia. \"Krwawienie\" powoduje, że otrzymujesz obrażenia na początku swojej tury, dopóki nie zostaniesz wyleczony.",
+        "pacifist": "Pacyfista",
+        "rune_pacifist": "Na początku tury otrzymujesz procent swojej maksymalnej zdrowia jako obrażenia za każdy posiadany zaklęcie obrażeń, klątwy lub przyzwania (w tym sprzedane zaklęcia).",
+        "percent": "Procent"
     },
     {
         "language": "Dutch",
@@ -11701,7 +11818,16 @@
         "silenced pistol": "Geluidsdemper Pistool",
         "gun_silenced_desc": "Veroorzaakt 🍞 schade en herstelt mana / zielen / kaarten voor elke eenheid die gedood wordt.",
         "rift": "Ravijn",
-        "rune_rift": "Maak rode portalen aan het begin van je beurt."
+        "rune_rift": "Maak rode portalen aan het begin van je beurt.",
+        "plague": "Pestilentie",
+        "rune_plague": "Verkrijg 1 stapel \"Wurg\". Herhaalt aan het begin van je beurt als je het nog niet hebt.",
+        "bleeding": "Bloeding",
+        "bleeding_desc": "Aan het begin van je beurt, ontvang schade. Genezing verwijdert deze vloek.",
+        "bloody robes": "Bloederige Gewaden",
+        "rune_bloody_robes": "Verkrijg \"Bloeding\" telkens als je schade oploopt. \"Bloeding\" zorgt ervoor dat je aan het begin van je beurt schade oploopt totdat je genezen bent.",
+        "pacifist": "Pacifist",
+        "rune_pacifist": "Bij het begin van de beurt neem je een percentage van je maximale gezondheid als schade voor elke schade, vloek of oproepingsspreuk die je bezit (inclusief verkochte spreuken).",
+        "percent": "Procent"
     },
     {
         "language": "Предреформенный русскій",
@@ -12537,6 +12663,15 @@
         "silenced pistol": "",
         "gun_silenced_desc": "",
         "rift": "",
-        "rune_rift": ""
+        "rune_rift": "",
+        "plague": "",
+        "rune_plague": "",
+        "bleeding": "",
+        "bleeding_desc": "",
+        "bloody robes": "",
+        "rune_bloody_robes": "",
+        "pacifist": "",
+        "rune_pacifist": "",
+        "percent": ""
     }
 ]
