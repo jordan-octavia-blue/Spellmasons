@@ -7,6 +7,7 @@ import Underworld from '../../Underworld';
 import * as config from '../../config';
 import * as Image from '../../graphics/Image';
 import { animateMerge, mergeUnits } from '../../cards/merge';
+import { clone } from '../../jmath/Vec';
 
 const greenGlopColorReplaceColors: [number, number][] = [
   [0x5fcde4, 0x63c572],
@@ -113,7 +114,8 @@ const unit: UnitSource = {
           // @ts-ignore
           unit.sourceMerger = true;
           playSFXKey('clone');
-          await animateMerge(closestGreenGlop.image, unit, 3);
+          if (!globalThis.headless)
+            await animateMerge(closestGreenGlop.image, unit, 3);
           mergeUnits(unit, [closestGreenGlop], underworld, false, undefined, true);
           // Reset so they can continue to merge
           // @ts-ignore

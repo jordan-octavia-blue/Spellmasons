@@ -16,15 +16,4 @@ Oct 24:
 - [ ] Loading game as Goru and then spawning in the next level caused a change to spellmason
 - [ ] Make sure modded familiars are visible to everyone even if the host doesn't have the mod on
 - Make sure modded maps and familiars are only in the pool if the mod is enabled.
-- Features
-    - **[ ] Green Glop merge desync on multiplayer**
-    - Green Glops can now merge with other Green Glops
-    - New Corrupted Ancient enemy deals damage as a % of your health
-    - Maladies! (Runes that are negative but grant SP) - Maladies are available to modders!
-        - Hemorrhage (thanks Rampantgecko)
-        - Rift
-        - Doomed
-        - Nuclear Option (thanks Entchenklein)
-        - Statue (thanks Bug Jones and Mr. Big Shot)
-        - Anemic
-        - There will be more maladies added in the future, this is just a start!
+- **[ ] Green Glop merge desync on multiplayer**
