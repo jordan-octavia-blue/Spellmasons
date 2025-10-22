@@ -264,7 +264,10 @@ export function initializeWizardStatsForLevelStart(player: IPlayer, underworld: 
     if (player.wizardType == 'Goru') {
       const additionalStartingSouls = player.unit.modifiers[startingSoulsId]?.quantity || 0;
       player.unit.soulFragments = config.GORU_PLAYER_STARTING_SOUL_FRAGMENTS + Math.floor(underworld.levelIndex / 2) + additionalStartingSouls;
-      player.unit.soulFragmentsMax = config.SOUL_FRAGMENTS_MAX_STARTING;
+      // Initialize soulFragmentsMax only if it doesn't already exist on Goru so as to not overwrite soul frag max upgrade
+      if (!player.unit.soulFragmentsMax) {
+        player.unit.soulFragmentsMax = config.SOUL_FRAGMENTS_MAX_STARTING;
+      }
 
     }
     if (player.wizardType == 'Deathmason') {
