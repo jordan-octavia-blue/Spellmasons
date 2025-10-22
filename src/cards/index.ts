@@ -261,6 +261,7 @@ import registerHemorrhage from '../maladyHemorrhage';
 import registerPlague from '../maladyPlague';
 import { registerGuns } from '../modifierGuns';
 import registerBloodyRobes from '../maladyBloodyRobes';
+import registerPacifist from '../maladyPacifist';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -575,6 +576,7 @@ export function registerCards(overworld: Overworld) {
   registerSpell(add_pierce, overworld);
   registerSpell(add_bounce, overworld);
   registerSpell(plus_radius, overworld);
+  registerGuns();
   // registerSpell(trap, overworld);
   for (let unitId of Object.keys(allUnits)) {
     if (!allUnits[unitId]?.spawnParams?.excludeSummonCard) {
@@ -714,7 +716,7 @@ export function registerCards(overworld: Overworld) {
   registerHemorrhage();
   registerPlague();
   registerBloodyRobes();
-  registerGuns();
+  registerPacifist();
 }
 
 // This is necessary because unit stats change with difficulty.
