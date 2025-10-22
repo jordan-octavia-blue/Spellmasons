@@ -24,6 +24,7 @@
         - Increase starting Souls
         - Increase max souls
     - Added "Runic" rarity for Spells that are only obtainable through runes
+    - After level 5 some units will have a Bounty even if there are no bounty hunters (Thanks Weedybird)
 
 - Balancing
     - Goru has a max soul limit (similar to max mana) that can be upgraded via runes

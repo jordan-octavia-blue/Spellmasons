@@ -2353,9 +2353,13 @@ export default class Underworld {
       this.spawnEnemy(e.id, e.coord, e.isMiniboss);
     }
 
+    // Default bounty if no bounty hunters exist
+    if (levelIndex > 4 && !this.units.some(u => u.modifiers[bountyHunterId])) {
+      placeRandomBounty(undefined, this, false);
+    }
     // each bounty hunter places a bounty on a random unit in an opposing faction
     this.units.forEach(u => {
-      if (u.modifiers[bountyHunterId] || levelIndex > 4) {
+      if (u.modifiers[bountyHunterId]) {
         placeRandomBounty(u, this, false);
       }
     });

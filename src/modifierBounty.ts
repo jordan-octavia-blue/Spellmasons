@@ -7,7 +7,7 @@ import { bountyHunterId } from "./modifierBountyHunter";
 import Underworld from './Underworld';
 import { skyBeam } from "./VisualEffects";
 import { chooseOneOfSeeded, getUniqueSeedString } from "./jmath/rand";
-import { UnitSubType } from "./types/commonTypes";
+import { Faction, UnitSubType } from "./types/commonTypes";
 import seedrandom from "seedrandom";
 import * as Image from './graphics/Image';
 import { moreBountiesId } from "./modifierBountyMore";
@@ -76,26 +76,26 @@ export default function registerBounty() {
   });
 }
 
-export function placeRandomBounty(bountyHunter: Unit.IUnit, underworld: Underworld, prediction: boolean) {
+export function placeRandomBounty(bountyHunter: Unit.IUnit | undefined, underworld: Underworld, prediction: boolean) {
   let units = prediction ? underworld.unitsPrediction : underworld.units;
 
   // Get existing bounty targets
-  const activeBounties = getActiveBounties(bountyHunter, underworld, prediction);
+  const activeBounties = bountyHunter ? getActiveBounties(bountyHunter, underworld, prediction) : [];
   // Max bounties = number of bounty hunters on team
   const maxBounties = underworld.players.reduce((acc, p) => {
-    const isBountyHunter = p.unit.faction == bountyHunter.faction && p.unit.modifiers[bountyHunterId];
+    const isBountyHunter = (bountyHunter ? p.unit.faction == bountyHunter.faction : p.unit.faction == Faction.ALLY) && p.unit.modifiers[bountyHunterId];
     if (isBountyHunter) {
       return acc + (p.unit.modifiers[moreBountiesId]?.quantity || 0) + 1;
     } else {
       return acc;
     }
-  }, 0);
+  }, 0) || 1;
   for (let i = 0; i < maxBounties - activeBounties.length; i++) {
     // Find a random enemy unit and give it a bounty
     // Unit must be alive, in enemy faction, not a doodad, and not yet have a bounty
-    units = units.filter(u => u.alive && (u.faction != bountyHunter.faction) && (u.unitSubType != UnitSubType.DOODAD) && !u.modifiers[bountyId] && !u.flaggedForRemoval);
+    units = units.filter(u => u.alive && (bountyHunter ? u.faction != bountyHunter.faction : u.faction == Faction.ENEMY) && (u.unitSubType != UnitSubType.DOODAD) && !u.modifiers[bountyId] && !u.flaggedForRemoval);
     if (units.length > 0) {
-      const random = seedrandom(`${getUniqueSeedString(underworld)} - ${bountyHunter.id}`);
+      const random = seedrandom(`${getUniqueSeedString(underworld)} - ${bountyHunter ? bountyHunter.id : '0'}`);
       const chosenUnit = chooseOneOfSeeded(units, random);
       if (chosenUnit) {
         Unit.addModifier(chosenUnit, bountyId, underworld, prediction);
