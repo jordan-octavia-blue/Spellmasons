@@ -68,10 +68,14 @@ const unit: UnitSource = {
     }
   },
   getUnitAttackTargets: (unit: Unit.IUnit, underworld: Underworld) => {
-    const targets = getBestRangedLOSTarget(unit, underworld);
+    const targets = getBestRangedLOSTarget(unit, underworld)
+      // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+      .filter(u => !u.targetedByGripthulu || u.targetedByGripthulu == unit.id);
     if (targets) {
       // Gripthulu can only target one enemy
       return targets.slice(0, 1).map(u => {
+        // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+        u.targetedByGripthulu = unit.id;
         return u;
       });
     } else {
@@ -178,7 +182,10 @@ export function registerGripthuluAction() {
               return animateDrag(unit, attackTarget);
             });
           }
-          return forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
+          const promise = forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
+          // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+          delete unit.targetedByGripthulu;
+          return promise;
         }
       }
     },

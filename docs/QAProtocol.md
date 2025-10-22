@@ -15,9 +15,7 @@ Oct 24:
 - [ ] Loading game as Goru and then spawning in the next level caused a change to spellmason
 - [ ] Make sure modded familiars are visible to everyone even if the host doesn't have the mod on
 - Make sure modded maps and familiars are only in the pool if the mod is enabled.
-- Thank KendoWeed69 for starting soul amount rune
 - Features
-    - (Secret, hidden) Guns?!?
     - Gripthulu returns!
     - Green Glops can now merge with other Green Glops
     - Dark Priest has new AOE cast ability
