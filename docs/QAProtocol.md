@@ -12,6 +12,7 @@
 - Test loading an old save file for backwards compatibility
 
 Oct 24:
+- [ ] Remove pillar and altar from codex
 - [ ] Loading game as Goru and then spawning in the next level caused a change to spellmason
 - [ ] Make sure modded familiars are visible to everyone even if the host doesn't have the mod on
 - Make sure modded maps and familiars are only in the pool if the mod is enabled.
@@ -27,9 +28,3 @@ Oct 24:
         - Statue (thanks Bug Jones and Mr. Big Shot)
         - Anemic
         - There will be more maladies added in the future, this is just a start!
-    - New "Spellmasons Desktop Pet DLC" is avaialble now if you've ever wanted a Spellmason and friends to chill with you on your desktop, now you can; and it's a great way to support development! 😊
-    - Familiars!
-    - Goru-specific runes
-        - Increase starting Souls
-        - Increase max souls
-    - Added "Runic" rarity for Spells that are only obtainable through runes
