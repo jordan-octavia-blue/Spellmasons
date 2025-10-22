@@ -260,6 +260,7 @@ import registerRift from '../maladyRift';
 import registerHemorrhage from '../maladyHemorrhage';
 import registerPlague from '../maladyPlague';
 import { registerGuns } from '../modifierGuns';
+import registerBloodyRobes from '../maladyBloodyRobes';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -712,6 +713,7 @@ export function registerCards(overworld: Overworld) {
   registerRift();
   registerHemorrhage();
   registerPlague();
+  registerBloodyRobes();
   registerGuns();
 }
 
