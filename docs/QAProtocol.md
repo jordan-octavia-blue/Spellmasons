@@ -12,19 +12,32 @@
 - Test loading an old save file for backwards compatibility
 
 Oct 24:
+- [ ] Loading game as Goru and then spawning in the next level caused a change to spellmason
 - [ ] Make sure modded familiars are visible to everyone even if the host doesn't have the mod on
-- [ ] Test self-revival
-- Test new translations
-    - check translations for all maladies
-- [ ] Retest doom scroll
 - Make sure modded maps and familiars are only in the pool if the mod is enabled.
-- [ ] Back compat: underworld.events is not iterable
-- Test familiars on multiplayers
-- QA modded maps
-- Update i18n
 - Thank KendoWeed69 for starting soul amount rune
-
---- Archived
-- Test loading a saved multiplayer game
-- Test Hotseat multiplayer basics
-    - Test one player dying and next player carrying on to next level and make sure they both spawn
+- Features
+    - (Secret, hidden) Guns?!?
+    - Gripthulu returns!
+    - Green Glops can now merge with other Green Glops
+    - Dark Priest has new AOE cast ability
+    - New "Skip Upgrade" option grants SP for Spellmason and Goru (and spends SP for Deathmason since skipping is an advantage for him)
+    - Add Difficulty options to hotseat multiplayer (Thanks Orthoros)
+    - New Corrupted Ancient enemy deals damage as a % of your health
+    - Maladies! (Runes that are negative but grant SP) - Maladies are available to modders!
+        - Hemorrhage (thanks Rampantgecko)
+        - Rift
+        - Doomed
+        - Nuclear Option (thanks Entchenklein)
+        - Statue (thanks Bug Jones and Mr. Big Shot)
+        - Anemic
+        - There will be more maladies added in the future, this is just a start!
+    - Custom Hand-made maps.  Some maps after level 6 will be chosen from a pool of hand made maps which are more interesting than the randomly generated ones.
+        - Right now there are 11 handmade maps
+        - These can be modded too!
+    - New "Spellmasons Desktop Pet DLC" is avaialble now if you've ever wanted a Spellmason and friends to chill with you on your desktop, now you can; and it's a great way to support development! 😊
+    - Familiars!
+    - Goru-specific runes
+        - Increase starting Souls
+        - Increase max souls
+    - Added "Runic" rarity for Spells that are only obtainable through runes

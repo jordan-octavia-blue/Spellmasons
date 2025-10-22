@@ -1333,6 +1333,10 @@ async function handleLoadGameState(payload: {
     underworld.players = players.flatMap((p, i) => {
       const loadedPlayer = Player.load(p, i, underworld, false);
       if (loadedPlayer) {
+        // Persist wizard type from Load
+        if (loadedPlayer == globalThis.player) {
+          storage.set(storage.STORAGE_ID_WIZARD_TYPE, loadedPlayer.wizardType);
+        }
         return [loadedPlayer];
       } else {
         console.error('Failed to load player during handleLoadGameState')
