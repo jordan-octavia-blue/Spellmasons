@@ -10,7 +10,7 @@ const QUANTITY_PER_UPGRADE = 20;
 export default function registerRevitalize() {
   registerModifiers(revitalizeId, {
     unitOfMeasure: '%',
-    description: i18n('revitalize_description'),
+    description: 'revitalize_description',
     stage: "Amount Multiplier",
     _costPerUpgrade: 40,
     quantityPerUpgrade: QUANTITY_PER_UPGRADE,

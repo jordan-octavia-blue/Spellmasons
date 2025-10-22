@@ -7,7 +7,7 @@ export const runeFarGazerId = 'Far Gazer';
 
 export default function registerFarGazer() {
   registerModifiers(runeFarGazerId, {
-    description: i18n('class_far_gazer'),
+    description: 'class_far_gazer',
     _costPerUpgrade: 170,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       const player = underworld.players.find(p => p.unit == unit);
