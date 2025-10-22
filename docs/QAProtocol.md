@@ -16,11 +16,8 @@ Oct 24:
 - [ ] Make sure modded familiars are visible to everyone even if the host doesn't have the mod on
 - Make sure modded maps and familiars are only in the pool if the mod is enabled.
 - Features
-    - Gripthulu returns!
+    - **[ ] Green Glop merge desync on multiplayer**
     - Green Glops can now merge with other Green Glops
-    - Dark Priest has new AOE cast ability
-    - New "Skip Upgrade" option grants SP for Spellmason and Goru (and spends SP for Deathmason since skipping is an advantage for him)
-    - Add Difficulty options to hotseat multiplayer (Thanks Orthoros)
     - New Corrupted Ancient enemy deals damage as a % of your health
     - Maladies! (Runes that are negative but grant SP) - Maladies are available to modders!
         - Hemorrhage (thanks Rampantgecko)
@@ -30,9 +27,6 @@ Oct 24:
         - Statue (thanks Bug Jones and Mr. Big Shot)
         - Anemic
         - There will be more maladies added in the future, this is just a start!
-    - Custom Hand-made maps.  Some maps after level 6 will be chosen from a pool of hand made maps which are more interesting than the randomly generated ones.
-        - Right now there are 11 handmade maps
-        - These can be modded too!
     - New "Spellmasons Desktop Pet DLC" is avaialble now if you've ever wanted a Spellmason and friends to chill with you on your desktop, now you can; and it's a great way to support development! 😊
     - Familiars!
     - Goru-specific runes

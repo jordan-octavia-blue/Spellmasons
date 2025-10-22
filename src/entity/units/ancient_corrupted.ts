@@ -12,7 +12,7 @@ export const CORRUPTED_ANCIENT_UNIT_ID = 'Corrupted Ancient';
 const unit: UnitSource = {
   id: CORRUPTED_ANCIENT_UNIT_ID,
   info: {
-    description: 'ancient_corrupted_description',
+    description: ['ancient_corrupted_description', (PERCENT_DAMAGE * 100).toString()],
     image: 'ancient_corrupted',
     subtype: UnitSubType.RANGED_RADIUS,
   },
