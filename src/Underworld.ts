@@ -3081,6 +3081,14 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
           this.companions.push({ image: newCompanionImage, target: player.unit });
         }
       }
+    } else {
+      // remove
+      let found = this.companions.find(c => c.target == player.unit);
+      // If familiar is the wrong kind, remove it so the right one can be created
+      if (found && found.image.sprite.imagePath != player.companion) {
+        this.companions = this.companions.filter(c => c.image !== found?.image);
+        Image.cleanup(found.image);
+      }
     }
 
   }
