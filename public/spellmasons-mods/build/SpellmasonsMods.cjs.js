@@ -71,7 +71,7 @@ const spell$G = {
     }
   }
 };
-const mod$5 = {
+const mod$6 = {
   modName: "Undead Blade",
   author: "Jordan O'Leary",
   description: "A spell that does lots of damage to summons and resurrected units",
@@ -869,7 +869,7 @@ function damageDone$1(state) {
   damageMain2 = Math.max(0, damageMain2);
   return damageMain2;
 }
-const mod$4 = {
+const mod$5 = {
   modName: "Wode's Grimoire",
   author: "Blood Spartan",
   description: "Adds 10 new spells to your arsenal.",
@@ -1342,7 +1342,7 @@ function triggerDistanceDamage(unit2, underworld, prediction = false) {
     });
   }
 }
-const mod$3 = {
+const mod$4 = {
   modName: "Renes gimmicks",
   author: "Renesans123/Edeusz",
   description: "Adds some new spells to the game",
@@ -1692,7 +1692,7 @@ const TargetHpPrime = {
     }
   }
 };
-const mod$2 = {
+const mod$3 = {
   modName: "DaiNekoIchi's Tome of Spells",
   author: "DaiNekoIchi, PADS",
   description: "Adds several spells (probably heavily inspired from Final Fantasy)",
@@ -2424,7 +2424,7 @@ async function tripleSlashEffect(state, card, quantity, underworld, prediction, 
   }
   return state;
 }
-const mod$1 = {
+const mod$2 = {
   modName: "Bogiac's Spells",
   author: "Bogiac",
   description: "Adds some new spells to the game",
@@ -4052,7 +4052,7 @@ const unit = {
     return [];
   }
 };
-const mod = {
+const mod$1 = {
   modName: "The Doom Scroll",
   author: "Bug Jones, Dorioso Aytario",
   description: "Adds a variety of interesting new cards to support existing builds as well as introducing a new build.",
@@ -4079,7 +4079,16 @@ const mod = {
   events: [modifierRemoveOnDeath],
   spritesheet: "spellmasons-mods/The_Doom_Scroll/graphics/spritesheet.json"
 };
+const mod = {
+  modName: "Dorioso's Minions",
+  author: "Dorioso Aytario",
+  description: "Adds familiars that accompany you.",
+  screenshot: "images/empty.png",
+  spritesheet: "spellmasons-mods/Doriosos_minions/spritesheet/sheet.json",
+  familiars: ["beholder", "shroom", "goo"]
+};
 const mods = [
+  mod$6,
   mod$5,
   mod$4,
   mod$3,
