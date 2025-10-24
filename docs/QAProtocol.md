@@ -14,6 +14,4 @@
 Oct 24:
 - [ ] Remove pillar and altar from codex
 - [ ] Loading game as Goru and then spawning in the next level caused a change to spellmason
-- [ ] Make sure modded familiars are visible to everyone even if the host doesn't have the mod on
-- Make sure modded maps and familiars are only in the pool if the mod is enabled.
 - **[ ] Green Glop merge desync on multiplayer**
