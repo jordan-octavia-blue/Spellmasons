@@ -258,7 +258,6 @@ import registerNuclearOption from '../maladyNuclearOption';
 import registerDoomed from '../maladyDoomed';
 import registerRift from '../maladyRift';
 import registerHemorrhage from '../maladyHemorrhage';
-import registerPlague from '../maladyPlague';
 import { registerGuns } from '../modifierGuns';
 import registerBloodyRobes from '../maladyBloodyRobes';
 import registerPacifist from '../maladyPacifist';
@@ -714,7 +713,6 @@ export function registerCards(overworld: Overworld) {
   registerDoomed();
   registerRift();
   registerHemorrhage();
-  registerPlague();
   registerBloodyRobes();
   registerPacifist();
 }
