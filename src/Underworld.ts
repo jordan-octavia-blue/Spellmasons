@@ -3746,7 +3746,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       rerollBtnContainer.innerHTML = '';
       rerollBtnContainer.appendChild(elReroll);
       if (player.inventory.length >= 3 && globalThis.player) {
-        const spCost = globalThis.player.wizardType == 'Deathmason' ? -30 : 60
+        const spCost = globalThis.player.wizardType == 'Deathmason' ? -30 : 30
         const elSkipCard = document.createElement('div');
         elSkipCard.classList.add('skip-card-btn');
         elSkipCard.style.color = 'white';
