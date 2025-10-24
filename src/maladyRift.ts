@@ -18,7 +18,7 @@ export default function registerRift() {
     stage: "Amount Override",
     unitOfMeasure: "Red Portal",
     _costPerUpgrade: -5,
-    maxUpgradeCount: 20,
+    maxUpgradeCount: 5,
     isMalady: true,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, RIFT_ID, { isCurse: false, quantity, keepOnDeath: true }, () => {
