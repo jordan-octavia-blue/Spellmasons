@@ -11,7 +11,7 @@ export default function registerDoomed() {
   registerModifiers(DOOMED_ID, {
     description: ['rune_doomed'],
     stage: "Amount Override",
-    _costPerUpgrade: -80,
+    _costPerUpgrade: -50,
     maxUpgradeCount: 1,
     isMalady: true,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
