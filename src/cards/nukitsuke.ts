@@ -30,8 +30,11 @@ const spell: Spell = {
     description: ['spell_nukitsuke', damage.toString()],
     effect: async (state, card, quantity, underworld, prediction) => {
       const targets = getCurrentTargets(state);
+      if (!targets.length) {
+        return state;
+      }
       playDefaultSpellSFX(card, prediction);
-      const target = targets[0];
+      const target = targets[targets.length - 1];
       const startingPoint = clone(state.casterUnit);
       if (target) {
         const vector = normalizedVector(state.casterUnit, target).vector || { x: 0, y: 0 };
