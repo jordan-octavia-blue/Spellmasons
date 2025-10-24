@@ -15,7 +15,7 @@ export function registerGuns() {
     registerModifiers(gunsId, {
         description: `Guns`,
         unitOfMeasure: 'Guns',
-        _costPerUpgrade: 75,
+        _costPerUpgrade: 125,
         quantityPerUpgrade: 1,
         maxUpgradeCount: gunUpgrades.length,
         add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {

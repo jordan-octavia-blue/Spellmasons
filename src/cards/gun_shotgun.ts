@@ -21,7 +21,7 @@ const spell: Spell = {
   card: {
     id: gunShotgunId,
     category: CardCategory.Damage,
-    manaCost: 30,
+    manaCost: 50,
     healthCost: 0,
     supportQuantity: true,
     expenseScaling: 1,
