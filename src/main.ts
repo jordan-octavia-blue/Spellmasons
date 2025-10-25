@@ -90,6 +90,9 @@ globalThis.hotseatPlayerConfig = [];
 globalThis.awaitingSpawn = false;
 globalThis.currentHoverElement = null;
 globalThis.totalSoulTrails = 0;
+if (!globalThis.activeMods) {
+  globalThis.activeMods = [];
+}
 // Default to 1 for singleplayer
 globalThis.numberOfHotseatPlayers = 1;
 if (isNullOrUndef(globalThis.UIEasyOnTheEyes)) {
