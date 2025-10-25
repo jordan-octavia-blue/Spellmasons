@@ -29,7 +29,7 @@ const spell: Spell = {
     thumbnail: 'gun-shotgun.png',
     // so that you can fire the arrow at targets out of range
     allowNonUnitTarget: true,
-    ignoreRange: true,
+    ignoreRange: false,
     animationPath: '',
     sfx: 'gunShotgun',
     description: ['gun_shotgun_desc', damage.toString()],
