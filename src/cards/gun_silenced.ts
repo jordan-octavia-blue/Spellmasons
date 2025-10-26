@@ -52,7 +52,7 @@ const spell: Spell = {
         predictionGraphicsRed.lineTo(shotLocation.x, shotLocation.y);
       }
       const ls = { p1: casterPositionAtTimeOfCast, p2: shotLocation }
-      const potentialTargets = underworld.getAllUnits(prediction);
+      const potentialTargets = underworld.getAllUnits(prediction).filter(u => u.alive);
       let unitsKilled = 0;
       for (let u of potentialTargets) {
         if (u == state.casterUnit) {
