@@ -467,7 +467,6 @@ export function registerCards(overworld: Overworld) {
   registerSpell(gunSniper, overworld);
   registerSpell(gunShotgun, overworld);
   registerSpell(gunSilenced, overworld);
-  registerSpell(explosive_arrow, overworld);
   registerSpell(phantom_arrow, overworld);
   config.IS_ANNIVERSARY_UPDATE_OUT &&
     registerSpell(bolt, overworld);
