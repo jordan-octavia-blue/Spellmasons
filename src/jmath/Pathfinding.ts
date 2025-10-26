@@ -559,6 +559,10 @@ function getClosestIntersectionWithWalls(line: LineSegment, walls: Polygon2LineS
 // If you walked a path dropping a marker every X distance travelled, this function
 // returns the locations of the marker.
 export function pointsEveryXDistanceAlongPath(startPoint: Vec2, path: Vec2[], distanceOfIncrements: number, alreadyUsedDistance: number = 0): Vec2[] {
+  // Protect against infinite loop
+  if (distanceOfIncrements == 0) {
+    return [];
+  }
   // 0. if "distance" > remaining distance to next point, set next distance to "distance" - remaining distance and go next point
   // 1. else move "distance" along a line and place a marker
 
