@@ -46,18 +46,11 @@ export default function registerCurseImmunity() {
 function runCurseImmunity(unit: Unit.IUnit, underworld: Underworld) {
   if (Object.values(unit.modifiers).some(m => m.isCurse)) {
     const percentIncrease = gain * Object.entries(unit.modifiers).filter(([key, props]) => props.isCurse).length;
-    // if (unit.unitType == UnitType.PLAYER_CONTROLLED) {
-    //   const healAmount = unit.health * percentIncrease
-    //   healUnit(unit, healAmount, undefined, underworld, false);
-    //   floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${healAmount} HP` });
-    // } else {
     oneOffHealAnimation(unit);
     playSFXKey('potionPickupMana');
-    const healAmount = unit.healthMax * (percentIncrease);
-    unit.health += healAmount;
-    unit.health = Math.min(unit.healthMax, unit.health);
-    floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${healAmount} HP` });
-    // }
+    const increaseDamage = Math.floor(unit.damage * percentIncrease);
+    unit.damage += increaseDamage;
+    floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${increaseDamage} DMG` });
   }
 
 }
