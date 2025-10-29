@@ -1,3 +1,19 @@
+## v1.69.0 - Patch
+- fix: Occasional issue where players turn would be skipped.
+- fix: rift from spawning portals on top of players
+- fix: bolt description
+- fix: pistol scales damage with quantity
+- balance: Curse Eater increases damage instead of health
+- fix: Pistol granting mana for passing through dead bodies
+    Thanks Scry
+- fix: Crash on upgrade "Statue"
+- fix: Can only skip upgrades when no rerolls have occured
+- fix: Add max upgrade count to Rift
+    Thanks Orthoros
+- balance: Shotgun only works within cast range now
+- balance: Lower SP reward for skipping cards
+- balance: Change Dash and Nuk to go to last target
+
 ## v1.68.0 - Oct 24th update
 - Features
     - (Secret, hidden) Guns?!?
