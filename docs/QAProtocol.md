@@ -10,6 +10,7 @@
 - Make sure the AI can take their turn
 - Test saving if you modify underworld with new elements added to the level that need to be serialized
 - Test loading an old save file for backwards compatibility
+- **Clear local storage and reboot game and make sure it plays** `localStorage.clear()`
 
 Oct 24:
 - [ ] Remove pillar and altar from codex
