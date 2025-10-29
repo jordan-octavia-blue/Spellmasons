@@ -3045,6 +3045,12 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       }
     }
 
+    // Returning true means player turn will now end.
+    // So, set all endedTurn to false in preparation for the next turn.
+    for (let player of connectedPlayers) {
+      player.endedTurn = false;
+    }
+
     return true;
   }
   endPlayerTurnCleanup() {
@@ -3097,7 +3103,6 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     await Unit.startTurnForUnits(this.players.map(p => p.unit), this, false, Faction.ALLY);
 
     for (let player of this.players) {
-      player.endedTurn = false;
 
       if (player == globalThis.player && globalThis.player.isSpawned) {
         // Notify the current player that their turn is starting
