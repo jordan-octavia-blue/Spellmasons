@@ -65,10 +65,9 @@ const spell: Spell = {
         const dist = math.distance(intersection, u);
         const hitRadius = config.COLLISION_MESH_RADIUS - 8;
         if (dist <= hitRadius) {
-          // const isBehind = state.casterUnit.x < u.x && state.casterUnit.
           Unit.takeDamage({
             unit: u,
-            amount: damage,
+            amount: damage * quantity,
             sourceUnit: state.casterUnit,
             fromVec2: ls.p1,
             thinBloodLine: true
