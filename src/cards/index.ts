@@ -261,6 +261,7 @@ import registerHemorrhage from '../maladyHemorrhage';
 import { registerGuns } from '../modifierGuns';
 import registerBloodyRobes from '../maladyBloodyRobes';
 import registerPacifist from '../maladyPacifist';
+import register_i_am_gripthulu from '../modifierIAmGripthulu';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -701,6 +702,7 @@ export function registerCards(overworld: Overworld) {
   registerDeathmasonEvents();
 
   registerGripthuluAction();
+  register_i_am_gripthulu();
   // Global Events
   registerAlwaysBounty()
   registerTestUnderworldEvents()

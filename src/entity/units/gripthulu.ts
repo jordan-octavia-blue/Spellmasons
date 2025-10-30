@@ -1,6 +1,6 @@
 import type * as PIXI from 'pixi.js';
 import { allUnits, type UnitSource } from './index';
-import { UnitSubType } from '../../types/commonTypes';
+import { UnitSubType, UnitType } from '../../types/commonTypes';
 import * as Unit from '../Unit';
 import * as math from '../../jmath/math';
 import { MultiColorReplaceFilter } from '@pixi/filter-multi-color-replace';
@@ -166,25 +166,42 @@ export function registerGripthuluAction() {
       if (unit.movedThisTurn) {
         return;
       }
+      const isPlayerUnit = unit.unitType === UnitType.PLAYER_CONTROLLED
       const unitSource = allUnits[unit.unitSourceId]
       if (unitSource) {
-        const attackTargets = unitSource.getUnitAttackTargets(unit, underworld);
+        const attackTargets = isPlayerUnit ?
+          getBestRangedLOSTarget(unit, underworld)
+            // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+            .filter(u => !u.targetedByGripthulu || u.targetedByGripthulu == unit.id)
+          : unitSource.getUnitAttackTargets(unit, underworld);
         const attackTarget = attackTargets[0];
-        if (attackTarget && unit.mana >= unit.manaCostToCast) {
+        if (attackTarget && (isPlayerUnit || unit.mana >= unit.manaCostToCast)) {
           Unit.orient(unit, attackTarget);
-          unit.mana -= unit.manaCostToCast;
-          // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
-          // because the forcePush must be invoked syncronously such that the forceMove record
-          // is created when this function returns syncronously so that the headless engine will
-          // run forceMoves as soon as it is done
-          if (!globalThis.headless) {
-            await Unit.playComboAnimation(unit, unit.animations.attack, () => {
-              return animateDrag(unit, attackTarget);
-            });
+          let promise = Promise.resolve();
+          if (isPlayerUnit) {
+            // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
+            // because the forcePush must be invoked syncronously such that the forceMove record
+            // is created when this function returns syncronously so that the headless engine will
+            // run forceMoves as soon as it is done
+            if (!globalThis.headless) {
+              await animateDrag(unit, attackTarget);
+            }
+            promise = forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
+          } else {
+            unit.mana -= unit.manaCostToCast;
+            // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
+            // because the forcePush must be invoked syncronously such that the forceMove record
+            // is created when this function returns syncronously so that the headless engine will
+            // run forceMoves as soon as it is done
+            if (!globalThis.headless) {
+              await Unit.playComboAnimation(unit, unit.animations.attack, () => {
+                return animateDrag(unit, attackTarget);
+              });
+            }
+            promise = forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
+            // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+            delete unit.targetedByGripthulu;
           }
-          const promise = forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
-          // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
-          delete unit.targetedByGripthulu;
           return promise;
         }
       }
