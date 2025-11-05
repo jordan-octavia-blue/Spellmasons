@@ -1021,7 +1021,6 @@ export default class Underworld {
 
     ImmediateMode.loop();
 
-    globalThis.projectileGraphics?.clear();
     globalThis.unitOverlayGraphics?.clear();
 
     // Make liquid move to the right:
@@ -2354,9 +2353,13 @@ export default class Underworld {
       this.spawnEnemy(e.id, e.coord, e.isMiniboss);
     }
 
+    // Default bounty if no bounty hunters exist
+    if (levelIndex > 4 && !this.units.some(u => u.modifiers[bountyHunterId])) {
+      placeRandomBounty(undefined, this, false);
+    }
     // each bounty hunter places a bounty on a random unit in an opposing faction
     this.units.forEach(u => {
-      if (u.modifiers[bountyHunterId] || levelIndex > 4) {
+      if (u.modifiers[bountyHunterId]) {
         placeRandomBounty(u, this, false);
       }
     });
@@ -3010,6 +3013,8 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     }
     // Turn on auto follow if they are spawned, and off if they are not
     cameraAutoFollow(!!globalThis.player?.isSpawned);
+    if (globalThis.player)
+      Player.restoreWizardTypeVisuals(globalThis.player, this);
   }
 
   // IMPORTANT NOTE: when in a multiplayer context,
@@ -3038,6 +3043,12 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
 
         return false;
       }
+    }
+
+    // Returning true means player turn will now end.
+    // So, set all endedTurn to false in preparation for the next turn.
+    for (let player of connectedPlayers) {
+      player.endedTurn = false;
     }
 
     return true;
@@ -3076,6 +3087,14 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
           this.companions.push({ image: newCompanionImage, target: player.unit });
         }
       }
+    } else {
+      // remove
+      let found = this.companions.find(c => c.target == player.unit);
+      // If familiar is the wrong kind, remove it so the right one can be created
+      if (found && found.image.sprite.imagePath != player.companion) {
+        this.companions = this.companions.filter(c => c.image !== found?.image);
+        Image.cleanup(found.image);
+      }
     }
 
   }
@@ -3084,7 +3103,6 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     await Unit.startTurnForUnits(this.players.map(p => p.unit), this, false, Faction.ALLY);
 
     for (let player of this.players) {
-      player.endedTurn = false;
 
       if (player == globalThis.player && globalThis.player.isSpawned) {
         // Notify the current player that their turn is starting
@@ -3732,18 +3750,18 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       // Empty before adding new reroll btn
       rerollBtnContainer.innerHTML = '';
       rerollBtnContainer.appendChild(elReroll);
-      if (player.inventory.length >= 3 && globalThis.player) {
-        const spCost = globalThis.player.wizardType == 'Deathmason' ? -30 : 60
+      if (player.inventory.length >= 3 && globalThis.player && globalThis.player.reroll == 0) {
+        const spCost = globalThis.player.wizardType == 'Deathmason' ? -30 : 30
         const elSkipCard = document.createElement('div');
         elSkipCard.classList.add('skip-card-btn');
         elSkipCard.style.color = 'white';
-        const isDisabled = spCost < 0 && globalThis.player.statPointsUnspent < Math.abs(spCost)
-        if (isDisabled) {
+        const isDisabled = () => spCost < 0 && globalThis.player && globalThis.player.statPointsUnspent < Math.abs(spCost)
+        if (isDisabled()) {
           elSkipCard.classList.toggle('disabled', true)
         }
         elSkipCard.innerHTML = `${spCost > 0 ? '+' : ''}${spCost} SP`;
         elSkipCard.addEventListener('click', () => {
-          if (isDisabled) {
+          if (isDisabled()) {
             playSFXKey('deny');
           } else {
             playSFXKey('click');
@@ -4710,7 +4728,7 @@ function getEnemiesForAltitude(underworld: Underworld, levelIndex: number): stri
   const { unitMinLevelIndexSubtractor, budgetMultiplier: difficultyBudgetMultiplier } = unavailableUntilLevelIndexDifficultyModifier(underworld);
   let possibleUnitsToChoose = Object.values(allUnits)
     .filter(u => u.spawnParams && (u.spawnParams.unavailableUntilLevelIndex - unitMinLevelIndexSubtractor) <= adjustedLevelIndex && u.spawnParams.probability > 0 && isModActive(u, underworld))
-    .map(u => ({ id: u.id, probability: u.spawnParams?.probability || 1, budgetCost: u.spawnParams?.budgetCost || 1 }))
+    .map(u => ({ id: u.id, probability: u.spawnParams?.probability || 1, budgetCost: u.spawnParams?.budgetCost || 1, maxQuantityPerLevel: u.spawnParams?.maxQuantityPerLevel || undefined }))
   const unitTypes = Array(numberOfTypesOfEnemies).fill(null)
     // flatMap is used to remove any undefineds
     .flatMap(() => {
@@ -4784,12 +4802,17 @@ function getEnemiesForAltitude(underworld: Underworld, levelIndex: number): stri
         budgetLeft--;
         continue;
       }
+      const allowedQuantityLeftOfUnitType = exists(chosenUnitType.maxQuantityPerLevel) ? chosenUnitType.maxQuantityPerLevel - units.filter(id => chosenUnitType.id == id).length : undefined;
       // Never let one unit type take up more than 70% of the budget (this prevents a level from being
       // mostly an expensive unit)
       // and never let one unit type have more instances than the levelIndex (this prevents
       // late game levels with a huge budget from having an absurd amount of cheap units)
       const maxNumberOfThisUnit = Math.min(Math.max(levelIndex, 1), Math.floor(totalBudget * 0.7 / chosenUnitType.budgetCost));
-      const howMany = randInt(1, maxNumberOfThisUnit, underworld.random);
+      let howMany = randInt(1, maxNumberOfThisUnit, underworld.random);
+      if (exists(allowedQuantityLeftOfUnitType)) {
+        howMany = Math.min(howMany, allowedQuantityLeftOfUnitType);
+      }
+
       for (let i = 0; i < howMany; i++) {
         units.push(chosenUnitType.id);
         budgetLeft -= chosenUnitType.budgetCost;

@@ -71,7 +71,7 @@ const spell$G = {
     }
   }
 };
-const mod$5 = {
+const mod$6 = {
   modName: "Undead Blade",
   author: "Jordan O'Leary",
   description: "A spell that does lots of damage to summons and resurrected units",
@@ -320,7 +320,7 @@ async function procEvents(unit2, underworld, prediction) {
     if (eventName) {
       const fns = Events.default.onTurnStartSource[eventName];
       if (fns) {
-        await fns(unit2, underworld, prediction);
+        await fns(unit2, underworld, prediction, unit2.faction);
       }
     }
   }
@@ -329,7 +329,7 @@ async function procEvents(unit2, underworld, prediction) {
     if (eventName) {
       const fne = Events.default.onTurnEndSource[eventName];
       if (fne) {
-        await fne(unit2, underworld, prediction);
+        await fne(unit2, underworld, prediction, unit2.faction);
       }
     }
   }
@@ -869,7 +869,7 @@ function damageDone$1(state) {
   damageMain2 = Math.max(0, damageMain2);
   return damageMain2;
 }
-const mod$4 = {
+const mod$5 = {
   modName: "Wode's Grimoire",
   author: "Blood Spartan",
   description: "Adds 10 new spells to your arsenal.",
@@ -957,7 +957,7 @@ const {
   cards: cards$r,
   VisualEffects: VisualEffects$6,
   config: config$d,
-  math: math$a,
+  math: math$b,
   Pickup: Pickup$3
 } = globalThis.SpellmasonsAPI;
 const { refundLastSpell: refundLastSpell$f } = cards$r;
@@ -983,7 +983,7 @@ const spell$u = {
         y: state.castLocation.y
       };
       for (let unit2 of underworld.units) {
-        if (unit2.alive && math$a.distance(unit2, summonLocation) < config$d.COLLISION_MESH_RADIUS) {
+        if (unit2.alive && math$b.distance(unit2, summonLocation) < config$d.COLLISION_MESH_RADIUS) {
           refundLastSpell$f(state, prediction, "Invalid summon location, mana refunded.");
           return state;
         }
@@ -1342,7 +1342,7 @@ function triggerDistanceDamage(unit2, underworld, prediction = false) {
     });
   }
 }
-const mod$3 = {
+const mod$4 = {
   modName: "Renes gimmicks",
   author: "Renesans123/Edeusz",
   description: "Adds some new spells to the game",
@@ -1602,7 +1602,7 @@ const {
   cards: cards$l,
   Pickup: Pickup$2,
   Unit: Unit$j,
-  math: math$9,
+  math: math$a,
   commonTypes: commonTypes$q
 } = globalThis.SpellmasonsAPI;
 const { addTarget: addTarget$5 } = cards$l;
@@ -1640,7 +1640,7 @@ function generateTargetHpMultipleOfSpell(multipleOf, manaCost, requiredId, rarit
           } else {
             return false;
           }
-        }).sort(math$9.sortCosestTo(state.castLocation)).slice(0, UNITS_PER_STACK * quantity);
+        }).sort(math$a.sortCosestTo(state.castLocation)).slice(0, UNITS_PER_STACK * quantity);
         for (let target of targets) {
           addTarget$5(target, state, underworld, prediction);
         }
@@ -1684,7 +1684,7 @@ const TargetHpPrime = {
         } else {
           return false;
         }
-      }).sort(math$9.sortCosestTo(state.castLocation)).slice(0, UNITS_PER_STACK * quantity);
+      }).sort(math$a.sortCosestTo(state.castLocation)).slice(0, UNITS_PER_STACK * quantity);
       for (let target of targets) {
         addTarget$5(target, state, underworld, prediction);
       }
@@ -1692,7 +1692,7 @@ const TargetHpPrime = {
     }
   }
 };
-const mod$2 = {
+const mod$3 = {
   modName: "DaiNekoIchi's Tome of Spells",
   author: "DaiNekoIchi, PADS",
   description: "Adds several spells (probably heavily inspired from Final Fantasy)",
@@ -2226,13 +2226,13 @@ const {
   commonTypes: commonTypes$h,
   cards: cards$e,
   config: config$c,
-  math: math$8,
+  math: math$9,
   colors: colors$6,
   JAudio: JAudio$5,
   Unit: Unit$e
 } = globalThis.SpellmasonsAPI;
 const { addTarget: addTarget$4 } = cards$e;
-const { distance: distance$4 } = math$8;
+const { distance: distance$4 } = math$9;
 const { CardCategory: CardCategory$f, probabilityMap: probabilityMap$f, CardRarity: CardRarity$f, UnitSubType: UnitSubType$4 } = commonTypes$h;
 const targetAllyId = "Target Ally";
 const targetsPerQuantity$1 = 2;
@@ -2287,13 +2287,13 @@ const {
   commonTypes: commonTypes$g,
   cards: cards$d,
   config: config$b,
-  math: math$7,
+  math: math$8,
   colors: colors$5,
   Unit: Unit$d,
   JAudio: JAudio$4
 } = globalThis.SpellmasonsAPI;
 const { addTarget: addTarget$3 } = cards$d;
-const { distance: distance$3 } = math$7;
+const { distance: distance$3 } = math$8;
 const { CardCategory: CardCategory$e, probabilityMap: probabilityMap$e, CardRarity: CardRarity$e, UnitSubType: UnitSubType$3 } = commonTypes$g;
 const targetPlayerId = "Target Player";
 const targetsPerQuantity = 2;
@@ -2314,11 +2314,11 @@ const spell$e = {
     allowNonUnitTarget: true,
     effect: async (state, card, quantity, underworld, prediction, outOfRange) => {
       const addedTargets = underworld.getPotentialTargets(prediction).filter((u) => Unit$d.isUnit(u) && u.unitSubType != UnitSubType$3.DOODAD && // Target players only
-      u.unitType == PLAYER_CONTROLLED && // Filter out caster Unit since they are naturPlayer
-      // the "closest" to themselves and if they want to target
-      // themselves they can by casting on themselves and wont
-      // need target Player to do it
-      u !== state.casterUnit && !state.targetedUnits.includes(u)).sort((a, b) => distance$3(state.casterPositionAtTimeOfCast, a) - distance$3(state.casterPositionAtTimeOfCast, b)).slice(0, targetsPerQuantity * quantity);
+        u.unitType == PLAYER_CONTROLLED && // Filter out caster Unit since they are naturPlayer
+        // the "closest" to themselves and if they want to target
+        // themselves they can by casting on themselves and wont
+        // need target Player to do it
+        u !== state.casterUnit && !state.targetedUnits.includes(u)).sort((a, b) => distance$3(state.casterPositionAtTimeOfCast, a) - distance$3(state.casterPositionAtTimeOfCast, b)).slice(0, targetsPerQuantity * quantity);
       if (addedTargets.length) {
         for (const target of addedTargets) {
           addTarget$3(target, state, underworld, prediction);
@@ -2424,7 +2424,7 @@ async function tripleSlashEffect(state, card, quantity, underworld, prediction, 
   }
   return state;
 }
-const mod$1 = {
+const mod$2 = {
   modName: "Bogiac's Spells",
   author: "Bogiac",
   description: "Adds some new spells to the game",
@@ -2451,14 +2451,14 @@ const {
   Unit: Unit$b,
   colors: colors$4,
   config: config$a,
-  math: math$6,
+  math: math$7,
   Vec: Vec$7,
   PlanningView: PlanningView$7,
   JPromise: JPromise$3
 } = globalThis.SpellmasonsAPI;
 const { add } = Vec$7;
 const { CardCategory: CardCategory$c, CardRarity: CardRarity$c, probabilityMap: probabilityMap$c, UnitType: UnitType$4 } = commonTypes$e;
-const { distance: distance$2 } = math$6;
+const { distance: distance$2 } = math$7;
 const { drawPredictionLine, drawUICircleFillPrediction } = PlanningView$7;
 const { raceTimeout: raceTimeout$2 } = JPromise$3;
 const id$6 = "Assimilate";
@@ -2604,7 +2604,7 @@ function getNextConnectingEntities(source, baseRadius2, chainsLeft, potentialTar
     let closestDist = adjustedRadius;
     let closestTarget = void 0;
     for (let t of potentialTargets) {
-      const dist = math$6.distance(t, source);
+      const dist = math$7.distance(t, source);
       if (dist <= closestDist) {
         closestDist = dist;
         closestTarget = t;
@@ -2664,17 +2664,17 @@ function animateFrame$2(linkGroups, startTime, entitiesTargeted, underworld, res
             continue;
           }
           const { from, targets } = link;
-          const proportionComplete = math$6.lerpSegmented(0, 1, timeDiff / millisToGrow$2, i, links.length);
+          const proportionComplete = math$7.lerpSegmented(0, 1, timeDiff / millisToGrow$2, i, links.length);
           for (let target of targets) {
             if (proportionComplete === 0) {
               continue;
             }
             const { to } = target;
             const dist = distance$2(from, to);
-            const edgeOfStartCircle = add(from, math$6.similarTriangles(to.x - from.x, to.y - from.y, dist, circleRadius));
+            const edgeOfStartCircle = add(from, math$7.similarTriangles(to.x - from.x, to.y - from.y, dist, circleRadius));
             globalThis.predictionGraphicsGreen.moveTo(edgeOfStartCircle.x, edgeOfStartCircle.y);
-            const edgeOfCircle = add(to, math$6.similarTriangles(from.x - to.x, from.y - to.y, dist, circleRadius));
-            const pointApproachingTarget = add(edgeOfStartCircle, math$6.similarTriangles(edgeOfCircle.x - edgeOfStartCircle.x, edgeOfCircle.y - edgeOfStartCircle.y, dist, dist * Math.min(1, proportionComplete)));
+            const edgeOfCircle = add(to, math$7.similarTriangles(from.x - to.x, from.y - to.y, dist, circleRadius));
+            const pointApproachingTarget = add(edgeOfStartCircle, math$7.similarTriangles(edgeOfCircle.x - edgeOfStartCircle.x, edgeOfCircle.y - edgeOfStartCircle.y, dist, dist * Math.min(1, proportionComplete)));
             globalThis.predictionGraphicsGreen.lineTo(pointApproachingTarget.x, pointApproachingTarget.y);
             if (proportionComplete >= 1) {
               globalThis.predictionGraphicsGreen.drawCircle(to.x, to.y, circleRadius);
@@ -2701,7 +2701,7 @@ const {
   commonTypes: commonTypes$d,
   Unit: Unit$a,
   colors: colors$3,
-  math: math$5,
+  math: math$6,
   config: config$9,
   Vec: Vec$6,
   cards: cards$b,
@@ -2792,7 +2792,7 @@ const {
   commonTypes: commonTypes$c,
   Unit: Unit$9,
   colors: colors$2,
-  math: math$4,
+  math: math$5,
   config: config$8,
   Vec: Vec$5,
   cards: cards$a,
@@ -2833,7 +2833,7 @@ const spell$a = {
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconSterileArrow.png",
     description: "Conjures a mystical arrow that deals 20 damage and TRANSFERS curses from the caster to the victim.",
     effect: async (state, card, quantity, underworld, prediction) => serileArrowEffect(state, card, quantity, underworld, prediction).then((state2) => {
-      Purify.apply(state2.casterUnit, underworld);
+      Purify.apply(state2.casterUnit, underworld, prediction, state2);
       return state2;
     })
   },
@@ -2872,7 +2872,7 @@ const {
   commonTypes: commonTypes$b,
   Unit: Unit$8,
   colors: colors$1,
-  math: math$3,
+  math: math$4,
   config: config$7,
   Vec: Vec$4,
   cards: cards$9,
@@ -3051,7 +3051,7 @@ async function pillarExplode$2(caster2, radius, damage2, underworld, prediction,
 const {
   commonTypes: commonTypes$9,
   Unit: Unit$6,
-  math: math$2,
+  math: math$3,
   config: config$5,
   PixiUtils,
   moveWithCollision: moveWithCollision$3,
@@ -3086,7 +3086,7 @@ const spell$7 = {
     ignoreRange: true,
     effect: async (state, card, quantity, underworld, prediction) => {
       let promises = [];
-      const collideFnKey = "earth_push";
+      const collideFnKey = id$4;
       playDefaultSpellSFX$6(card, prediction);
       const pickupTargets = state.targetedPickups.filter((p) => p.name === "Trap");
       const pillarTargets = state.targetedUnits.filter((u) => u.unitSourceId === "pillar");
@@ -3105,7 +3105,7 @@ const spell$7 = {
             let target = state.castLocation;
             let image;
             const startPoint = casterPositionAtTimeOfCast;
-            const velocity = math$2.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$2.distance(startPoint, target), config$5.ARROW_PROJECTILE_SPEED);
+            const velocity = math$3.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$3.distance(startPoint, target), config$5.ARROW_PROJECTILE_SPEED);
             if (!prediction) {
               image = JImage$1.create(casterPositionAtTimeOfCast, "pillar", containerProjectiles$1);
               if (image) {
@@ -3142,7 +3142,7 @@ const spell$7 = {
             let target = state.castLocation;
             let image;
             const startPoint = casterPositionAtTimeOfCast;
-            const velocity = math$2.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$2.distance(startPoint, target), config$5.ARROW_PROJECTILE_SPEED);
+            const velocity = math$3.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$3.distance(startPoint, target), config$5.ARROW_PROJECTILE_SPEED);
             if (!prediction && urn.image) {
               image = JImage$1.load(JImage$1.serialize(urn.image), containerProjectiles$1);
               if (image) {
@@ -3232,6 +3232,13 @@ const unit$1 = {
     immovable: true,
     radius: 48,
     bloodColor: 8082207
+  },
+  spawnParams: {
+    probability: 0,
+    excludeMiniboss: true,
+    excludeSummonCard: true,
+    budgetCost: 0,
+    unavailableUntilLevelIndex: 20
   },
   init: (unit2, underworld) => {
     Unit$5.addEvent(unit2, EVENT_REMOVE_ON_DEATH_ID);
@@ -3643,7 +3650,7 @@ const {
   commonTypes: commonTypes$6,
   Unit: Unit$3,
   config: config$2,
-  math: math$1,
+  math: math$2,
   Vec: Vec$2,
   JPromise: JPromise$2,
   JAudio: JAudio$3,
@@ -3654,8 +3661,8 @@ const {
   EffectsHeal,
   cards: cards$4
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$4, CardRarity: CardRarity$4, probabilityMap: probabilityMap$4 } = commonTypes$6;
-const { distance: distance$1, sortCosestTo } = math$1;
+const { CardCategory: CardCategory$4, CardRarity: CardRarity$4, probabilityMap: probabilityMap$4 } = commonTypes$5;
+const { distance: distance$1, sortCosestTo: sortCosestTo$1 } = math$2;
 const { getAngleBetweenVec2s } = Vec$2;
 const { healUnits } = EffectsHeal;
 const { drawUICone, drawUIConePrediction } = PlanningView$3;
@@ -3704,7 +3711,7 @@ const spell$4 = {
         if (Unit$3.isUnit(u))
           withinRadiusAndAngle.push(u);
       });
-      withinRadiusAndAngle.sort(sortCosestTo(target));
+      withinRadiusAndAngle.sort(sortCosestTo$1(target));
       withinRadiusAndAngle.forEach((e) => addTarget$2(e, state, underworld, prediction));
       playDefaultSpellSFX$3(card, prediction);
       const bloodCursedUnits = withinRadiusAndAngle.filter((e) => e.modifiers[bloodCurseCardId]);
@@ -3720,13 +3727,15 @@ function withinCone(origin, coneStartPoint, radius, startAngle, endAngle, target
   return distanceToConeStart <= radius && (isAngleBetweenAngles(targetAngle, startAngle, endAngle) || Math.abs(endAngle - startAngle) >= 2 * Math.PI);
 }
 const {
-  Unit: Unit$2,
-  commonTypes: commonTypes$5,
-  cards: cards$3
+  Unit: Unit$1,
+  commonTypes: commonTypes$4,
+  cards: cards$3,
+  math: math$1
 } = globalThis.SpellmasonsAPI;
 const { isUnit } = Unit$1;
 const { CardCategory: CardCategory$3, CardRarity: CardRarity$3, probabilityMap: probabilityMap$3 } = commonTypes$4;
 const { getCurrentTargets: getCurrentTargets$1, addTarget: addTarget$1 } = cards$3;
+const { sortCosestTo } = math$1;
 const id$1 = "Target Pillar";
 const spell$3 = {
   card: {
@@ -3741,12 +3750,13 @@ const spell$3 = {
     requiresFollowingCard: true,
     requires: [id$5],
     ignoreRange: true,
-    description: "Adds all pillars as targets for subsequent spells.",
+    description: "Adds 5 of the closest pillars per stack as targets for subsequent spells.",
     allowNonUnitTarget: true,
     effect: async (state, card, quantity, underworld, prediction, outOfRange) => {
       let targets = getCurrentTargets$1(state);
+      const pillarsPerStack = 5;
       targets = targets.length ? targets : [state.castLocation];
-      const potentialTargets = underworld.getPotentialTargets(prediction).filter((t) => isUnit(t) && t.unitSourceId === "pillar" && t.alive);
+      const potentialTargets = underworld.getPotentialTargets(prediction).filter((t) => isUnit(t) && t.unitSourceId === "pillar").sort(sortCosestTo(state.casterUnit)).slice(0, pillarsPerStack * quantity);
       const newTargets = potentialTargets;
       for (let newTarget of newTargets) {
         addTarget$1(newTarget, state, underworld, prediction);
@@ -4167,6 +4177,13 @@ const unit$1 = {
     radius: 48,
     bloodColor: 8082207
   },
+  spawnParams: {
+    probability: 0,
+    excludeMiniboss: true,
+    excludeSummonCard: true,
+    budgetCost: 0,
+    unavailableUntilLevelIndex: 20
+  },
   init: (unit2, underworld) => {
     if (unit2.image) {
       unit2.image.sprite.anchor.y = 0.7;
@@ -4178,7 +4195,7 @@ const unit$1 = {
     return [];
   }
 };
-const mod = {
+const mod$1 = {
   modName: "The Doom Scroll",
   author: "Bug Jones, Dorioso Aytario",
   description: "Adds a variety of interesting new cards to support existing builds as well as introducing a new build.",
@@ -4206,7 +4223,16 @@ const mod = {
   events: [modifierRemoveOnDeath],
   spritesheet: "spellmasons-mods/The_Doom_Scroll/graphics/spritesheet.json"
 };
+const mod = {
+  modName: "Dorioso's Minions",
+  author: "Dorioso Aytario",
+  description: "Adds familiars that accompany you.",
+  screenshot: "images/empty.png",
+  spritesheet: "spellmasons-mods/Doriosos_minions/spritesheet/sheet.json",
+  familiars: ["beholder", "shroom", "goo"]
+};
 const mods = [
+  mod$6,
   mod$5,
   mod$4,
   mod$3,

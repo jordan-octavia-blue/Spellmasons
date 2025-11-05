@@ -41,6 +41,18 @@ globalThis.timeLastChoseUpgrade = Date.now();
 // setupAudio must be invoked before getSavedData so that the saved audio
 // options can persist
 setupAudio();
+globalThis.changeTextSizeOverride = (size: undefined | number, saveSetting: boolean = true) => {
+    if (isNullOrUndef(size)) {
+        delete globalThis.textSizeOverride;
+        document.documentElement.style.fontSize = '';
+    } else {
+        globalThis.textSizeOverride = size;
+        document.documentElement.style.fontSize = `${size}px`;
+    }
+    if (saveSetting) {
+        storage.assign(storage.STORAGE_OPTIONS, { textSizeOverride: globalThis.textSizeOverride });
+    }
+};
 
 
 storage.getSavedData();

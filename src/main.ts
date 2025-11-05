@@ -81,6 +81,7 @@ globalThis.lobbyPlayerList = [];
 globalThis.intentionalDisconnect = false;
 globalThis.playerWalkingPromise = Promise.resolve();
 globalThis.resMarkers = [];
+globalThis.dlc = [];
 globalThis.isSuperMe = false;
 globalThis.devAutoPickUpgrades = location.href.includes('localhost');
 globalThis.adminMode = location.href.includes('localhost');
@@ -89,6 +90,9 @@ globalThis.hotseatPlayerConfig = [];
 globalThis.awaitingSpawn = false;
 globalThis.currentHoverElement = null;
 globalThis.totalSoulTrails = 0;
+if (!globalThis.activeMods) {
+  globalThis.activeMods = [];
+}
 // Default to 1 for singleplayer
 globalThis.numberOfHotseatPlayers = 1;
 if (isNullOrUndef(globalThis.UIEasyOnTheEyes)) {

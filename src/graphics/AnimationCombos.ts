@@ -96,6 +96,12 @@ const combos: { [spritePath: string]: AnimationCombo } = {
         companionAnimations: [],
         SFX: ['summonerSummon']
     },
+    'gripthulu/poisAttack': {
+        keyFrame: 7,
+        primaryAnimation: 'gripthulu/poisAttack',
+        companionAnimations: [],
+        SFX: []
+    },
     'poisAttack': {
         keyFrame: 7,
         primaryAnimation: 'poisAttack',

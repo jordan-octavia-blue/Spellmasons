@@ -1,3 +1,80 @@
+## v1.69.0 - Patch
+- fix: Occasional issue where players turn would be skipped.
+- fix: rift from spawning portals on top of players
+- fix: bolt description
+- fix: pistol scales damage with quantity
+- balance: Curse Eater increases damage instead of health
+- fix: Pistol granting mana for passing through dead bodies
+    Thanks Scry
+- fix: Crash on upgrade "Statue"
+- fix: Can only skip upgrades when no rerolls have occured
+- fix: Add max upgrade count to Rift
+    Thanks Orthoros
+- balance: Shotgun only works within cast range now
+- balance: Lower SP reward for skipping cards
+- balance: Change Dash and Nuk to go to last target
+
+## v1.68.0 - Oct 24th update
+- Features
+    - (Secret, hidden) Guns?!?
+    - Gripthulu returns!
+    - Green Glops can now merge with other Green Glops
+    - Dark Priest has new AOE cast ability
+    - New "Skip Upgrade" option grants SP for Spellmason and Goru (and spends SP for Deathmason since skipping is an advantage for him)
+    - Add Difficulty options to hotseat multiplayer (Thanks Orthoros)
+    - New Corrupted Ancient enemy deals damage as a % of your health
+    - Maladies! (Runes that are negative but grant SP) - Maladies are available to modders!
+        - Hemorrhage (thanks Rampantgecko)
+        - Rift
+        - Doomed
+        - Nuclear Option (thanks Entchenklein)
+        - Statue (thanks Bug Jones and Mr. Big Shot)
+        - Anemic
+        - There will be more maladies added in the future, this is just a start!
+    - Custom Hand-made maps.  Some maps after level 6 will be chosen from a pool of hand made maps which are more interesting than the randomly generated ones.
+        - Right now there are 11 handmade maps
+        - These can be modded too!
+    - New "Spellmasons Desktop Pet DLC" is avaialble now if you've ever wanted a Spellmason and friends to chill with you on your desktop, now you can; and it's a great way to support development! 😊
+    - Familiars!
+    - Goru-specific runes
+        - Increase starting Souls
+        - Increase max souls
+    - Added "Runic" rarity for Spells that are only obtainable through runes
+    - After level 5 some units will have a Bounty even if there are no bounty hunters (Thanks Weedybird)
+
+- Balancing
+    - Goru has a max soul limit (similar to max mana) that can be upgraded via runes
+    - Deathmason's cards per round growth has been reduced by 1
+    - Damage Limiter Champion modifier (nerfed) caps damage at 10% of unit's max health (Thanks bozoberg from Steam)
+    - Make Teach spell require Clone and decrease rarity from Rare to Special (Thanks Weedybird)
+    - Multicasting capture soul increases health threshold (Thanks Bug Jones!)
+    - Prevent Bolt radius from growing on it's own when stacking bolt (Radius will still increase with the Plus Radius Spell) - (Sorry speedrunners, it had to happen)
+    - Nerf Curse Immunity Champion Modifier.  It now causes the holder to heal depending on how many curses they have on them rather than purify curses which previously completely eliminated curse-builds as an option
+    - Increase cost of Deathmason-specific runes
+    - Remove Self Invulnerability rune because there were several cases where it didn't work as expected that was frustrating folks (Note: Blood Letting still exists)
+    - Buff Mana on Kill rune
+    - Purify spell now turns red portals into blue portals!
+    - Send Mana spell now provides cards to Deathmason and Souls to Goru (thanks Katrina!)
+    - Buff Mana Steal
+    - Balance: For the Doom Scroll mod: Pillars and Altars will only ever polymorph into each other (never into other units)
+    - Creeping Death only triggers when you kill enemy units
+
+
+- Bug Fixes
+    - Fix animation for Soul Shard
+    - Fix showing the soul cost of cards when selecting them as an upgrade as Goru
+    - Prevent soul particles from sticking around in multiplayer when they're actually gone
+    - Fix multiple bugs in hotseat multiplayer when playing with multiple wizard types
+    - Fix subsprite images now persist through merging
+    - Fix chatbox to stay open until closed intentionally (for Calvin Anderson!)
+    - Optimization: Limit max size of UI Circle even if true radius is bigger to prevent renderer lag out (Thanks Suly Katze)
+    - Fix shield quantity and soul fragments showing as a decimal
+
+- i18n: German
+- Accessibility
+    - Text Size Override (Thanks kyleadolson!)
+    - Hide animated card draws for Deathmason (Thanks Golden Walrus)
+
 ## v1.65.2
 - fix: Prevent Unit health from doubling when loading a multiplayer game on Impossible difficulty
 - fix: Allow changing wizard type at any time

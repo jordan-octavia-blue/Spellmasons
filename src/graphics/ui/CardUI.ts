@@ -1227,8 +1227,6 @@ function createCardElement(content: Cards.ICard, underworld?: Underworld, fullSi
   elCardBadgeHolder.classList.add('card-badge-holder');
   element.appendChild(elCardBadgeHolder);
 
-
-
   if (globalThis.player && Player.isGoru(globalThis.player)) {
     const elCardChargeBadge = document.createElement('div');
     elCardChargeBadge.classList.add('card-soul-badge', 'card-badge');
@@ -1256,7 +1254,6 @@ function createCardElement(content: Cards.ICard, underworld?: Underworld, fullSi
     elCardStaminaBadge.classList.add('card-stamina-badge', 'card-badge');
     updateStaminaBadge(elCardStaminaBadge, cost.staminaCost, content);
     elCardBadgeHolder.appendChild(elCardStaminaBadge);
-
   }
 
 

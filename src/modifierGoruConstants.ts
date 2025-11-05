@@ -10,7 +10,7 @@ export const startingSoulsId = 'Increase Starting Souls'
 export function registerGoruConstantRunes() {
   registerModifiers(soulCapacityId, {
     description: `soul-capacity-desc`,
-    unitOfMeasure: 'Soul Collection Capacity per Turn',
+    unitOfMeasure: 'Soul Capacity',
     _costPerUpgrade: 50,
     quantityPerUpgrade: 5,
     constant: true,
@@ -18,14 +18,9 @@ export function registerGoruConstantRunes() {
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       const modifier = getOrInitModifier(unit, soulCapacityId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
       if (modifier) {
-        const startingMax = unit.soulLeftToCollectMax || 0;
-        unit.soulLeftToCollectMax = config.BASE_SOULS_LEFT_TO_COLLECT + quantity
-        const delta = unit.soulLeftToCollectMax - startingMax;
-        if (isNullOrUndef(unit.soulLeftToCollect)) {
-          unit.soulLeftToCollect = 0;
+        if (exists(unit.soulFragmentsMax)) {
+          unit.soulFragmentsMax += 5;
         }
-        unit.soulLeftToCollect += delta;
-
       }
     },
     probability: 0,

@@ -9,7 +9,7 @@ export const runeNecromancerId = 'Necromancer';
 
 export default function registerNecromancer() {
   registerModifiers(runeNecromancerId, {
-    description: i18n('class_necromancer'),
+    description: 'class_necromancer',
     _costPerUpgrade: 200,
     maxUpgradeCount: 1,
     omitForWizardType: ['Goru', 'Deathmason'],

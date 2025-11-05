@@ -1,6 +1,6 @@
 import type * as PIXI from 'pixi.js';
 import { allUnits, type UnitSource } from './index';
-import { UnitSubType } from '../../types/commonTypes';
+import { UnitSubType, UnitType } from '../../types/commonTypes';
 import * as Unit from '../Unit';
 import * as math from '../../jmath/math';
 import { MultiColorReplaceFilter } from '@pixi/filter-multi-color-replace';
@@ -18,7 +18,7 @@ const unit: UnitSource = {
   id: gripthulu_id,
   info: {
     description: 'gripthulu copy',
-    image: 'poisIdle',
+    image: 'gripthulu/poisIdle',
     subtype: UnitSubType.SPECIAL_LOS,
   },
   unitProps: {
@@ -31,16 +31,17 @@ const unit: UnitSource = {
     bloodColor: bloodGripthulu,
   },
   spawnParams: {
-    probability: 10,
+    probability: 100,
     budgetCost: 4,
-    unavailableUntilLevelIndex: 7,
+    maxQuantityPerLevel: 3,
+    unavailableUntilLevelIndex: 5,
   },
   animations: {
-    idle: 'poisIdle',
-    hit: 'poisHit',
-    attack: 'poisAttack',
-    die: 'poisDeath',
-    walk: 'poisWalk',
+    idle: 'gripthulu/poisIdle',
+    hit: 'gripthulu/poisHit',
+    attack: 'gripthulu/poisAttack',
+    die: 'gripthulu/poisDeath',
+    walk: 'gripthulu/poisWalk',
   },
   sfx: {
     damage: 'poisonerHurt',
@@ -50,23 +51,6 @@ const unit: UnitSource = {
     const modifier = getOrInitModifier(unit, gripthuluAction, { isCurse: false, quantity: 1 }, () => {
       Unit.addEvent(unit, gripthuluAction);
     });
-    if (unit.image && unit.image.sprite && unit.image.sprite.filters) {
-      unit.image.sprite.filters.unshift(
-        new MultiColorReplaceFilter(
-          [
-            [0x93d491, 0x90c7cf], //head
-            [0x8fce8e, 0x79b1b9], //head darker slightly
-            [0x86eb83, 0x84d5ec], // light arm
-            [0x74b675, 0x7faaba], // dark arm
-            [0x859784, 0x6e868a], // cloak top
-            [0x728771, 0x5f7377], // cloak medium
-            [0x60775f, 0x516468], //cloak dark
-            [0x374937, 0x374849],//pants
-          ],
-          0.05
-        )
-      );
-    }
   },
   action: async (unit: Unit.IUnit, attackTargets, underworld) => {
     // Gripthulhu just checks attackTarget, not canAttackTarget to know if it can attack because getBestRangedLOSTarget() will return undefined
@@ -74,17 +58,24 @@ const unit: UnitSource = {
     const attackTarget = attackTargets && attackTargets[0];
     // Attack
     if (attackTarget && unit.mana >= unit.manaCostToCast) {
-
+      //@ts-ignore: Prevent attacking after moving
+      unit.movedThisTurn = false;
     } else {
+      //@ts-ignore: Prevent attacking after moving
+      unit.movedThisTurn = true;
       // If it gets to this block it means it is either out of range or cannot see enemy
       await rangedLOSMovement(unit, underworld);
     }
   },
   getUnitAttackTargets: (unit: Unit.IUnit, underworld: Underworld) => {
-    const targets = getBestRangedLOSTarget(unit, underworld);
+    const targets = getBestRangedLOSTarget(unit, underworld)
+      // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+      .filter(u => !u.targetedByGripthulu || u.targetedByGripthulu == unit.id);
     if (targets) {
       // Gripthulu can only target one enemy
       return targets.slice(0, 1).map(u => {
+        // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+        u.targetedByGripthulu = unit.id;
         return u;
       });
     } else {
@@ -171,23 +162,47 @@ export function registerGripthuluAction() {
   registerEvents(gripthuluAction, {
 
     onTurnEnd: async (unit: Unit.IUnit, underworld: Underworld, prediction: boolean) => {
+      //@ts-ignore: Prevent attacking after moving
+      if (unit.movedThisTurn) {
+        return;
+      }
+      const isPlayerUnit = unit.unitType === UnitType.PLAYER_CONTROLLED
       const unitSource = allUnits[unit.unitSourceId]
       if (unitSource) {
-        const attackTargets = unitSource.getUnitAttackTargets(unit, underworld);
+        const attackTargets = isPlayerUnit ?
+          getBestRangedLOSTarget(unit, underworld)
+            // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+            .filter(u => !u.targetedByGripthulu || u.targetedByGripthulu == unit.id)
+          : unitSource.getUnitAttackTargets(unit, underworld);
         const attackTarget = attackTargets[0];
-        if (attackTarget && unit.mana >= unit.manaCostToCast) {
+        if (attackTarget && (isPlayerUnit || unit.mana >= unit.manaCostToCast)) {
           Unit.orient(unit, attackTarget);
-          unit.mana -= unit.manaCostToCast;
-          // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
-          // because the forcePush must be invoked syncronously such that the forceMove record
-          // is created when this function returns syncronously so that the headless engine will
-          // run forceMoves as soon as it is done
-          if (!globalThis.headless) {
-            await Unit.playComboAnimation(unit, unit.animations.attack, () => {
-              return animateDrag(unit, attackTarget);
-            });
+          let promise = Promise.resolve();
+          if (isPlayerUnit) {
+            // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
+            // because the forcePush must be invoked syncronously such that the forceMove record
+            // is created when this function returns syncronously so that the headless engine will
+            // run forceMoves as soon as it is done
+            if (!globalThis.headless) {
+              await animateDrag(unit, attackTarget);
+            }
+            promise = forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
+          } else {
+            unit.mana -= unit.manaCostToCast;
+            // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
+            // because the forcePush must be invoked syncronously such that the forceMove record
+            // is created when this function returns syncronously so that the headless engine will
+            // run forceMoves as soon as it is done
+            if (!globalThis.headless) {
+              await Unit.playComboAnimation(unit, unit.animations.attack, () => {
+                return animateDrag(unit, attackTarget);
+              });
+            }
+            promise = forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
+            // @ts-ignore: targetedByGripthulu prevents multiple gripthulus from targeting the same target which causes a desync
+            delete unit.targetedByGripthulu;
           }
-          return forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
+          return promise;
         }
       }
     },

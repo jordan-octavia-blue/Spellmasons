@@ -362,14 +362,9 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
           console.error('COLLECT_SOULS desync soulFragments count');
           return;
         }
-        // failsafe, should not be needed
-        if (isNullOrUndef(fromPlayer.unit.soulLeftToCollect)) {
-          fromPlayer.unit.soulLeftToCollect = fromPlayer.unit.soulLeftToCollectMax || config.BASE_SOULS_LEFT_TO_COLLECT;
-        }
-        const soulFragmentsLeftToCollect = fromPlayer.unit.soulLeftToCollect;
+        const soulFragmentsLeftToCollect = fromPlayer.unit.soulFragmentsMax ? fromPlayer.unit.soulFragmentsMax - fromPlayer.unit.soulFragments : 100;
 
         const ableToCollect = Math.min(soulFragmentsLeftToCollect, victim.soulFragments);
-        fromPlayer.unit.soulLeftToCollect -= ableToCollect;
         const soulPositions = removeFloatingParticlesFor(victim, ableToCollect);
         victim.soulFragments = Math.max(0, victim.soulFragments - ableToCollect);
         victim.soulsBeingCollected = false;
@@ -1270,7 +1265,7 @@ async function handleLoadGameState(payload: {
   underworld.cardDropsDropped = loadedGameState.cardDropsDropped;
   underworld.enemiesKilled = loadedGameState.enemiesKilled;
   underworld.activeMods = loadedGameState.activeMods;
-  underworld.events = loadedGameState.events;
+  underworld.events = loadedGameState.events || [];
   // simulatingMovePredictions should never be serialized, it is only for a running instance to keep track of if the simulateRunForceMovePredictions is running
   underworld.simulatingMovePredictions = false;
   // backwards compatible for save state that didn't have this:
@@ -1338,6 +1333,10 @@ async function handleLoadGameState(payload: {
     underworld.players = players.flatMap((p, i) => {
       const loadedPlayer = Player.load(p, i, underworld, false);
       if (loadedPlayer) {
+        // Persist wizard type from Load
+        if (loadedPlayer == globalThis.player) {
+          storage.set(storage.STORAGE_ID_WIZARD_TYPE, loadedPlayer.wizardType);
+        }
         return [loadedPlayer];
       } else {
         console.error('Failed to load player during handleLoadGameState')

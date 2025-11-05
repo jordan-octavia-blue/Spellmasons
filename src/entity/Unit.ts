@@ -111,8 +111,7 @@ export type IUnit = HasSpace & HasLife & HasMana & HasStamina & {
   // across the network
   id: number;
   soulFragments: number;
-  soulLeftToCollect?: number;
-  soulLeftToCollectMax?: number;
+  soulFragmentsMax?: number;
   // soulsBeingCollected prevents a network latency issue where more souls could leave a body
   // than the body had
   soulsBeingCollected?: boolean;
@@ -1266,12 +1265,13 @@ export function syncPlayerHealthManaUI(underworld: Underworld) {
     const ratio = currentCharges / maxCharges;
     elManaBar3.style["width"] = `${100 * ratio}%`;
     elManaLabel.innerHTML = `${currentCharges}/${maxCharges}`;
-  } else if (isGoru(globalThis.player) && predictionPlayerUnit) {
+  } else if (isGoru(globalThis.player) && predictionPlayerUnit && predictionPlayerUnit.soulFragmentsMax) {
     elManaBar.style["width"] = `0%`;
     elManaBar2.style["width"] = `0%`;
-    elManaBar3.style["width"] = `100%`;
+    const soulRatio = Math.max(0, Math.min(predictionPlayerUnit.soulFragments / predictionPlayerUnit.soulFragmentsMax, 1));
+    elManaBar3.style["width"] = `${100 * soulRatio}%`;
     const inSoulDebt = predictionPlayerUnit.soulFragments < 0
-    const text = inSoulDebt ? `${Math.floor(predictionPlayerUnit.soulFragments)} ${i18n('Debt')}  : ${unit.soulLeftToCollect} ${i18n('Left')}` : `${Math.floor(predictionPlayerUnit.soulFragments)} ${i18n('Souls')} : ${unit.soulLeftToCollect} ${i18n('Left')}`;
+    const text = inSoulDebt ? `${Math.floor(predictionPlayerUnit.soulFragments)} ${i18n('Debt')}` : `${Math.floor(predictionPlayerUnit.soulFragments)} / ${unit.soulFragmentsMax} ${i18n('Souls')}`;
     elManaLabel.dataset.soulFragments = predictionPlayerUnit.soulFragments.toString();
     elManaLabel.classList.toggle('souldebt', inSoulDebt)
     elManaLabel.innerHTML = text;
@@ -1604,9 +1604,6 @@ export async function startTurnForUnits(units: IUnit[], underworld: Underworld, 
     // Let mana remain above max if it already is
     // (due to other influences like mana potions, spells, etc);
     unit.mana = Math.max(unit.manaMax, unit.mana);
-    if (!!unit.soulLeftToCollectMax) {
-      unit.soulLeftToCollect = unit.soulLeftToCollectMax;
-    }
     // Draw new charges
     if (unit.charges) {
       // Discard cards for Deathmason now that it is a new turn

@@ -128,10 +128,9 @@ import sell from './sell';
 import novas from './novas';
 import nukitsuke from './nukitsuke';
 import nukitsuke2 from './nukitsuke2';
-/*
-import wildSwipe from '../DevelopmentMods/RunicAlphabet/cards/wild_swipe';
-import lunge from '../DevelopmentMods/RunicAlphabet/cards/lunge';
-*/
+import gunSniper from './gun_sniper';
+import gunShotgun from './gun_shotgun';
+import gunSilenced from './gun_silenced';
 // Not used as a card, for making half of looped enemies immune
 // on first turn
 import registerSummoningSickness from '../modifierSummoningSickness';
@@ -273,6 +272,10 @@ import registerNuclearOption from '../maladyNuclearOption';
 import registerDoomed from '../maladyDoomed';
 import registerRift from '../maladyRift';
 import registerHemorrhage from '../maladyHemorrhage';
+import { registerGuns } from '../modifierGuns';
+import registerBloodyRobes from '../maladyBloodyRobes';
+import registerPacifist from '../maladyPacifist';
+import register_i_am_gripthulu from '../modifierIAmGripthulu';
 
 export interface Modifiers {
   // modifiers that are not attached to a spell need an explicit id set
@@ -476,7 +479,9 @@ export function registerCards(overworld: Overworld) {
   registerSpell(arrowTriple, overworld);
   registerSpell(arrowMulti, overworld);
   registerSpell(arrowFar, overworld);
-  // registerSpell(explosive_arrow, overworld);
+  registerSpell(gunSniper, overworld);
+  registerSpell(gunShotgun, overworld);
+  registerSpell(gunSilenced, overworld);
   registerSpell(phantom_arrow, overworld);
   config.IS_ANNIVERSARY_UPDATE_OUT &&
     registerSpell(bolt, overworld);
@@ -590,17 +595,20 @@ export function registerCards(overworld: Overworld) {
   registerSpell(add_pierce, overworld);
   registerSpell(add_bounce, overworld);
   registerSpell(plus_radius, overworld);
+  registerGuns();
   // registerSpell(trap, overworld);
   for (let unitId of Object.keys(allUnits)) {
-    const spell = summon_generic(unitId, false);
-    if (spell) {
-      registerSpell(spell, overworld);
-    }
+    if (!allUnits[unitId]?.spawnParams?.excludeSummonCard) {
+      const spell = summon_generic(unitId, false);
+      if (spell) {
+        registerSpell(spell, overworld);
+      }
 
-    if (!allUnits[unitId]?.spawnParams?.excludeMiniboss) {
-      const spellMiniboss = summon_generic(unitId, true);
-      if (spellMiniboss) {
-        registerSpell(spellMiniboss, overworld);
+      if (!allUnits[unitId]?.spawnParams?.excludeMiniboss) {
+        const spellMiniboss = summon_generic(unitId, true);
+        if (spellMiniboss) {
+          registerSpell(spellMiniboss, overworld);
+        }
       }
     }
   }
@@ -725,6 +733,7 @@ export function registerCards(overworld: Overworld) {
   registerDeathmasonEvents();
 
   registerGripthuluAction();
+  register_i_am_gripthulu();
   // Global Events
   registerAlwaysBounty()
   registerTestUnderworldEvents()
@@ -736,6 +745,8 @@ export function registerCards(overworld: Overworld) {
   registerDoomed();
   registerRift();
   registerHemorrhage();
+  registerBloodyRobes();
+  registerPacifist();
 }
 
 // This is necessary because unit stats change with difficulty.

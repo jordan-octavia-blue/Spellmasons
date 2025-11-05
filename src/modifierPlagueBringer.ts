@@ -14,7 +14,7 @@ import { animateSpell } from "./cards/cardUtils";
 export const plagueBringerId = 'Plague Bringer';
 export default function registerPlagueBringer() {
   registerModifiers(plagueBringerId, {
-    description: i18n('rune_plague_bringer'),
+    description: 'rune_plague_bringer',
     unitOfMeasure: 'units',
     _costPerUpgrade: 100,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {

@@ -6,7 +6,6 @@ import floatingText from "./graphics/FloatingText";
 import Underworld from './Underworld';
 
 export const damagelimiterId = 'Damage Limiter';
-const limit = 45;
 const limitPercentage = 0.10;
 const subspriteId = 'damage-limiter';
 function addModifierVisuals(unit: Unit.IUnit, underworld: Underworld) {
@@ -14,7 +13,7 @@ function addModifierVisuals(unit: Unit.IUnit, underworld: Underworld) {
 }
 export default function registerDamageLimiter() {
   registerModifiers(damagelimiterId, {
-    description: ['damage_limiter_description', limit.toString()],
+    description: ['damage_limiter_description', (limitPercentage * 100).toString()],
     stage: "Amount Override",
     probability: 50,
     addModifierVisuals,
@@ -38,10 +37,8 @@ export default function registerDamageLimiter() {
   });
   registerEvents(damagelimiterId, {
     onTakeDamage: (unit: Unit.IUnit, amount: number, underworld: Underworld, prediction: boolean, damageDealer?: Unit.IUnit) => {
-      let overriddenAmount = Math.min(limit, amount);
       // Limit to % of max health
-      let overriddenPercentage = Math.min(limitPercentage * unit.healthMax, amount);
-      overriddenAmount = Math.max(overriddenAmount, overriddenPercentage);
+      let overriddenAmount = Math.min(limitPercentage * unit.healthMax, amount);
       if (overriddenAmount < amount) {
         floatingText({ coords: unit, text: `${damagelimiterId}`, prediction })
       }

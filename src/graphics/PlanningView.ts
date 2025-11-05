@@ -195,7 +195,7 @@ export function drawWalkRope(target: Vec2, underworld: Underworld) {
   walkRopePath = underworld.calculatePath(walkRopePath, round(globalThis.player.unit), round(target));
   const { points: currentPlayerPath } = walkRopePath;
   if (currentPlayerPath[0]) {
-    const turnStopPoints = pointsEveryXDistanceAlongPath(globalThis.player.unit, currentPlayerPath, globalThis.player.unit.staminaMax, globalThis.player.unit.staminaMax - globalThis.player.unit.stamina);
+    const turnStopPoints = globalThis.player.unit.staminaMax <= 0 ? [] : pointsEveryXDistanceAlongPath(globalThis.player.unit, currentPlayerPath, globalThis.player.unit.staminaMax, globalThis.player.unit.staminaMax - globalThis.player.unit.stamina);
     globalThis.walkPathGraphics?.lineStyle(4, 0xffffff, 1.0);
     // Use this similarTriangles calculation to make the line pretty so it doesn't originate from the exact center of the
     // other player but from the edge instead

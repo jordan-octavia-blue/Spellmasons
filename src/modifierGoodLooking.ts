@@ -12,7 +12,7 @@ import { makeRisingHeartParticles } from "./graphics/ParticleCollection";
 export const goodLookingId = 'Good Looking';
 export default function registerGoodLooking() {
   registerModifiers(goodLookingId, {
-    description: i18n('rune_good_looking'),
+    description: 'rune_good_looking',
     unitOfMeasure: 'Units',
     _costPerUpgrade: 280,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {

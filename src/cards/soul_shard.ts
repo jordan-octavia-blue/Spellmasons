@@ -207,6 +207,7 @@ function doDraw(resolve: (value: void | PromiseLike<void>) => void, shardOwner: 
   if (didDraw) {
     // Show the electricity for a moment
     if (Date.now() > endTime) {
+      globalThis.projectileGraphics?.clear();
       resolve();
     } else {
       requestAnimationFrame(() => doDraw(resolve, shardOwner, shardBearer, endTime))
@@ -221,6 +222,7 @@ function drawLineBetweenTargest(shardOwner: HasSpace, shardBearer: HasSpace): bo
   if (!globalThis.headless) {
     const graphics = globalThis.projectileGraphics;
     if (graphics) {
+      graphics.clear();
       if (isNullOrUndef(shardOwner) || isNullOrUndef(shardBearer)) {
         return false;
       }

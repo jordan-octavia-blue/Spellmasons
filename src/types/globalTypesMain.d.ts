@@ -87,6 +87,7 @@ declare global {
   var acceptPrivacyPolicyAndEULA: undefined | (() => void);
   var configPlayer: undefined | (({ color, name }: { color?: number, name?: string, lobbyReady?: boolean }) => void);
   var playMusic: undefined | (() => void);
+  var changeTextSizeOverride: undefined | ((size: number, saveSetting: boolean) => void);
   var changeVolume: undefined | ((volume: number, saveSetting: boolean) => void);
   var changeVolumeMusic: undefined | ((volume: number, saveSetting: boolean) => void);
   var changeVolumeGame: undefined | ((volume: number, saveSetting: boolean) => void);
@@ -95,6 +96,7 @@ declare global {
   var volume: undefined | number;
   var volumeMusic: undefined | number;
   var volumeGame: undefined | number;
+  var textSizeOverride: undefined | number;
   // connectToSingleplayer connects pieclient in solomode, it is called when loading a game
   // or from startSingleplayer
   var connectToSingleplayer: undefined | (() => Promise<void>);
@@ -231,6 +233,8 @@ declare global {
   var p2pSend: (message: any, peerSteamId?: bigint) => void;
   var steamworks: undefined | {
     shiftTab: () => void;
+    isDLCInstalled: (appId: number) => void;
+    dlc: (cb: (arg: { appId: number, isInstalled: boolean }) => void) => void;
     achievements: (value: number) => void;
     subscribeToLobbyJoinRequested: (cb: () => void) => void;
     subscribeToLobbyDataUpdate: (cb: (arg: { lobby: string, member: string, success: string }) => void) => void;
@@ -363,4 +367,5 @@ declare global {
   var totalSoulTrails: number;
   var forceCustomMapName: string;
   var allFamiliars: string[];
+  var dlc: number[];
 }

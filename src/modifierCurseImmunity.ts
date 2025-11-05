@@ -5,15 +5,17 @@ import * as Unit from './entity/Unit';
 import Underworld from './Underworld';
 import floatingText from "./graphics/FloatingText";
 import { oneOffHealAnimation } from "./effects/heal";
+import { allUnits } from "./entity/units";
 
 export const curseimmunityId = 'CurseImmunity';
 const subspriteId = 'curseImmunity';
 function addModifierVisuals(unit: Unit.IUnit, underworld: Underworld) {
   Image.addSubSprite(unit.image, subspriteId);
 }
+const gain = 0.1;
 export default function registerCurseImmunity() {
   registerModifiers(curseimmunityId, {
-    description: 'curseimmunity_description',
+    description: ['curseimmunity_description', (gain * 100).toString()],
     probability: 100,
     addModifierVisuals,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
@@ -43,21 +45,12 @@ export default function registerCurseImmunity() {
 
 function runCurseImmunity(unit: Unit.IUnit, underworld: Underworld) {
   if (Object.values(unit.modifiers).some(m => m.isCurse)) {
-    const percentIncrease = 0.1 * Object.entries(unit.modifiers).filter(([key, props]) => props.isCurse).length;
-    // if (unit.unitType == UnitType.PLAYER_CONTROLLED) {
-    //   const healAmount = unit.health * percentIncrease
-    //   healUnit(unit, healAmount, undefined, underworld, false);
-    //   floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${healAmount} HP` });
-    // } else {
+    const percentIncrease = gain * Object.entries(unit.modifiers).filter(([key, props]) => props.isCurse).length;
     oneOffHealAnimation(unit);
     playSFXKey('potionPickupMana');
-    const prevHealth = unit.healthMax;
-    unit.healthMax *= 1 + percentIncrease;
-    unit.healthMax = Math.floor(unit.healthMax);
-    const delta = unit.healthMax - prevHealth
-    unit.health += delta;
-    floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${unit.healthMax - prevHealth} HP` });
-    // }
+    const increaseDamage = Math.floor(unit.damage * percentIncrease);
+    unit.damage += increaseDamage;
+    floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${increaseDamage} DMG` });
   }
 
 }

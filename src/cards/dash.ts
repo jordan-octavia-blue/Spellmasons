@@ -19,9 +19,13 @@ const spell: Spell = {
     description: 'spell_dash',
     effect: async (state, card, quantity, underworld, prediction) => {
       const targets = getCurrentTargets(state);
+      if (!targets.length) {
+        return state;
+      }
+      const target = targets[targets.length - 1];
       playDefaultSpellSFX(card, prediction);
-      if (targets[0]) {
-        await forcePushToDestination(state.casterUnit, targets[0], quantity, underworld, prediction, state.casterUnit);
+      if (target) {
+        await forcePushToDestination(state.casterUnit, target, quantity, underworld, prediction, state.casterUnit);
       }
       return state;
     },

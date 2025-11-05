@@ -19,6 +19,7 @@ const spell: Spell = {
     healthCost: 0,
     probability: probabilityMap[CardRarity.RARE],
     expenseScaling: 2,
+    supportQuantity: true,
     thumbnail: 'spellIconCaptureSoul.png',
     sfx: 'captureSoul',
     description: ['spell_capture_soul', healthThreshold.toString()],
@@ -26,7 +27,7 @@ const spell: Spell = {
       const player = state.casterPlayer;
       if (player) {
         let targets = state.targetedUnits.filter(u => {
-          return u.alive && u.health < healthThreshold;
+          return u.alive && u.health < healthThreshold * quantity;
         });
         for (let target of targets) {
           if (target) {
