@@ -1,12 +1,12 @@
 import type { Vec2 } from './jmath/Vec';
 import type { IUnit } from './entity/Unit';
 import type { HasSpace } from './entity/Type';
-import Underworld from './Underworld';
+import Underworld, { type CastCardsArgs } from './Underworld';
 import { IPickup } from './entity/Pickup';
 import { ForceMoveProjectile } from './jmath/moveWithCollision';
 import { CardCost } from './cards/cardUtils';
 import type { IPlayer } from './entity/Player';
-import { ICard } from './cards';
+import { EffectState, ICard } from './cards';
 import { Faction } from './types/commonTypes';
 import { ForceMoveType } from './jmath/moveWithCollision';
 
@@ -31,6 +31,11 @@ export type onForceMove = {
   (pushedObject: HasSpace, velocity: Vec2, sourceUnit?: IUnit): Vec2;
 };
 const onForceMoveSource: { [name: string]: onForceMove } = {};
+
+export type onCast = {
+  (effectState: EffectState, underworld: Underworld, prediction: boolean): void;
+};
+const onCastSource: { [name: string]: onCast } = {};
 
 export type onTakeDamage = {
   // Returns a possibly modified damage
@@ -125,4 +130,5 @@ export default {
   onProjectileCollisionSource,
   onTeleportSource,
   onSpawnSource,
+  onCastSource,
 };

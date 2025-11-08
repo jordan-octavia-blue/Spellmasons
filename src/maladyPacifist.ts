@@ -1,5 +1,5 @@
 import seedrandom from "seedrandom";
-import { registerEvents, registerModifiers } from "./cards";
+import { EffectState, registerEvents, registerModifiers } from "./cards";
 import { meteorCardId, meteorProjectiles } from "./cards/meteor";
 import { getOrInitModifier } from "./cards/util";
 import * as Unit from './entity/Unit';
@@ -15,13 +15,12 @@ import { allCards } from "./cards";
 import { allUnits } from "./entity/units";
 
 export const PACIFIST_ID = 'Pacifist';
-const percentOfMaxHealthPerCard = 0.01;
+const percentOfMaxHealthPerCard = 0.05;
 export default function registerPacifist() {
   registerModifiers(PACIFIST_ID, {
     description: ['rune_pacifist', (100 * percentOfMaxHealthPerCard).toString()],
     _costPerUpgrade: -100,
-    unitOfMeasure: 'Percent',
-    maxUpgradeCount: 10,
+    maxUpgradeCount: 1,
     isMalady: true,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, PACIFIST_ID, { isCurse: false, quantity, keepOnDeath: true }, () => {
@@ -33,31 +32,23 @@ export default function registerPacifist() {
     }
   });
   registerEvents(PACIFIST_ID, {
-    onTurnStart: async (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, faction: Faction) => {
-      const p = underworld.players.find(p => p.unit == unit);
-      if (p) {
-        runPacifist(p, underworld, prediction);
-      }
+    onCast: async (effectState: EffectState, underworld: Underworld, prediction: boolean) => {
+      const countDamageCards = effectState.cardIds.reduce((count, card) => {
+        const cardObj = allCards[card]
+        if (cardObj) {
+          if (cardObj.category == CardCategory.Damage || cardObj.category == CardCategory.Curses || Object.keys(allUnits).some(unitId => cardObj.id.includes(unitId))) {
+            return count + 1;
+          }
+        }
+        return count;
+      }, 0);
+      const damage = effectState.casterUnit.healthMax * percentOfMaxHealthPerCard * countDamageCards;
+      Unit.takeDamage({
+        unit: effectState.casterUnit,
+        amount: damage,
+        sourceUnit: effectState.casterUnit,
+      }, underworld, prediction);
+      floatingText({ coords: effectState.casterUnit, text: `${PACIFIST_ID}: ${damage}`, prediction });
     }
   });
-}
-function runPacifist(p: IPlayer, underworld: Underworld, prediction: boolean) {
-  const mod = p.unit.modifiers[PACIFIST_ID]
-  const quantity = mod?.quantity || 1;
-  const damage = p.inventory.reduce((count, cur) => {
-    const card = allCards[cur];
-    if (card) {
-      if (card.category == CardCategory.Damage || card.category == CardCategory.Curses || Object.keys(allUnits).some(unitId => card.id.includes(unitId))) {
-        return count + 1;
-      }
-    }
-    return count;
-  }, 0);
-  const percent = damage * percentOfMaxHealthPerCard * quantity;
-  const amount = percent * p.unit.healthMax;
-  floatingText({
-    coords: p.unit, text: `${PACIFIST_ID}: ${100 * percent}%`
-  });
-  Unit.takeDamage({ amount, unit: p.unit, pureDamage: true }, underworld, prediction)
-
 }

@@ -4181,6 +4181,17 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       }
     }
 
+
+    // Handle onCast events
+    const events = [...this.events, ...effectState.casterUnit.events];
+    for (let eventName of events) {
+      const fn = Events.onCastSource[eventName];
+      if (fn) {
+        fn(effectState, this, prediction);
+      }
+    }
+
+
     const castingParticleEmitter = makeRisingParticles(effectState.casterUnit, prediction, hexToString(magicColor || 0xffffff), -1);
 
     // "quantity" is the number of identical cards cast in a row. Rather than casting the card sequentially
@@ -4906,7 +4917,7 @@ export interface LevelData {
   }[];
 }
 
-interface CastCardsArgs {
+export interface CastCardsArgs {
   casterCardUsage: Player.CardUsage,
   casterUnit: Unit.IUnit,
   casterPositionAtTimeOfCast: Vec2,

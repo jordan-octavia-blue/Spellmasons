@@ -21,6 +21,7 @@ import Events, {
   onFullTurnCycle,
   onCostCalculation,
   onForceMove,
+  onCast,
 } from '../Events';
 import Subsprites, { Subsprite } from '../Subsprites';
 // Register spells:
@@ -340,6 +341,7 @@ export interface Events {
   onProjectileCollision?: onProjectileCollision;
   onCostCalculation?: onCostCalculation;
   onForceMove?: onForceMove;
+  onCast?: onCast;
 }
 export interface Spell {
   card: ICard;
@@ -412,6 +414,9 @@ export function registerEvents(id: string, events: Events) {
   }
   if (events.onCostCalculation) {
     Events.onCostCalculationSource[id] = events.onCostCalculation;
+  }
+  if (events.onCast) {
+    Events.onCastSource[id] = events.onCast;
   }
 }
 
