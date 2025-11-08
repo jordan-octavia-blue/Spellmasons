@@ -16,7 +16,7 @@ import * as particles from 'jdoleary-fork-pixi-particle-emitter';
 import { createParticleTexture, logNoTextureWarning, wrappedEmitter } from '../graphics/Particles';
 import { stopAndDestroyForeverEmitter } from '../graphics/ParticleCollection';
 import { raceTimeout } from '../Promise';
-import { similarTriangles } from '../jmath/math';
+import { distance, similarTriangles } from '../jmath/math';
 
 export const meteorCardId = 'meteor';
 const damage = 60;
@@ -41,8 +41,13 @@ const spell: Spell = {
       const targetedUnits = state.targetedUnits.filter(u => u.alive);
       let meteorLocations: Vec2[] = [];
       if (targetedUnits.length > 0) {
-        targetedUnits.forEach(u => {
-          meteorLocations.push({ x: u.x, y: u.y })
+        targetedUnits.forEach((u, i) => {
+          if (u.id == state.initialTargetedUnitId) {
+            // Use cast location for target under cast Location so it doesn't snap
+            meteorLocations.push(state.castLocation);
+          } else {
+            meteorLocations.push({ x: u.x, y: u.y })
+          }
         });
       }
       else {
