@@ -575,7 +575,8 @@ const {
   commonTypes: commonTypes$F,
   cards: cards$x,
   Particles: Particles$5,
-  FloatingText: FloatingText$7
+  FloatingText: FloatingText$7,
+  EffectsHeal: EffectsHeal$2
 } = globalThis.SpellmasonsAPI;
 const { refundLastSpell: refundLastSpell$k } = cards$x;
 const Unit$x = globalThis.SpellmasonsAPI.Unit;
@@ -616,7 +617,7 @@ Tastes like chicken.`],
         for (let unit2 of targets) {
           Unit$x.cleanup(unit2);
         }
-        state.casterUnit.mana += totalManaHarvested;
+        EffectsHeal$2.healManaUnit(state.casterUnit, totalManaHarvested, void 0, underworld, prediction);
       });
       if (targets.length == 0 && !totalManaHarvested) {
         refundLastSpell$k(state, prediction, "No corpses, health refunded");
