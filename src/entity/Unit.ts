@@ -60,6 +60,7 @@ import { runeHardenedMinionsId } from '../modifierHardenedMinions';
 import { runeSharpTeethId } from '../modifierSharpTeeth';
 import { isDeathmason, isGoru } from './Player';
 import { createFloatingParticleSystem, removeFloatingParticlesFor } from '../graphics/Particles';
+import { GREEN_GLOP_ID } from './units/greenGlop';
 
 const elCautionBox = document.querySelector('#caution-box') as HTMLElement;
 const elCautionBoxText = document.querySelector('#caution-box-text') as HTMLElement;
@@ -1756,8 +1757,8 @@ export function makeMiniboss(unit: IUnit, underworld: Underworld) {
 
 
   //// start: Special Modifier Exceptions
-  // ban "Slime" from Support classes and bosses
-  if (unit.unitSubType === UnitSubType.SUPPORT_CLASS || unit.unitSourceId === GORU_UNIT_ID || unit.unitSourceId === bossmasonUnitId) {
+  // ban "Slime" from Support classes and bosses and green glop (since green glops auto merge, they should never get slime)
+  if (unit.unitSubType === UnitSubType.SUPPORT_CLASS || unit.unitSourceId === GORU_UNIT_ID || unit.unitSourceId === bossmasonUnitId || unit.unitSourceId == GREEN_GLOP_ID) {
     availableSpawnModifiers = availableSpawnModifiers.filter(x => x.id !== slimeId && x.id !== doubledamageId);
   }
   // Growth is OP on vampires because of the extra health on blood curse

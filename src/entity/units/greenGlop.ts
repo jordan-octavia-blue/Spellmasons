@@ -14,7 +14,7 @@ const greenGlopColorReplaceColors: [number, number][] = [
   [0x67c3d7, 0x58b866],
 ];
 const numberOfTargets = 6;
-const GREEN_GLOP_ID = 'Green Glop';
+export const GREEN_GLOP_ID = 'Green Glop';
 const unit: UnitSource = {
   id: GREEN_GLOP_ID,
   info: {
