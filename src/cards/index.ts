@@ -406,6 +406,9 @@ export function registerEvents(id: string, events: Events) {
   if (events.onTurnEnd) {
     Events.onTurnEndSource[id] = events.onTurnEnd;
   }
+  if (events.onForceMove) {
+    Events.onForceMoveSource[id] = events.onForceMove;
+  }
   if (events.onDrawSelected) {
     Events.onDrawSelectedSource[id] = events.onDrawSelected;
   }
