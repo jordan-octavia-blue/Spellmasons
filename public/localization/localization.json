@@ -844,7 +844,7 @@
         "rune_pacifist": "Every time you cast a spell, take 🍞% of your max health as damage for each Damage card, Curse card, or Summon card in the spell.",
         "percent": "Percent",
         "i am gripthulu": "I am Gripthulu",
-        "rune_i_am_gripthulu": "At the end of your turn, using Gripthulu magic, pull enemies towards you"
+        "rune_i_am_gripthulu": "At the end of your turn, using Gripthulu magic, pull enemies towards you if they are within your cast range."
     },
     {
         "language": "Français",
@@ -1691,7 +1691,7 @@
         "rune_pacifist": "Chaque fois que vous lancez un sort, prenez 🍞% de votre santé maximale en tant que dégâts pour chaque carte de Dégâts, de Malédiction ou d'Invocation dans le sort.",
         "percent": "Pourcentage",
         "i am gripthulu": "Je suis Gripthulu",
-        "rune_i_am_gripthulu": "À la fin de votre tour, en utilisant la magie de Gripthulu, attirez les ennemis vers vous."
+        "rune_i_am_gripthulu": "À la fin de votre tour, en utilisant la magie de Gripthulu, attirez les ennemis vers vous s'ils sont à portée de votre sort."
     },
     {
         "language": "italiano",
@@ -2538,7 +2538,7 @@
         "rune_pacifist": "Ogni volta che lanci un incantesimo, subisci il 🍞% della tua salute massima come danno per ogni carta Danno, Maledizione o Evocazione nell'incantesimo.",
         "percent": "Percentuale",
         "i am gripthulu": "Sono Gripthulu",
-        "rune_i_am_gripthulu": "Alla fine del tuo turno, usando la magia di Gripthulu, attira i nemici verso di te."
+        "rune_i_am_gripthulu": "Alla fine del tuo turno, usando la magia di Gripthulu, attira i nemici verso di te se sono nel tuo raggio d'azione."
     },
     {
         "language": "Deutsch",
@@ -3385,7 +3385,7 @@
         "rune_pacifist": "Jedes Mal, wenn du einen Zauber wirkst, erleidest du 🍞% deiner maximalen Gesundheit als Schaden für jede Schaden-, Fluch- oder Beschwörungskarte im Zauber.",
         "percent": "Prozent",
         "i am gripthulu": "Ich bin Gripthulu",
-        "rune_i_am_gripthulu": "Am Ende deines Zuges ziehst du mit Gripthulu-Magie Feinde zu dir."
+        "rune_i_am_gripthulu": "Am Ende deines Zuges, ziehe mit Gripthulu-Magie Feinde zu dir, wenn sie sich in deiner Zauberreichweite befinden."
     },
     {
         "language": "español",
@@ -4232,7 +4232,7 @@
         "rune_pacifist": "Cada vez que lanzas un hechizo, recibe 🍞% de tu salud máxima como daño por cada carta de Daño, carta de Maldición o carta de Invocación en el hechizo.",
         "percent": "Porcentaje",
         "i am gripthulu": "Soy Gripthulu",
-        "rune_i_am_gripthulu": "Al final de tu turno, usando la magia de Gripthulu, atrae a los enemigos hacia ti."
+        "rune_i_am_gripthulu": "Al final de tu turno, usando la magia de Gripthulu, atrae a los enemigos hacia ti si están dentro de tu alcance de lanzamiento."
     },
     {
         "language": "日本",
@@ -5079,7 +5079,7 @@
         "rune_pacifist": "呪文を唱えるたびに、その呪文に含まれるダメージカード、呪いカード、または召喚カード1枚につき最大体力の🍞%のダメージを受ける。",
         "percent": "パーセント",
         "i am gripthulu": "私はGripthuluです",
-        "rune_i_am_gripthulu": "ターンの終了時に、Gripthuluの魔法を使って敵を自分の方に引き寄せる。"
+        "rune_i_am_gripthulu": "自分のターンの終了時に、Gripthuluの魔法を使って、キャスト範囲内にいる敵を自分の方に引き寄せる。"
     },
     {
         "language": "Português",
@@ -5926,7 +5926,7 @@
         "rune_pacifist": "Toda vez que você lançar uma magia, receba 🍞% do seu máximo de vida como dano para cada carta de Dano, carta de Maldição ou carta de Invocação na magia.",
         "percent": "Porcentagem",
         "i am gripthulu": "Eu sou Gripthulu",
-        "rune_i_am_gripthulu": "No final do seu turno, usando a magia de Gripthulu, puxe os inimigos em sua direção."
+        "rune_i_am_gripthulu": "No final do seu turno, usando a magia de Gripthulu, puxe os inimigos em sua direção se estiverem dentro do seu alcance de conjuração."
     },
     {
         "language": "عربى",
@@ -6773,7 +6773,7 @@
         "rune_pacifist": "في كل مرة تلقي تعويذة، تلحق بـ 🍞٪ من صحة القصوى كضرر لكل بطاقة ضرر أو بطاقة لعنة أو بطاقة استدعاء في التعويذة.",
         "percent": "نسبة مئوية",
         "i am gripthulu": "أنا Gripthulu",
-        "rune_i_am_gripthulu": "في نهاية دورك، باستخدام سحر Gripthulu، اجذب الأعداء نحوك"
+        "rune_i_am_gripthulu": "في نهاية دورك، باستخدام سحر Gripthulu، اجذب الأعداء نحوك إذا كانوا في نطاق إلقائك."
     },
     {
         "language": "한국어",
@@ -7620,7 +7620,7 @@
         "rune_pacifist": "주문을 시전할 때마다 주문 내의 피해 카드, 저주 카드, 소환 카드 각각에 대해 최대 체력의 🍞%만큼 피해를 입습니다.",
         "percent": "퍼센트",
         "i am gripthulu": "나는 Gripthulu이다.",
-        "rune_i_am_gripthulu": "턴이 종료될 때, Gripthulu 마법을 사용하여 적을 당신에게 끌어당기세요."
+        "rune_i_am_gripthulu": "턴이 끝날 때, Gripthulu 마법을 사용하여 시전 범위 내에 있는 적을 자신 쪽으로 끌어옵니다."
     },
     {
         "language": "Русский",
@@ -8467,7 +8467,7 @@
         "rune_pacifist": "Каждый раз, когда вы накладываете заклинание, получайте урон в размере 🍞% от вашего максимального здоровья за каждую карту урона, проклятия или призыва в заклинании.",
         "percent": "Процент",
         "i am gripthulu": "Я — Gripthulu",
-        "rune_i_am_gripthulu": "В конце вашего хода, используя магию Gripthulu, подтяните врагов к себе."
+        "rune_i_am_gripthulu": "В конце своего хода, используя магию Gripthulu, притяните врагов к себе, если они находятся в пределах вашей дальности заклинания."
     },
     {
         "language": "中文(简)",
@@ -9314,7 +9314,7 @@
         "rune_pacifist": "每次施放法术时，每张伤害卡、诅咒卡或召唤卡都会对你造成等于最大生命值🍞%的伤害。",
         "percent": "百分比",
         "i am gripthulu": "我是Gripthulu",
-        "rune_i_am_gripthulu": "回合结束时，使用Gripthulu魔法，将敌人拉向你。"
+        "rune_i_am_gripthulu": "在你的回合结束时，使用Gripthulu魔法，如果敌人在你的施法范围内，将他们拉向你。"
     },
     {
         "language": "中文(繁)",
@@ -10161,7 +10161,7 @@
         "rune_pacifist": "每當你施放法術時，為法術中的每張傷害卡、詛咒卡或召喚卡承受等於你最大生命值🍞%的傷害。",
         "percent": "百分比",
         "i am gripthulu": "我是Gripthulu",
-        "rune_i_am_gripthulu": "在你回合結束時，使用 Gripthulu 魔法將敵人拉向你。"
+        "rune_i_am_gripthulu": "在你的回合結束時，如果敵人在你的施放範圍內，使用Gripthulu魔法將他們拉向你。"
     },
     {
         "language": "Polski",
@@ -11008,7 +11008,7 @@
         "rune_pacifist": "Za każdym razem, gdy rzucasz zaklęcie, otrzymujesz obrażenia w wysokości 🍞% swojego maksymalnego zdrowia za każdą kartę Obrażeń, Przekleństwa lub Przywołania w zaklęciu.",
         "percent": "Procent",
         "i am gripthulu": "Jestem Gripthulu",
-        "rune_i_am_gripthulu": "Na koniec swojej tury, używając magii Gripthulu, przyciągnij wrogów do siebie."
+        "rune_i_am_gripthulu": "Na końcu swojej tury, używając magii Gripthulu, przyciągnij wrogów do siebie, jeśli są w zasięgu twojego rzutu."
     },
     {
         "language": "Dutch",
@@ -11855,7 +11855,7 @@
         "rune_pacifist": "Elke keer dat je een spreuk uitspreekt, neem 🍞% van je maximale gezondheid als schade voor elke Schadekaart, Vervloekingskaart of Oproepkaart in de spreuk.",
         "percent": "Procent",
         "i am gripthulu": "Ik ben Gripthulu",
-        "rune_i_am_gripthulu": "Aan het einde van je beurt, gebruikmakend van Gripthulu magie, trek vijanden naar je toe."
+        "rune_i_am_gripthulu": "Aan het einde van je beurt, gebruikmakend van Gripthulu-magie, trek vijanden naar je toe als ze binnen je bereik liggen."
     },
     {
         "language": "Предреформенный русскій",

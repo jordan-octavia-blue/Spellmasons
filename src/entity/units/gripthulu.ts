@@ -156,7 +156,7 @@ export async function animateDrag(start: Vec2, end: Vec2) {
 }
 export default unit;
 
-export const gripthuluAction = 'Gripthulu Magic';
+export const gripthuluAction = 'I am Gripthulu';
 export function registerGripthuluAction() {
 
   registerEvents(gripthuluAction, {

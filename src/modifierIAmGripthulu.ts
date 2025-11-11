@@ -10,6 +10,7 @@ export default function register_i_am_gripthulu() {
     registerModifiers(iamgripthulu, {
         description: ('rune_i_am_gripthulu'),
         _costPerUpgrade: 40,
+        unitOfMeasure: 'Units',
         quantityPerUpgrade: 1,
         maxUpgradeCount: 5,
         omitForWizardType: ['Deathmason', 'Goru'],
