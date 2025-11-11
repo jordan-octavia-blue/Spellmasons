@@ -918,6 +918,10 @@ export function die(unit: IUnit, underworld: Underworld, prediction: boolean, so
   if (globalThis.player) {
     tryCollectSoul(globalThis.player, unit, underworld, prediction);
   }
+  if (!prediction && globalThis.player?.wizardType === 'Goru' && unit.soulFragments > 0) {
+    //Show uncollected souls:
+    createFloatingParticleSystem(unit, unit.soulFragments);
+  }
 
   const events = [...unit.events, ...underworld.events];
   const overriddenSourceUnit = sourceUnit?.summonedBy || sourceUnit;
@@ -1008,10 +1012,6 @@ export function die(unit: IUnit, underworld: Underworld, prediction: boolean, so
   if (unit.originalLife && unit.faction == Faction.ENEMY) {
     // Reset kill switch since the allies are making progress
     underworld.allyNPCAttemptWinKillSwitch = 0;
-  }
-  if (!prediction && globalThis.player?.wizardType === 'Goru' && unit.soulFragments > 0) {
-    //Show uncollected souls:
-    createFloatingParticleSystem(unit, unit.soulFragments);
   }
   // Once a unit dies it is no longer on it's originalLife
   unit.originalLife = false;
