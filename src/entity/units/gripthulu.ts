@@ -12,6 +12,7 @@ import { forcePushToDestination } from '../../effects/force_move';
 import { getBestRangedLOSTarget, rangedLOSMovement } from './actions/rangedAction';
 import { registerEvents } from '../../cards';
 import { getOrInitModifier } from '../../cards/util';
+import { raceTimeout } from '../../Promise';
 
 export const gripthulu_id = 'gripthulu';
 const unit: UnitSource = {
@@ -179,14 +180,21 @@ export function registerGripthuluAction() {
           Unit.orient(unit, attackTarget);
           let promise = Promise.resolve();
           if (isPlayerUnit) {
-            // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
-            // because the forcePush must be invoked syncronously such that the forceMove record
-            // is created when this function returns syncronously so that the headless engine will
-            // run forceMoves as soon as it is done
-            if (!globalThis.headless) {
-              await animateDrag(unit, attackTarget);
+            const quantity = unit.modifiers[gripthuluAction]?.quantity || 1;
+            const promises = []
+            for (let target of attackTargets.slice(0, quantity)) {
+
+              // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
+              // because the forcePush must be invoked syncronously such that the forceMove record
+              // is created when this function returns syncronously so that the headless engine will
+              // run forceMoves as soon as it is done
+              let animatePromise = Promise.resolve();
+              if (!globalThis.headless) {
+                animatePromise = animateDrag(unit, target);
+              }
+              promises.push(animatePromise.then(() => forcePushToDestination(target, unit, 1, underworld, false, unit)));
             }
-            promise = forcePushToDestination(attackTarget, unit, 1, underworld, false, unit);
+            promise = raceTimeout(2000, "player gripthulu", Promise.all(promises));
           } else {
             unit.mana -= unit.manaCostToCast;
             // CAUTION: Desync risk, having 2 awaits in headless causes a movement desync
