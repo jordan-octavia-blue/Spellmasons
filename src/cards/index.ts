@@ -982,12 +982,13 @@ export function getMaxRuneQuantity(modifier: Modifiers) {
 // swapping their order changes the outcome of the event.
 // I.E. Debilitate and Armor can't be in the same stage,
 // but Debilitate and Fortify are mostly interchangeable
-export type MODIFIER_STAGE = 'Soul Shard' | 'Soul Bind' | 'Amount Multiplier' | 'Amount Flat' | 'Amount Override'
+export type MODIFIER_STAGE = 'Soul Shard' | 'Soul Bind' | 'Pre' | 'Amount Multiplier' | 'Amount Flat' | 'Amount Override'
   | 'Blood Curse' | 'Reactive Effects' | 'Unstaged Events';
 export const MODIFIER_ORDER: MODIFIER_STAGE[] = [
   'Soul Shard',
   'Soul Bind',
   'Blood Curse',
+  'Pre',
   'Amount Multiplier',
   'Amount Flat',
   'Amount Override',

@@ -13,6 +13,7 @@ export default function registerThorns() {
     description: 'rune_thorns_description',
     _costPerUpgrade: 80,
     quantityPerUpgrade: 5,
+    stage: 'Pre',
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, thornsId, { isCurse: false, quantity, keepOnDeath: true }, () => {
         Unit.addEvent(unit, thornsId);

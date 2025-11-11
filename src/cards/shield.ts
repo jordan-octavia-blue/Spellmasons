@@ -48,6 +48,7 @@ const spell: Spell = {
     },
   },
   modifiers: {
+    stage: 'Amount Override',
     add,
     addModifierVisuals(unit, underworld) {
       // Add subsprite image
