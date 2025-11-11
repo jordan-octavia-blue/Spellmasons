@@ -10,7 +10,7 @@ import { containerProjectiles } from '../../graphics/PixiUtils';
 import { getAngleBetweenVec2s, Vec2 } from '../../jmath/Vec';
 import { forcePushToDestination } from '../../effects/force_move';
 import { getBestRangedLOSTarget, rangedLOSMovement } from './actions/rangedAction';
-import { registerEvents } from '../../cards';
+import { allModifiers, registerEvents } from '../../cards';
 import { getOrInitModifier } from '../../cards/util';
 import { raceTimeout } from '../../Promise';
 
@@ -161,7 +161,13 @@ export const gripthuluAction = 'I am Gripthulu';
 export function registerGripthuluAction() {
 
   registerEvents(gripthuluAction, {
-
+    onTooltip: (unit: Unit.IUnit, underworld: Underworld) => {
+      const modifier = unit.modifiers[gripthuluAction];
+      if (modifier && allModifiers[gripthuluAction]) {
+        // Only player units should get the description
+        allModifiers[gripthuluAction].description = unit.unitType == UnitType.PLAYER_CONTROLLED ? i18n('rune_i_am_gripthulu') : '';
+      }
+    },
     onTurnEnd: async (unit: Unit.IUnit, underworld: Underworld, prediction: boolean) => {
       //@ts-ignore: Prevent attacking after moving
       if (unit.movedThisTurn) {
