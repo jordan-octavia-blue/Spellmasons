@@ -503,7 +503,10 @@ export function serialize(unit: IUnit): IUnitSerialized {
   // the network (it would just be extra data), better to restore from the source unit
 
   // omit predictionCopy because it is a transient reference and shouldn't be serialized
-  const { resolveDoneMoving, animations, sfx, predictionCopy, events, summonedBy, ...rest } = unit
+  const { resolveDoneMoving, animations, sfx, predictionCopy, events, summonedBy,
+    // @ts-ignore: Do not serialize
+    targetedByGripthulu,
+    ...rest } = unit
   return {
     ...rest,
     summonedById: summonedBy?.id || undefined,
