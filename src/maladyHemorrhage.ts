@@ -48,6 +48,13 @@ export default function registerHemorrhage() {
     }
   });
   registerEvents(HEMORRHAGING_ID, {
+    onTakeDamage: (unit: Unit.IUnit, amount: number, underworld: Underworld, prediction: boolean, damageDealer?: Unit.IUnit) => {
+      // Stop hemorrhaging when healed
+      if (amount < 0) {
+        Unit.removeModifier(unit, HEMORRHAGING_ID, underworld)
+      }
+      return amount;
+    },
     onTurnStart: async (unit: Unit.IUnit, underworld: Underworld, prediction: boolean) => {
       const modifier = unit.modifiers[HEMORRHAGING_ID];
       if (modifier) {
