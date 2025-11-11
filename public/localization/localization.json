@@ -842,7 +842,9 @@
         "rune_bloody_robes": "Gain \"Bleeding\" whenever you take damage.  \"Bleeding\" causes you to take damage on the start of your turn until you are healed.",
         "pacifist": "Pacifist",
         "rune_pacifist": "Every time you cast a spell, take 🍞% of your max health as damage for each Damage card, Curse card, or Summon card in the spell.",
-        "percent": "Percent"
+        "percent": "Percent",
+        "i am gripthulu": "I am Gripthulu",
+        "rune_i_am_gripthulu": "At the end of your turn, using Gripthulu magic, pull enemies towards you"
     },
     {
         "language": "Français",
@@ -1687,7 +1689,9 @@
         "rune_bloody_robes": "Gagnez \"Saignement\" chaque fois que vous subissez des dégâts. \"Saignement\" vous inflige des dégâts au début de votre tour jusqu'à ce que vous soyez soigné.",
         "pacifist": "Pacifiste",
         "rune_pacifist": "Chaque fois que vous lancez un sort, prenez 🍞% de votre santé maximale en tant que dégâts pour chaque carte de Dégâts, de Malédiction ou d'Invocation dans le sort.",
-        "percent": "Pourcentage"
+        "percent": "Pourcentage",
+        "i am gripthulu": "Je suis Gripthulu",
+        "rune_i_am_gripthulu": "À la fin de votre tour, en utilisant la magie de Gripthulu, attirez les ennemis vers vous."
     },
     {
         "language": "italiano",
@@ -2532,7 +2536,9 @@
         "rune_bloody_robes": "Ottieni \"Sanguinamento\" ogni volta che subisci danni. \"Sanguinamento\" ti causa danni all'inizio del tuo turno finché non vieni curato.",
         "pacifist": "Pacifista",
         "rune_pacifist": "Ogni volta che lanci un incantesimo, subisci il 🍞% della tua salute massima come danno per ogni carta Danno, Maledizione o Evocazione nell'incantesimo.",
-        "percent": "Percentuale"
+        "percent": "Percentuale",
+        "i am gripthulu": "Sono Gripthulu",
+        "rune_i_am_gripthulu": "Alla fine del tuo turno, usando la magia di Gripthulu, attira i nemici verso di te."
     },
     {
         "language": "Deutsch",
@@ -3377,7 +3383,9 @@
         "rune_bloody_robes": "Erhalte \"Bluten\", wenn du Schaden nimmst. \"Bluten\" führt dazu, dass du zu Beginn deines Zuges Schaden nimmst, bis du geheilt wirst.",
         "pacifist": "Pazifist",
         "rune_pacifist": "Jedes Mal, wenn du einen Zauber wirkst, erleidest du 🍞% deiner maximalen Gesundheit als Schaden für jede Schaden-, Fluch- oder Beschwörungskarte im Zauber.",
-        "percent": "Prozent"
+        "percent": "Prozent",
+        "i am gripthulu": "Ich bin Gripthulu",
+        "rune_i_am_gripthulu": "Am Ende deines Zuges ziehst du mit Gripthulu-Magie Feinde zu dir."
     },
     {
         "language": "español",
@@ -4222,7 +4230,9 @@
         "rune_bloody_robes": "Obtén \"Sangrado\" cada vez que recibas daño. \"Sangrado\" hace que recibas daño al comienzo de tu turno hasta que seas curado.",
         "pacifist": "Pacifista",
         "rune_pacifist": "Cada vez que lanzas un hechizo, recibe 🍞% de tu salud máxima como daño por cada carta de Daño, carta de Maldición o carta de Invocación en el hechizo.",
-        "percent": "Porcentaje"
+        "percent": "Porcentaje",
+        "i am gripthulu": "Soy Gripthulu",
+        "rune_i_am_gripthulu": "Al final de tu turno, usando la magia de Gripthulu, atrae a los enemigos hacia ti."
     },
     {
         "language": "日本",
@@ -5067,7 +5077,9 @@
         "rune_bloody_robes": "ダメージを受けるたびに「出血」を得る。「出血」は、ヒールされるまで自分のターン開始時にダメージを受けます。",
         "pacifist": "平和主義者",
         "rune_pacifist": "呪文を唱えるたびに、その呪文に含まれるダメージカード、呪いカード、または召喚カード1枚につき最大体力の🍞%のダメージを受ける。",
-        "percent": "パーセント"
+        "percent": "パーセント",
+        "i am gripthulu": "私はGripthuluです",
+        "rune_i_am_gripthulu": "ターンの終了時に、Gripthuluの魔法を使って敵を自分の方に引き寄せる。"
     },
     {
         "language": "Português",
@@ -5912,7 +5924,9 @@
         "rune_bloody_robes": "Ganha \"Sangramento\" sempre que sofrer dano. \"Sangramento\" faz você sofrer dano no início do seu turno até ser curado.",
         "pacifist": "Pacifista",
         "rune_pacifist": "Toda vez que você lançar uma magia, receba 🍞% do seu máximo de vida como dano para cada carta de Dano, carta de Maldição ou carta de Invocação na magia.",
-        "percent": "Porcentagem"
+        "percent": "Porcentagem",
+        "i am gripthulu": "Eu sou Gripthulu",
+        "rune_i_am_gripthulu": "No final do seu turno, usando a magia de Gripthulu, puxe os inimigos em sua direção."
     },
     {
         "language": "عربى",
@@ -6757,7 +6771,9 @@
         "rune_bloody_robes": "اكتسب \"نزيف\" كلما تلقيت ضرر. يسبب \"النزيف\" لك تلقي الضرر في بداية دورك حتى تُشفى.",
         "pacifist": "مسالم",
         "rune_pacifist": "في كل مرة تلقي تعويذة، تلحق بـ 🍞٪ من صحة القصوى كضرر لكل بطاقة ضرر أو بطاقة لعنة أو بطاقة استدعاء في التعويذة.",
-        "percent": "نسبة مئوية"
+        "percent": "نسبة مئوية",
+        "i am gripthulu": "أنا Gripthulu",
+        "rune_i_am_gripthulu": "في نهاية دورك، باستخدام سحر Gripthulu، اجذب الأعداء نحوك"
     },
     {
         "language": "한국어",
@@ -7602,7 +7618,9 @@
         "rune_bloody_robes": "피해를 입을 때마다 \"출혈\" 상태가 됩니다. \"출혈\" 상태에서는 치료될 때까지 당신의 턴이 시작될 때마다 피해를 입습니다.",
         "pacifist": "평화주의자",
         "rune_pacifist": "주문을 시전할 때마다 주문 내의 피해 카드, 저주 카드, 소환 카드 각각에 대해 최대 체력의 🍞%만큼 피해를 입습니다.",
-        "percent": "퍼센트"
+        "percent": "퍼센트",
+        "i am gripthulu": "나는 Gripthulu이다.",
+        "rune_i_am_gripthulu": "턴이 종료될 때, Gripthulu 마법을 사용하여 적을 당신에게 끌어당기세요."
     },
     {
         "language": "Русский",
@@ -8447,7 +8465,9 @@
         "rune_bloody_robes": "Получите \"Кровотечение\", когда получаете урон. \"Кровотечение\" заставляет получать урон в начале вашего хода, пока вы не будете исцелены.",
         "pacifist": "Пацифист",
         "rune_pacifist": "Каждый раз, когда вы накладываете заклинание, получайте урон в размере 🍞% от вашего максимального здоровья за каждую карту урона, проклятия или призыва в заклинании.",
-        "percent": "Процент"
+        "percent": "Процент",
+        "i am gripthulu": "Я — Gripthulu",
+        "rune_i_am_gripthulu": "В конце вашего хода, используя магию Gripthulu, подтяните врагов к себе."
     },
     {
         "language": "中文(简)",
@@ -9292,7 +9312,9 @@
         "rune_bloody_robes": "每当你受到伤害时获得\"流血\"效果。\"流血\"会在你的回合开始时使你受到伤害，直到你被治疗。",
         "pacifist": "和平主义者",
         "rune_pacifist": "每次施放法术时，每张伤害卡、诅咒卡或召唤卡都会对你造成等于最大生命值🍞%的伤害。",
-        "percent": "百分比"
+        "percent": "百分比",
+        "i am gripthulu": "我是Gripthulu",
+        "rune_i_am_gripthulu": "回合结束时，使用Gripthulu魔法，将敌人拉向你。"
     },
     {
         "language": "中文(繁)",
@@ -10137,7 +10159,9 @@
         "rune_bloody_robes": "每當你受到傷害時獲得「流血」。 「流血」會在你的回合開始時讓你受到傷害，直到你被治癒。",
         "pacifist": "和平主義者",
         "rune_pacifist": "每當你施放法術時，為法術中的每張傷害卡、詛咒卡或召喚卡承受等於你最大生命值🍞%的傷害。",
-        "percent": "百分比"
+        "percent": "百分比",
+        "i am gripthulu": "我是Gripthulu",
+        "rune_i_am_gripthulu": "在你回合結束時，使用 Gripthulu 魔法將敵人拉向你。"
     },
     {
         "language": "Polski",
@@ -10982,7 +11006,9 @@
         "rune_bloody_robes": "Otrzymujesz \"Krwawienie\" za każdym razem, gdy otrzymujesz obrażenia. \"Krwawienie\" powoduje, że otrzymujesz obrażenia na początku swojej tury, dopóki nie zostaniesz wyleczony.",
         "pacifist": "Pacyfista",
         "rune_pacifist": "Za każdym razem, gdy rzucasz zaklęcie, otrzymujesz obrażenia w wysokości 🍞% swojego maksymalnego zdrowia za każdą kartę Obrażeń, Przekleństwa lub Przywołania w zaklęciu.",
-        "percent": "Procent"
+        "percent": "Procent",
+        "i am gripthulu": "Jestem Gripthulu",
+        "rune_i_am_gripthulu": "Na koniec swojej tury, używając magii Gripthulu, przyciągnij wrogów do siebie."
     },
     {
         "language": "Dutch",
@@ -11827,7 +11853,9 @@
         "rune_bloody_robes": "Verkrijg \"Bloeding\" telkens als je schade oploopt. \"Bloeding\" zorgt ervoor dat je aan het begin van je beurt schade oploopt totdat je genezen bent.",
         "pacifist": "Pacifist",
         "rune_pacifist": "Elke keer dat je een spreuk uitspreekt, neem 🍞% van je maximale gezondheid als schade voor elke Schadekaart, Vervloekingskaart of Oproepkaart in de spreuk.",
-        "percent": "Procent"
+        "percent": "Procent",
+        "i am gripthulu": "Ik ben Gripthulu",
+        "rune_i_am_gripthulu": "Aan het einde van je beurt, gebruikmakend van Gripthulu magie, trek vijanden naar je toe."
     },
     {
         "language": "Предреформенный русскій",
@@ -12672,6 +12700,8 @@
         "rune_bloody_robes": "",
         "pacifist": "",
         "rune_pacifist": "",
-        "percent": ""
+        "percent": "",
+        "i am gripthulu": "",
+        "rune_i_am_gripthulu": ""
     }
 ]
