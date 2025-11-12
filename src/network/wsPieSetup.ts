@@ -361,3 +361,10 @@ export function setupPieAndUnderworld() {
 export function isSinglePlayer(): boolean {
   return !!globalThis.pie?.soloMode;
 }
+// This is not the inverse of isSinglePlayer because isSinglePlayer is checking for
+// network connections and will return true even in hotseat multiplayer, if you need
+// to check if there are multiple players (hotseat or online), use this function
+export function multiplePlayers(underworld: Underworld): boolean {
+  return !!underworld.players.filter(p => p.clientConnected).length;
+
+}

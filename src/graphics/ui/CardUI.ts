@@ -19,6 +19,7 @@ import { quantityWithUnit } from '../../cards/util';
 import { presentRunes } from '../../jmath/RuneUtil';
 import { sellCardId } from '../../cards/sell';
 import { STATUE_ID } from '../../maladyStatue';
+import { multiplePlayers } from '../../network/wsPieSetup';
 
 const elCardHolders = document.getElementById('card-holders') as HTMLElement;
 const elInvContent = document.getElementById('inventory-content') as HTMLElement;
@@ -1007,13 +1008,28 @@ async function selectCard(player: Player.IPlayer, element: HTMLElement, cardId: 
 
       // Check for insufficient souls
       if (player.wizardType == 'Goru' && predictionPlayerUnit.soulFragments) {
-        if (predictionPlayerUnit.soulFragments < 0 && predictionPlayerUnit.health <= 0) {
-          floatingText({
-            coords: underworld.getMousePos(),
-            text: 'Insufficient Health',
-            style: { fill: colors.errorRed, fontSize: '50px', ...config.PIXI_TEXT_DROP_SHADOW }
-          });
-          deselectLastCard(underworld);
+        if (multiplePlayers(underworld)) {
+          // In multiplayer, there is no soul debt; otherwise Goru is OP.  You must rely on coordinating
+          // with your allies to get souls if you run out
+          if (predictionPlayerUnit.soulFragments < 0) {
+            floatingText({
+              coords: underworld.getMousePos(),
+              text: 'Insufficient Soul Fragments',
+              style: { fill: colors.errorRed, fontSize: '50px', ...config.PIXI_TEXT_DROP_SHADOW }
+            });
+            deselectLastCard(underworld);
+          }
+        } else {
+          // In singleplayer, allow Goru to go into soul debt to prevent softlocks, where you have no souls
+          // and so can't kill any enemies to get more souls
+          if (predictionPlayerUnit.soulFragments < 0 && predictionPlayerUnit.health <= 0) {
+            floatingText({
+              coords: underworld.getMousePos(),
+              text: 'Insufficient Health',
+              style: { fill: colors.errorRed, fontSize: '50px', ...config.PIXI_TEXT_DROP_SHADOW }
+            });
+            deselectLastCard(underworld);
+          }
         }
       }
 

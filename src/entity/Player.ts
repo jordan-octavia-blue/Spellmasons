@@ -28,6 +28,7 @@ import { GORU_UNIT_ID } from './units/goru';
 import { undyingModifierId } from '../modifierUndying';
 import { bossmasonUnitId } from './units/deathmason';
 import { startingSoulsId } from '../modifierGoruConstants';
+import { multiplePlayers } from '../network/wsPieSetup';
 
 const elInGameLobby = document.getElementById('in-game-lobby') as (HTMLElement | undefined);
 elInGameLobby?.addEventListener('click', (e) => {
@@ -262,7 +263,8 @@ export function initializeWizardStatsForLevelStart(player: IPlayer, underworld: 
   // If in the beginning of a level set charges to full
   if (!player.isSpawned) {
     if (player.wizardType == 'Goru') {
-      const additionalStartingSouls = player.unit.modifiers[startingSoulsId]?.quantity || 0;
+      // Get additional starting souls in multiplayer because there is no soul debt in multiplayern
+      const additionalStartingSouls = (player.unit.modifiers[startingSoulsId]?.quantity || 0) + (multiplePlayers(underworld) ? 2 : 0);
       player.unit.soulFragments = config.GORU_PLAYER_STARTING_SOUL_FRAGMENTS + Math.floor(underworld.levelIndex / 2) + additionalStartingSouls;
       // Initialize soulFragmentsMax only if it doesn't already exist on Goru so as to not overwrite soul frag max upgrade
       if (!player.unit.soulFragmentsMax) {
