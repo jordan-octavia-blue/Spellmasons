@@ -17,7 +17,7 @@ const unit: UnitSource = {
     subtype: UnitSubType.RANGED_RADIUS,
   },
   unitProps: {
-    damage: 0,
+    damage: PERCENT_DAMAGE,
     attackRange: 1200,
     staminaMax: 0,
     healthMax: 30,
@@ -26,6 +26,7 @@ const unit: UnitSource = {
     manaPerTurn: 10,
     manaCostToCast: 20,
     bloodColor: 0x426061,
+    damageAsPercent: true,
   },
   spawnParams: {
     probability: 10,
@@ -62,7 +63,7 @@ const unit: UnitSource = {
           promises.push(makeManaTrail(unit, attackTarget, underworld, '#5a7879', '#304748', numberOfAllyAncients).then(() => {
             Unit.takeDamage({
               unit: attackTarget,
-              amount: attackTarget.healthMax * PERCENT_DAMAGE,
+              amount: unit.damage,
               sourceUnit: unit,
               fromVec2: unit,
             }, underworld, false);

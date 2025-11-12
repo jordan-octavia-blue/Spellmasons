@@ -3817,6 +3817,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
   }
   incrementTargetsNextTurnDamage(targets: Unit.IUnit[], damage: number, canAttack: boolean, sourceUnit: Unit.IUnit) {
     if (canAttack) {
+      const damageAsPercent = sourceUnit.damageAsPercent || false;
       for (let target of targets) {
         if (target.isMiniboss || target.unitType == UnitType.PLAYER_CONTROLLED) {
           // Skip calculating predictedNextTurnDamage for minibosses and players.
@@ -3831,7 +3832,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
           // so that AI don't skip over them while they are still living.
           continue;
         }
-        target.predictedNextTurnDamage += damage;
+        target.predictedNextTurnDamage += damageAsPercent ? target.healthMax * damage : damage;
       }
     }
   }

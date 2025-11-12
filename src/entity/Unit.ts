@@ -145,6 +145,9 @@ export type IUnit = HasSpace & HasLife & HasMana & HasStamina & {
   defaultImagePath: string;
   shaderUniforms: { [key: string]: any };
   damage: number;
+  // If unit deals damage as a percentage of target's max health
+  // note: then damage should be 0.0-1.0
+  damageAsPercent?: boolean;
   bloodColor: number;
   manaCostToCast: number;
   manaPerTurn: number;
@@ -1074,6 +1077,12 @@ export function takeDamage(damageArgs: damageArgs, underworld: Underworld, predi
   if (unit.modifiers[immune.id]) {
     immune.notifyImmune(unit, false);
     return
+  }
+  // If attacking unit deals damage as a percentage,
+  // convert damage amount to a percentage of the victim's
+  // max health
+  if (sourceUnit?.damageAsPercent) {
+    damageArgs.amount = Math.round(unit.healthMax * damageArgs.amount);
   }
   // Prevent infinite recursion from damage events causing further damage
   if (!unit.takingPureDamage && !pureDamage) {

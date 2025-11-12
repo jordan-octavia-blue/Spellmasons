@@ -64,8 +64,10 @@ function add(unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quan
     //no first time setup
   });
 
-  // Special balance case: Poisoner applies 1 stack of poison per damage
-  if (unit.unitSourceId == POISONER_ID) {
+  if (unit.damageAsPercent) {
+    unit.damage = Math.round(100 * (unit.damage - (statChange / 100 * quantity))) / 100;
+  } else if (unit.unitSourceId == POISONER_ID) {
+    // Special balance case: Poisoner applies 1 stack of poison per damage
     unit.damage -= quantity;
   } else {
     unit.damage -= statChange * quantity;

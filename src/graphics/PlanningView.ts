@@ -991,7 +991,7 @@ ${description ? `
   `: ''}
 <hr/>
 ${globalThis.selectedUnit.faction == Faction.ALLY ? '🤝' : '⚔️️'} ${i18n((Faction[globalThis.selectedUnit.faction] || '').toString())} ${globalThis.selectedUnit.unitType !== UnitType.PLAYER_CONTROLLED ? `
-🗡️ ${txt(globalThis.selectedUnit.damage)} ${i18n(['damage'])}` : ''}${globalThis.selectedUnit.unitSubType !== UnitSubType.MELEE ? `
+🗡️ ${globalThis.selectedUnit.damageAsPercent ? `${txt(globalThis.selectedUnit.damage * 100)}%` : txt(globalThis.selectedUnit.damage)} ${i18n(['damage'])}` : ''}${globalThis.selectedUnit.unitSubType !== UnitSubType.MELEE ? `
 🎯 ${txt(globalThis.selectedUnit.attackRange)} ${i18n(['attack range'])}` : ''}
 ❤️ ${txt(globalThis.selectedUnit.health)}/${txt(globalThis.selectedUnit.healthMax)} ${i18n(['health capacity'])}
 🔵 ${txt(globalThis.selectedUnit.mana)}/${txt(globalThis.selectedUnit.manaMax)} + ${txt(globalThis.selectedUnit.manaPerTurn)} ${i18n('Mana')} ${i18n('per turn')}
