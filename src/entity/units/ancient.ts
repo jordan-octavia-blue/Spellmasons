@@ -11,7 +11,7 @@ export const ANCIENT_UNIT_ID = 'ancient';
 const unit: UnitSource = {
   id: ANCIENT_UNIT_ID,
   info: {
-    description: 'ancient description',
+    description: ['ancient description', numberOfTargets.toString()],
     image: 'ancient',
     subtype: UnitSubType.RANGED_RADIUS,
   },
@@ -74,6 +74,7 @@ const unit: UnitSource = {
   getUnitAttackTargets: (unit: Unit.IUnit, underworld: Underworld) => {
     return Unit.livingUnitsInDifferentFaction(unit, underworld.units)
       .filter(u => Unit.inRange(unit, u))
+      .filter(Unit.filterSmartTarget)
       .sort(math.sortCosestTo(unit))
       .slice(0, numberOfTargets);
   }

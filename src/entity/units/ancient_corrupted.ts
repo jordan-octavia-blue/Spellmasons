@@ -12,7 +12,7 @@ export const CORRUPTED_ANCIENT_UNIT_ID = 'Corrupted Ancient';
 const unit: UnitSource = {
   id: CORRUPTED_ANCIENT_UNIT_ID,
   info: {
-    description: ['ancient_corrupted_description', (PERCENT_DAMAGE * 100).toString()],
+    description: ['ancient_corrupted_description', (PERCENT_DAMAGE * 100).toString(), numberOfTargets.toString()],
     image: 'ancient_corrupted',
     subtype: UnitSubType.RANGED_RADIUS,
   },
@@ -76,6 +76,7 @@ const unit: UnitSource = {
   getUnitAttackTargets: (unit: Unit.IUnit, underworld: Underworld) => {
     return Unit.livingUnitsInDifferentFaction(unit, underworld.units)
       .filter(u => Unit.inRange(unit, u))
+      .filter(Unit.filterSmartTarget)
       .sort(math.sortCosestTo(unit))
       .slice(0, numberOfTargets);
   }
