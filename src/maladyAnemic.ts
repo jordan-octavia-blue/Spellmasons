@@ -28,7 +28,9 @@ export default function registerAnemia() {
       if (modifier) {
         if (damageDealer && damageDealer.faction !== unit.faction) {
           unit.healthMax -= LOST_MAX_HEALTH;
-          floatingText({ coords: unit, text: ['anemia_floating_text', LOST_MAX_HEALTH.toString()], prediction });
+          unit.healthMax = Math.max(1, unit.healthMax);
+          if (unit.healthMax > 1)
+            floatingText({ coords: unit, text: ['anemia_floating_text', LOST_MAX_HEALTH.toString()], prediction });
         }
       }
 
