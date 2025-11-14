@@ -11,6 +11,8 @@
 - Test saving if you modify underworld with new elements added to the level that need to be serialized
 - Test loading an old save file for backwards compatibility
 - **Clear local storage and reboot game and make sure it plays** `localStorage.clear()`
+    - Purge saved settings too: spellmasons_settings.json';
+    - This is critical: https://discord.com/channels/1032294536640200766/1431665177278808226/1431751252353745119
 
 Oct 24:
 - [ ] Remove pillar and altar from codex
