@@ -1713,7 +1713,11 @@ export function setupNetworkHandlerGlobalFunctions(overworld: Overworld) {
             if (globalThis.clientId) {
               if (player) {
                 player.clientId = globalThis.clientId;
-                player.playerId = `${player.clientId}_${i}`;
+                // This if ensures that the original player's playerId isn't reassigned, which was leading to
+                // shuffled runes on load
+                if (i > 0) {
+                  player.playerId = `${player.clientId}_${i}`;
+                }
               }
             }
           }
