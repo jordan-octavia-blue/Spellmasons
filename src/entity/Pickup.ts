@@ -712,6 +712,11 @@ export const pickups: IPickupSource[] = [
     scale: 1.0,
     playerOnly: true,
     willTrigger: ({ unit, player, pickup, underworld }) => {
+      if (player && player.wizardType == 'Goru') {
+        if (player.unit.soulFragmentsMax && player.unit.soulFragments >= player.unit.soulFragmentsMax) {
+          return false;
+        }
+      }
       return !!player;
     },
     effect: ({ unit, pickup, player, underworld, prediction }) => {

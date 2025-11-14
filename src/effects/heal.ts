@@ -43,6 +43,10 @@ export async function healManaUnits(units: Unit.IUnit[], amount: number, sourceU
       if (player && isGoru(player)) {
         const addSouls = power || 1;
         unit.soulFragments += addSouls;
+        // Do not exceed max
+        if (unit.soulFragmentsMax) {
+          unit.soulFragments = Math.min(unit.soulFragmentsMax, unit.soulFragments)
+        }
         if (!prediction) {
           floatingText({ coords: unit, text: `+${addSouls} ${i18n([`soul fragments`])}`, style: { fill: 'white', ...config.PIXI_TEXT_DROP_SHADOW } });
           playSFXKey('potionPickupMana');

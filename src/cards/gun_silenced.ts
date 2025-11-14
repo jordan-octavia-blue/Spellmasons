@@ -88,6 +88,10 @@ const spell: Spell = {
             const restoredSoulFragments = (soulFragmentCostOverride - 2) * unitsKilled
             floatingText({ coords: state.casterUnit, text: `+ ${restoredSoulFragments} ${i18n('Soul Fragments')}`, style: { fill: 'white', ...config.PIXI_TEXT_DROP_SHADOW }, prediction });
             state.casterUnit.soulFragments += restoredSoulFragments;
+            // Do not exceed max
+            if (state.casterUnit.soulFragmentsMax) {
+              state.casterUnit.soulFragments = Math.min(state.casterUnit.soulFragmentsMax, state.casterUnit.soulFragments)
+            }
           }
         }
       }
