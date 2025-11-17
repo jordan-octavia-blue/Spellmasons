@@ -1,6 +1,6 @@
 ## v1.70.0
 balance: No soul debt for Goru in multiplayer
-    Goru has been notoriously too OP in multiplayer.  This change will keep Goru fun and interesting but make using him more difficult.  Goru starts will more souls but cannot dip into Soul Debt like he can in single player.  If you play as Goru, you must now coordinate with your friends to strategically manage your souls if you run out rather than just whomping all the enemies while they wait to get more mana.
+    Goru has been notoriously too OP in multiplayer.  This change will keep Goru fun and interesting but make using him more difficult.  Goru starts with more souls but cannot dip into Soul Debt like he can in single player.  If you play as Goru, you must now coordinate with your friends to strategically manage your souls if you run out rather than just whomping all the enemies while they wait to get more mana.
 src: Support for damage as percent
     Corrupted Ancient now officially shows in the tooltip that they do damage as a percentage of max health.  Now that this is natively supported instead of hacked together, there will probably be more content in the future (maybe spells, enemies, etc) that use damage as a percentage.  I find this to be an interesting end-game mechanic.
 balance: Doom Scroll
