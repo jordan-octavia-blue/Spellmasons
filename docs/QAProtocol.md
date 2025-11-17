@@ -15,6 +15,5 @@
     - This is critical: https://discord.com/channels/1032294536640200766/1431665177278808226/1431751252353745119
 
 Oct 24:
-- [ ] Remove pillar and altar from codex
 - [ ] Loading game as Goru and then spawning in the next level caused a change to spellmason
 - **[ ] Green Glop merge desync on multiplayer**

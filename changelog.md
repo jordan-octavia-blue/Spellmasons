@@ -39,6 +39,7 @@ fix: Thorns to synergize with shield and armor
 i18n: Fix copy on "Necromancer" to explain that it uses health
 i18n: Green glop copy to explain merging mechanic
 fix: Harvest to work with Dm and Goru
+fix: menu: only show active mods' spells in codex
 
 ## v1.69.0 - Patch
 - fix: Occasional issue where players turn would be skipped.
