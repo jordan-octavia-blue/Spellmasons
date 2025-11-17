@@ -4112,7 +4112,7 @@ const spell$1 = {
     healthCost: 0,
     expenseScaling: 1,
     probability: probabilityMap$1[CardRarity$1.RARE],
-    thumbnail: "spellmasons-mods/RunicAlphabet/graphics/bubble.png",
+    thumbnail: "spellmasons-mods/RunicAlphabet/graphics/spellIconBubbleBurst.png",
     requiresFollowingCard: false,
     description: "Summons a damaging bubble that pops and deals liquid damage to all units within radius.",
     allowNonUnitTarget: true,
@@ -4237,7 +4237,7 @@ const spell = {
     healthCost: 0,
     expenseScaling: 1,
     probability: probabilityMap[CardRarity.FORBIDDEN],
-    thumbnail: "spellmasons-mods/RunicAlphabet/graphics/evapo.png",
+    thumbnail: "spellmasons-mods/RunicAlphabet/graphics/spellIconEphemerate.png",
     description: `Causes the caster to phase out of reality, allowing them to phase back in anywhere on the map. Warning: Excessive warping may incur true damage to the caster.`,
     allowNonUnitTarget: true,
     supportQuantity: true,
@@ -4747,7 +4747,7 @@ const mod = {
   modName: "Weedy's Worlds",
   author: "Weedybird",
   description: "New maps? New maps!",
-  screenshot: "spellmasons-mods/WeedysWorlds/Weedys Worlds.png",
+  screenshot: "spellmasons-mods/WeedysWorlds/Weedys-Worlds.png",
   maps: [
     {
       "data": [
