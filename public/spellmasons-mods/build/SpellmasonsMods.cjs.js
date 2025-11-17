@@ -4119,7 +4119,6 @@ const spell$1 = {
     effect: async (state, card, quantity, underworld, prediction, outOfRange) => {
       const adjustedRange = baseRadius * (1 + 0.5 * state.aggregator.radiusBoost);
       let targets = getCurrentTargets(state);
-      targets = defaultTargetsForAllowNonUnitTargetTargetingSpell(targets, state.castLocation, card);
       const length = targets.length;
       const animateCircles = [];
       let bubbleBoys = [];
@@ -4148,9 +4147,8 @@ const spell$1 = {
           Unit$2.removeModifier(unit2, SubmergeId, underworld);
         }
         Unit$2.addModifier(unit2, SubmergeId, underworld, prediction);
-        Unit$2.removeModifier(unit2, SubmergeId, underworld);
-        if (submerged) {
-          Unit$2.addModifier(unit2, SubmergeId, underworld, prediction);
+        if (!submerged) {
+          Unit$2.removeModifier(unit2, SubmergeId, underworld);
         }
       }
       await animateTargetCircle(animateCircles, underworld, prediction);
