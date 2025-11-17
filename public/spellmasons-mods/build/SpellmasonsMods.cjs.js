@@ -4636,7 +4636,8 @@ const frozenSolidEvent = {
   onTakeDamage: (unit2, amount2, underworld, prediction, damageDealer) => {
     const modifier = unit2.modifiers[frozenSolidId];
     if (modifier) {
-      if (unit2.modifiers[freezeCardId]) {
+      const freezeModifier = unit2.modifiers[freezeCardId];
+      if (freezeModifier && freezeModifier.quantity >= 0) {
         amount2 = 0;
         FloatingText.default({ coords: unit2, text: "Frozen Solid", prediction });
       }
