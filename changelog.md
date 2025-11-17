@@ -1,3 +1,45 @@
+## v1.70.0
+balance: No soul debt for Goru in multiplayer
+    Goru has been notoriously too OP in multiplayer.  This change will keep Goru fun and interesting but make using him more difficult.  Goru starts will more souls but cannot dip into Soul Debt like he can in single player.  If you play as Goru, you must now coordinate with your friends to strategically manage your souls if you run out rather than just whomping all the enemies while they wait to get more mana.
+src: Support for damage as percent
+    Corrupted Ancient now officially shows in the tooltip that they do damage as a percentage of max health.  Now that this is natively supported instead of hacked together, there will probably be more content in the future (maybe spells, enemies, etc) that use damage as a percentage.  I find this to be an interesting end-game mechanic.
+balance: Doom Scroll
+    Blanced Wind Tunnel
+New Mod! Runic Alphabet
+    Thanks Bug Jones!
+New Mod! Weedy's Worlds
+    Thanks WeedyBird!
+balance: Ensure green glop can't get slime; cause that's just not fair
+    Thanks Expresso Depresso and others
+content: Add "I am gripthulu" rune
+
+src: Adjust Pacifist rune
+    I got some really great feedback from "it her!" in discord about what it _could_ feel like to play as a Pacifist and the Pacifist rune wasn't really cutting it, so I've made adjustments!
+    Thanks it her!
+src: Improve meteor so it doesn't snap to first target
+    allowing more precise cast location
+    Thanks Gezin
+
+fix: Prevent anemia from making healthMax go negative
+    Thanks mouse!
+fix: prevent goru from exceeding soulFragmentsMax
+    Thanks Talão
+fix: shuffled Rune choice on load of saved game
+    Thanks Orthoros!
+fix: Deathmason drawing cards when using a yellow portal
+fix: SmartTargeting for ancients
+fix: Loaded gripthulus from getting stuck not attacking
+fix: Floating souls remain if rezz'd with onKillRez
+    Thanks Talão!
+fix: Hemorrhaging; so healing removes it as the description suggests that it does
+    Thanks Expresso Depresso
+fix: Player with "I am gripthulu" to allow targeting multiple enemies
+fix: Thorns to synergize with shield and armor
+    Add 'Pre' stage for modifiers that triggers before amount adjustment stages
+i18n: Fix copy on "Necromancer" to explain that it uses health
+i18n: Green glop copy to explain merging mechanic
+fix: Harvest to work with Dm and Goru
+
 ## v1.69.0 - Patch
 - fix: Occasional issue where players turn would be skipped.
 - fix: rift from spawning portals on top of players
