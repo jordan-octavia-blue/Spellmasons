@@ -365,6 +365,6 @@ export function isSinglePlayer(): boolean {
 // network connections and will return true even in hotseat multiplayer, if you need
 // to check if there are multiple players (hotseat or online), use this function
 export function multiplePlayers(underworld: Underworld): boolean {
-  return !!underworld.players.filter(p => p.clientConnected).length;
+  return underworld.players.filter(p => p.clientConnected).length > 1;
 
 }
