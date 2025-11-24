@@ -166,7 +166,7 @@ export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], under
       // This gives xp immediately when something gets merged, but ideally:
       // - Would be stored in an OnDeathEvent on the primary target instead of being immediate
       // - Would run the rest of the reportEnemyKilled() logic, for stat tracking and whatever else
-      if (unit.originalLife) {
+      if (!prediction && unit.originalLife) {
         underworld.enemiesKilled++;
       }
 

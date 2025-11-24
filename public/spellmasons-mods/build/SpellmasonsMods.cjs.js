@@ -2572,7 +2572,7 @@ function mergeUnits(target, unitsToMerge, underworld, prediction, state) {
     if (unit2.unitType == UnitType$5.PLAYER_CONTROLLED) {
       Unit$e.die(unit2, underworld, prediction);
     } else {
-      if (unit2.originalLife) {
+      if (!prediction && unit2.originalLife) {
         underworld.enemiesKilled++;
       }
       if (state) {
