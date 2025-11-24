@@ -46,7 +46,6 @@ export default function registerPacifist() {
       Unit.takeDamage({
         unit: effectState.casterUnit,
         amount: damage,
-        sourceUnit: effectState.casterUnit,
       }, underworld, prediction);
       floatingText({ coords: effectState.casterUnit, text: `${PACIFIST_ID}: ${damage}`, prediction });
     }
