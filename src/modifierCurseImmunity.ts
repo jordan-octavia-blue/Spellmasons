@@ -44,6 +44,9 @@ export default function registerCurseImmunity() {
 }
 
 function runCurseImmunity(unit: Unit.IUnit, underworld: Underworld) {
+  if (!unit.alive) {
+    return;
+  }
   if (Object.values(unit.modifiers).some(m => m.isCurse)) {
     const percentIncrease = gain * Object.entries(unit.modifiers).filter(([key, props]) => props.isCurse).length;
     oneOffHealAnimation(unit);
