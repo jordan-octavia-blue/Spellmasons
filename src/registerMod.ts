@@ -53,6 +53,7 @@ function registerMod(mod: Mod, overworld: Overworld) {
     if (mod.modifiers) {
         for (let modifier of mod.modifiers) {
             if (modifier.id) {
+                modifier.modName = mod.modName;
                 registerModifiers(modifier.id, modifier);
             } else {
                 console.error(`A modifier is missing an "id" and cannot be registered!`);

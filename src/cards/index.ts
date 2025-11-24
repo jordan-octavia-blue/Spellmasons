@@ -307,6 +307,8 @@ export interface Modifiers {
   omitForWizardType?: WizardType[];
   // Creates a negative effect in exchange for SP
   isMalady?: boolean;
+  // The name of the mod that this modifier comes from
+  modName?: string;
 }
 export function calcluateModifierCostPerUpgrade(mod: Modifiers, underworld: Underworld, player?: Player.IPlayer): number {
   if (isNullOrUndef(mod._costPerUpgrade)) {
