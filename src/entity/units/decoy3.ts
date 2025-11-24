@@ -17,7 +17,7 @@ const unit: UnitSource = {
     idle: 'decoy3',
     hit: 'decoy3',
     attack: 'decoy3',
-    die: 'decoy_Death3',
+    die: 'decoy3_Death',
     walk: 'decoy3',
   },
   sfx: {
