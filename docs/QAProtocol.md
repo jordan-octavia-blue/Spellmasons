@@ -16,3 +16,4 @@
 
 - 2026
     - **Make sure red out of range circle still exists**
+    - **MUST SOLVE TEXTURE TOO LARGE BUG on refresh**
