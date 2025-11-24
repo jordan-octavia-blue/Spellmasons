@@ -48,7 +48,10 @@ function runCurseImmunity(unit: Unit.IUnit, underworld: Underworld) {
     const percentIncrease = gain * Object.entries(unit.modifiers).filter(([key, props]) => props.isCurse).length;
     oneOffHealAnimation(unit);
     playSFXKey('potionPickupMana');
-    const increaseDamage = Math.floor(unit.damage * percentIncrease);
+    const delta = unit.damage * percentIncrease
+    const increaseDamage = unit.damageAsPercent ? delta : Math.floor(delta);
+    // Normally damage changes should be governed with Unit.changeDamageNonRelative(target, unit.damage);
+    // but in this instance, the damage actually needs to be a percentage of the unit's current damage 
     unit.damage += increaseDamage;
     floatingText({ coords: unit, text: `${i18n(curseimmunityId)}: + ${increaseDamage} DMG` });
   }

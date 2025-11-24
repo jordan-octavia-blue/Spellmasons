@@ -145,7 +145,7 @@ const unit: UnitSource = {
                   unit.staminaMax += 10;
                   unit.manaMax += 10;
                   // TODO - Doesn't scale bone shrapnel damage. Should it?
-                  unit.damage += 10;
+                  Unit.changeDamageNonRelative(unit, 10);
                   unit.attackRange += 10;
                   unit.strength += 1;
 

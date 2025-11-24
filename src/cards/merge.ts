@@ -141,6 +141,8 @@ export function mergeUnits(target: Unit.IUnit, unitsToMerge: Unit.IUnit[], under
       target.manaMax += unit.manaMax;
       target.mana += unit.mana;
 
+      // Normally damage changes should be governed with Unit.changeDamageNonRelative(target, unit.damage);
+      // but in this instance, the damage actually needs to be summed
       target.damage += unit.damage;
       target.manaCostToCast += unit.manaCostToCast;
       target.manaPerTurn += unit.manaPerTurn;

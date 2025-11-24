@@ -63,15 +63,7 @@ function add(unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quan
   const modifier = getOrInitModifier(unit, enfeebleId, { isCurse: true, quantity, }, () => {
     //no first time setup
   });
-
-  if (unit.damageAsPercent) {
-    unit.damage = Math.round(100 * (unit.damage - (statChange / 100 * quantity))) / 100;
-  } else if (unit.unitSourceId == POISONER_ID) {
-    // Special balance case: Poisoner applies 1 stack of poison per damage
-    unit.damage -= quantity;
-  } else {
-    unit.damage -= statChange * quantity;
-  }
+  Unit.changeDamageNonRelative(unit, -statChange * modifier.quantity);
 }
 
 function remove(unit: Unit.IUnit, underworld: Underworld) {
@@ -81,12 +73,7 @@ function remove(unit: Unit.IUnit, underworld: Underworld) {
     return
   }
 
-  // Special balance case: Poisoner applies 1 stack of poison per damage
-  if (unit.unitSourceId == POISONER_ID) {
-    unit.damage += modifier.quantity;
-  } else {
-    unit.damage += statChange * modifier.quantity;
-  }
+  Unit.changeDamageNonRelative(unit, statChange * modifier.quantity);
 }
 
 export default spell;

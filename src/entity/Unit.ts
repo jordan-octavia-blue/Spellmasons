@@ -61,6 +61,7 @@ import { runeSharpTeethId } from '../modifierSharpTeeth';
 import { isDeathmason, isGoru } from './Player';
 import { createFloatingParticleSystem, removeFloatingParticlesFor } from '../graphics/Particles';
 import { GREEN_GLOP_ID } from './units/greenGlop';
+import { POISONER_ID } from './units/poisoner';
 
 const elCautionBox = document.querySelector('#caution-box') as HTMLElement;
 const elCautionBoxText = document.querySelector('#caution-box-text') as HTMLElement;
@@ -264,7 +265,7 @@ export function create(
 
       const runeSharpTeeth = unit.summonedBy.modifiers[runeSharpTeethId];
       if (runeSharpTeeth) {
-        unit.damage += runeSharpTeeth.quantity;
+        changeDamageNonRelative(unit, runeSharpTeeth.quantity);
       }
     }
 
@@ -2171,8 +2172,33 @@ export function drawCharges(unit: IUnit, underworld: Underworld, count: number =
     underworld.syncPlayerPredictionUnitOnly();
     syncPlayerHealthManaUI(underworld);
   }
-
 }
+
+// When damage is to be changed by an absolute value (not relative to the units existing damage stat),
+// this function must be used (for special handling of poisoner and damageAsPercent units),
+// but if it is like "gain 10% damage", the damage attribute can be modified directly because that will
+// work appropriately for poisoner and damageAsPercent units
+export function changeDamageNonRelative(unit: IUnit, delta: number) {
+  if (unit.unitSourceId == POISONER_ID) {
+    // Special balance case: Poisoner applies 1 stack of poison per damage
+    unit.damage += delta / 5;
+  } else if (unit.damageAsPercent) {
+    unit.damage += delta * 0.001;
+  } else {
+    unit.damage += delta;
+  }
+
+
+  // if (unit.damageAsPercent) {
+  //   unit.damage = Math.round(100 * (unit.damage - (statChange / 100 * quantity))) / 100;
+  // } else if (unit.unitSourceId == POISONER_ID) {
+  //   // Special balance case: Poisoner applies 1 stack of poison per damage
+  //   unit.damage -= quantity;
+  // } else {
+  //   unit.damage -= statChange * quantity;
+  // }
+}
+
 export function getMaxCharges(unit: IUnit, underworld: Underworld): number {
   if (unit.charges) {
     return 3 + underworld.levelIndex * 2 + (unit.chargesMaxAdditional || 0)
