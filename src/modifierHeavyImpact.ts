@@ -8,7 +8,7 @@ export const heavyImpactsId = 'Heavy Impacts';
 export default function registerHeavyImpacts() {
   registerModifiers(heavyImpactsId, {
     description: ('rune_heavy_impact'),
-    unitOfMeasure: 'Damage',
+    unitOfMeasure: '%',
     _costPerUpgrade: 100,
     quantityPerUpgrade: 100,
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
