@@ -72,7 +72,7 @@ const spell: Spell = {
       const modifier = unit.modifiers[shieldId];
       if (modifier) {
         // Set tooltip:
-        modifier.tooltip = `${modifier.quantity} ${i18n('Shield')}`;
+        modifier.tooltip = `${Math.floor(modifier.quantity)} ${i18n('Shield')}`;
       }
     },
     onTakeDamage: (unit, amount, underworld, prediction, damageDealer) => {
