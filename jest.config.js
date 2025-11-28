@@ -1,5 +1,5 @@
 module.exports = {
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-fixed-jsdom',
   setupFilesAfterEnv: ['./jest.setup.js'],
-  modulePathIgnorePatterns: ['headless-server-build']
+  modulePathIgnorePatterns: ['headless-server-build'],
 };
