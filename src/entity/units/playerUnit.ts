@@ -92,7 +92,7 @@ const playerUnit: UnitSource = {
           animationKey = GORU_ATTACK_IMAGE_PATH;
         }
         // end copied block
-        await raceTimeout(Math.min(10_000, cardIds.length * 1_000), 'NPC Spellmason', Unit.playComboAnimation(unit, animationKey, keyMoment, { animationSpeed: 0.2, loop: false }));
+        await raceTimeout(Math.max(10_000, cardIds.length * 1_000), 'NPC Spellmason', Unit.playComboAnimation(unit, animationKey, keyMoment, { animationSpeed: 0.2, loop: false }));
       } else {
         if (!sufficientMana) {
           floatingText({ coords: unit, text: i18n('insufficient mana'), style: { fill: 'red' } });
