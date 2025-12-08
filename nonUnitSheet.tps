@@ -789,6 +789,10 @@
             <key type="filename">public/images/spell/blank.png</key>
             <key type="filename">public/images/spell/discardAll.png</key>
             <key type="filename">public/images/spell/discardOne.png</key>
+            <key type="filename">public/images/spell/gun-minigun.png</key>
+            <key type="filename">public/images/spell/gun-shotgun.png</key>
+            <key type="filename">public/images/spell/gun-silenced.png</key>
+            <key type="filename">public/images/spell/gun-sniper.png</key>
             <key type="filename">public/images/spell/resurrect.png</key>
             <key type="filename">public/images/spell/spellIconAlchemize.png</key>
             <key type="filename">public/images/spell/spellIconArrow.png</key>
