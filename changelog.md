@@ -28,7 +28,7 @@ mod:
     Disable Heavy Hitter for Deathmason
 
     Fix wall collisions in "Loop" map
-    Disable "Bone" map due to wall issue
+    Fix wall collisions in "Bone" map
 
 ## v1.70.0
 balance: No soul debt for Goru in multiplayer
