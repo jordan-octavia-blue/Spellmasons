@@ -4542,11 +4542,14 @@ const vampirismEvent = {
     const modifier = damageDealer.modifiers[vampirismId];
     if (modifier) {
       const healAmount2 = amount2 * (modifier.quantity / 100);
-      if (damageDealer.health + healAmount2 < damageDealer.healthMax) {
-        damageDealer.health += healAmount2;
-      } else if (damageDealer.health + healAmount2 >= damageDealer.healthMax) {
-        damageDealer.health = damageDealer.healthMax;
-      }
+      const bc = "Blood Curse";
+      damageDealer.events = damageDealer.events.filter((e) => e != bc);
+      Unit.takeDamage({
+        unit: damageDealer,
+        amount: -healAmount2,
+        sourceUnit: void 0
+      }, underworld, prediction);
+      Unit.addEvent(damageDealer, "Blood Curse");
     }
     return amount2;
   },

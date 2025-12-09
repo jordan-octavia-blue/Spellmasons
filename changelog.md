@@ -21,6 +21,7 @@ fix: UI tooltip damage for damageAsPercent units to floor value
 fix: Shield decimal in modifier text
     Thanks Carlos
 fix: Trigger onCostCalculation for Goru
+fix: Vampirism + Overheal interaction
 mod: 
     Fix wind tunnel scaling
     Fix Heavy Hitter to work on Goru

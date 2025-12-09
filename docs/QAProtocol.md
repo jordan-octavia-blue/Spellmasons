@@ -13,7 +13,3 @@
 - **Clear local storage and reboot game and make sure it plays** `localStorage.clear()`
     - Purge saved settings too: spellmasons_settings.json';
     - This is critical: https://discord.com/channels/1032294536640200766/1431665177278808226/1431751252353745119
-
-- 2026
-    - **Make sure red out of range circle still exists**
-    - **MUST SOLVE TEXTURE TOO LARGE BUG on refresh**
