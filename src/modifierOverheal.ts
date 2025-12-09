@@ -31,7 +31,7 @@ export default function registerOverheal() {
           const overheal = Math.min(0, (unit.health - unit.healthMax)) - amount;
           if (overheal > 0) {
             // shieldToGive = overheal * % effectiveness/conversion rate
-            const shieldToGive = Math.floor(overheal * CalcMult(modifier.quantity));
+            const shieldToGive = Math.max(1, Math.floor(overheal * CalcMult(modifier.quantity)));
             if (shieldToGive != 0) {
               // Grant shield
               Unit.addModifier(unit, shieldId, underworld, prediction, shieldToGive);
