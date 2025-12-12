@@ -1,3 +1,35 @@
+## v1.71.0 - Patch
+
+optimize: Update rift to use tinted sprite portal
+    for efficiency since there can be a lot of them
+
+fix: Merge granting XP in prediction
+    This was the cause of players suddenly gaining way too many cards
+fix: empower being OP on damageAsPercent units
+fix: Blood Letting no longer nullifies the negative effects of Pacifist
+    Since the description says you "take" damage rather than deal self damage this is consistent
+fix: Filter out modded Runes if the mod is not active
+fix: mod Doom Scroll spritesheet aspect ratio
+fix: raceTimeout: NPC Spellmason
+fix: Heavy Impact unit of measure
+    Thanks Talão
+fix: decoy2 and 3 death sprites
+    Thanks Carlos
+fix: curse eater still runs after dead
+fix: UI tooltip damage for damageAsPercent units to floor value
+    so 99.5% doesn't say 100%
+fix: Shield decimal in modifier text
+    Thanks Carlos
+fix: Trigger onCostCalculation for Goru
+fix: Vampirism + Overheal interaction
+mod: 
+    Fix wind tunnel scaling
+    Fix Heavy Hitter to work on Goru
+    Disable Heavy Hitter for Deathmason
+
+    Fix wall collisions in "Loop" map
+    Fix wall collisions in "Bone" map
+
 ## v1.70.0
 balance: No soul debt for Goru in multiplayer
     Goru has been notoriously too OP in multiplayer.  This change will keep Goru fun and interesting but make using him more difficult.  Goru starts with more souls but cannot dip into Soul Debt like he can in single player.  If you play as Goru, you must now coordinate with your friends to strategically manage your souls if you run out rather than just whomping all the enemies while they wait to get more mana.

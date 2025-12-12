@@ -175,11 +175,11 @@ export function create({ pos, pickupSource, idOverride, logSource }:
     self.image.sprite.scale.x = scale;
     self.image.sprite.scale.y = scale;
   }
-  if (name == RED_PORTAL) {
-    // Right now red portal and cursed mana potion are the only pickup that uses an emitter;
-    // however if that changes in the future this should be refactored so
-    // that there isn't a special case inside of Pickup.create
-    assignEmitter(self, RED_PORTAL_JID, prediction, underworld);
+  if (name == RED_PORTAL && self.image) {
+    // @ts-ignore: Special property to keep the tint of portals
+    self.image.sprite.keepTint = 0xff1111;
+    // @ts-ignore: Special property to keep the tint of portals
+    self.image.sprite.tint = self.image.sprite.keepTint;
   } else if (name == BLUE_PORTAL) {
     // Right now red portal and cursed mana potion are the only pickup that uses an emitter;
     // however if that changes in the future this should be refactored so
@@ -227,20 +227,7 @@ function assignEmitter(pickup: IPickup, emitterId: string, prediction: boolean, 
   if (pickup.emitter) {
     stopAndDestroyForeverEmitter(pickup.emitter);
   }
-  if (emitterId == RED_PORTAL_JID) {
-    pickup.emitter = makeDeathmasonPortal(pickup, prediction, '#520606', '#e03636');
-    if (pickup.image) {
-      if (pickup.emitter) {
-        Image.cleanup(pickup.image);
-      } else {
-        // Use tinted portal image as backup in case emitters are limited
-        // @ts-ignore: Special property to keep the tint of portals
-        pickup.image.sprite.keepTint = 0xe43636;
-        // @ts-ignore: Special property to keep the tint of portals
-        pickup.image.sprite.tint = pickup.image.sprite.keepTint;
-      }
-    }
-  } else if (emitterId == BLUE_PORTAL_JID) {
+  if (emitterId == BLUE_PORTAL_JID) {
     pickup.emitter = makeDeathmasonPortal(pickup, prediction, '#1a276e', '#5252fa');
     if (pickup.image) {
       if (pickup.emitter) {
