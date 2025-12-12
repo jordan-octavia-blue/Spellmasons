@@ -1,11 +1,14 @@
 import { SubmergeId } from "./cards/submerge";
 import { HasSpace } from "./entity/Type";
-import { isUnit, IUnit, takeDamage } from "./entity/Unit";
+import { addModifier, isUnit, IUnit, takeDamage } from "./entity/Unit";
 import Events from "./Events";
 import { explain, EXPLAIN_LIQUID_DAMAGE } from "./graphics/Explain";
 import { addMask, removeMask } from "./graphics/Image";
 import { liquidmancerId } from "./modifierLiquidmancer";
 import type Underworld from "./Underworld";
+import { burnCardId } from "./cards/burn";
+import { suffocateCardId } from "./cards/suffocate";
+import { id } from "./cards/blood_curse";
 
 // sourceUnit is the unit that caused 'entity' to fall in liquid
 export function doLiquidEffect(underworld: Underworld, unit: IUnit, prediction: boolean, sourceUnit?: IUnit) {
@@ -28,6 +31,15 @@ export function doLiquidEffect(underworld: Underworld, unit: IUnit, prediction: 
 
   let adjustedDamage = damage;
 
+  let curse = {
+    'water': null,
+    'lava': burnCardId,
+    'blood': id,
+    'ghost': suffocateCardId,
+  }[underworld.lastLevelCreated.biome];
+  if (curse) {
+    addModifier(unit, curse, underworld, prediction);
+  }
   // Trigger in liquid events
   const events = [...unit.events, ...underworld.events];
   for (let eventName of events) {

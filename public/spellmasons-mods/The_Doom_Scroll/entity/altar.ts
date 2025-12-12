@@ -1,4 +1,4 @@
-const {commonTypes, Unit, cardsUtil} = globalThis.SpellmasonsAPI
+const { commonTypes, Unit, cardsUtil } = globalThis.SpellmasonsAPI
 const { UnitSubType } = commonTypes;
 
 import type { UnitSource } from "../../types/entity/units";
@@ -44,11 +44,11 @@ const unit: UnitSource = {
     unavailableUntilLevelIndex:20,
   },
   init: (unit: IUnit, underworld: Underworld) => {
-      Unit.addEvent(unit, EVENT_REMOVE_ON_DEATH_ID);
-      cardsUtil.getOrInitModifier(unit, "Target Cursed", { isCurse: false, quantity: 10000, keepOnDeath: false}, () => { });
-      if (unit.image) {
-        unit.image.sprite.anchor.y = 0.7;
-      }
+    Unit.addEvent(unit, EVENT_REMOVE_ON_DEATH_ID);
+    cardsUtil.getOrInitModifier(unit, "Target Cursed", { isCurse: false, quantity: 10000, keepOnDeath: false }, () => { });
+    if (unit.image) {
+      unit.image.sprite.anchor.y = 0.7;
+    }
   },
   action: async (_self: IUnit, _attackTargets: IUnit[], _underworld: Underworld, _canAttackTarget: boolean) => { },
   getUnitAttackTargets: (unit: IUnit, underworld: Underworld) => { return []; }
@@ -56,16 +56,16 @@ const unit: UnitSource = {
 
 const EVENT_REMOVE_ON_DEATH_ID = 'removeOnDeath';
 export const modifierRemoveOnDeath = {
-    id:EVENT_REMOVE_ON_DEATH_ID,
-    onDeath: async (unit: IUnit, underworld: Underworld, prediction: boolean, sourceUnit?: IUnit) => {
-      // Remove corpse
-      if (!prediction) {
-        // Wait for death animation to finish
-        setTimeout(() => {
-          Unit.cleanup(unit, true);
-        }, 1000)
-      }
+  id: EVENT_REMOVE_ON_DEATH_ID,
+  onDeath: async (unit: IUnit, underworld: Underworld, prediction: boolean, sourceUnit?: IUnit) => {
+    // Remove corpse
+    if (!prediction) {
+      // Wait for death animation to finish
+      setTimeout(() => {
+        Unit.cleanup(unit, true);
+      }, 1000)
     }
   }
+}
 
 export default unit;
