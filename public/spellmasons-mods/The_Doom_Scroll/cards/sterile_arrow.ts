@@ -15,12 +15,12 @@ const {
   Arrow,
   Purify,
 } = globalThis.SpellmasonsAPI
-const {clone} = Vec;
+const { clone } = Vec;
 const floatingText = FloatingText.default;
 const { getCurrentTargets } = cards;
 const { containerProjectiles } = PixiUtils;
 const { makeForceMoveProjectile } = moveWithCollision;
-const {CardCategory, CardRarity, probabilityMap} = commonTypes;
+const { CardCategory, CardRarity, probabilityMap } = commonTypes;
 const { summoningSicknessId } = modifierSummonerSickness;
 
 import type { Vec2 } from '../../types/jmath/Vec';
@@ -69,27 +69,27 @@ const spell: Spell = {
     onProjectileCollision: ({ unit, pickup, underworld, projectile, prediction }) => {
       if (projectile.state && projectile.sourceUnit) {
         if (unit) {
-            Unit.takeDamage({
-                      unit: unit,
-                      amount: damage,
-                      sourceUnit: projectile.sourceUnit,
-                      fromVec2: projectile.startPoint,
-                      thinBloodLine: true,
-                    }, underworld, prediction);
-            const modifiersToExclude = [summoningSicknessId, corpseDecayId]
-              const curses: CurseData[] = Object.entries(projectile.sourceUnit.modifiers)
-                .map(([id, mod]) => ({ modId: id, modifier: mod }))
-                .filter(x => x.modifier.isCurse)
-                .filter(x => !modifiersToExclude.includes(x.modId));
-            for (let curse of curses) {
-              if (!prediction) {
-                floatingText({ coords: unit, text: curse.modId });
-              }
-              if (unit.alive) {
-                  const quantityToAdd = curse.modifier.quantity;
-                  Unit.addModifier(unit, curse.modId, underworld, prediction, quantityToAdd, curse.modifier);
-              }
+          Unit.takeDamage({
+            unit: unit,
+            amount: damage,
+            sourceUnit: projectile.sourceUnit,
+            fromVec2: projectile.startPoint,
+            thinBloodLine: true,
+          }, underworld, prediction);
+          const modifiersToExclude = [summoningSicknessId, corpseDecayId]
+          const curses: CurseData[] = Object.entries(projectile.sourceUnit.modifiers)
+            .map(([id, mod]) => ({ modId: id, modifier: mod }))
+            .filter(x => x.modifier.isCurse)
+            .filter(x => !modifiersToExclude.includes(x.modId));
+          for (let curse of curses) {
+            if (!prediction) {
+              floatingText({ coords: unit, text: curse.modId });
             }
+            if (unit.alive) {
+              const quantityToAdd = curse.modifier.quantity;
+              Unit.addModifier(unit, curse.modId, underworld, prediction, quantityToAdd, curse.modifier);
+            }
+          }
         } else {
           // There is no support for adding multiple vector locations as targets
           projectile.state.castLocation = projectile.pushedObject;
