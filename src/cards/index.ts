@@ -132,6 +132,15 @@ import nukitsuke2 from './nukitsuke2';
 import gunSniper from './gun_sniper';
 import gunShotgun from './gun_shotgun';
 import gunSilenced from './gun_silenced';
+import gunFlmaethrower from './gun_flamethrower';
+import burn from './burn';
+import fireball from './fireball';
+import meteor2 from './meteor2';
+import stoke from './stoke';
+import stoke2 from './stoke2';
+import flammable from './flammable';
+import wildfire from './wildfire';
+import wildfire2 from './wildfire2';
 // Not used as a card, for making half of looped enemies immune
 // on first turn
 import registerSummoningSickness from '../modifierSummoningSickness';
@@ -468,6 +477,7 @@ export function registerCards(overworld: Overworld) {
     registerSpell(shatter, overworld);
   config.IS_ANNIVERSARY_UPDATE_OUT &&
     registerSpell(meteor, overworld);
+  registerSpell(meteor2, overworld);
   registerSpell(arrow, overworld);
   registerSpell(arrow2, overworld);
   registerSpell(arrow3, overworld);
@@ -478,7 +488,9 @@ export function registerCards(overworld: Overworld) {
   registerSpell(gunSniper, overworld);
   registerSpell(gunShotgun, overworld);
   registerSpell(gunSilenced, overworld);
+  registerSpell(gunFlmaethrower, overworld);
   registerSpell(phantom_arrow, overworld);
+  registerSpell(fireball, overworld);
   config.IS_ANNIVERSARY_UPDATE_OUT &&
     registerSpell(bolt, overworld);
   registerSpell(cursify, overworld);
@@ -522,7 +534,12 @@ export function registerCards(overworld: Overworld) {
   registerSpell(split, overworld);
   registerSpell(polymorph, overworld);
   registerSpell(contaminate, overworld);
-
+  registerSpell(burn, overworld);
+  registerSpell(stoke, overworld);
+  registerSpell(stoke2, overworld);
+  registerSpell(flammable, overworld);
+  registerSpell(wildfire, overworld);
+  registerSpell(wildfire2, overworld);
   // Mana
   registerSpell(mana_burn, overworld);
   registerSpell(mana_steal, overworld);
