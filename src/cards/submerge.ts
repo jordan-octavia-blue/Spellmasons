@@ -13,6 +13,7 @@ import { playDefaultSpellSFX } from './cardUtils';
 import * as inLiquid from '../inLiquid';
 import floatingText from '../graphics/FloatingText';
 import { tryFallInOutOfLiquid } from '../entity/Obstacle';
+import { burnCardId } from './burn';
 
 export const SubmergeId = 'Submerge';
 function add(unit: IUnit, underworld: Underworld, prediction: boolean, quantity: number, extra?: any) {
@@ -21,6 +22,10 @@ function add(unit: IUnit, underworld: Underworld, prediction: boolean, quantity:
     // Special handling, yes keepOnDeath:false will remove it but not if it takes fatal damage from firstTimeSetup
     // before the modifier is even added.  So we have to check if the unit is now dead after inLiquid.add
     // and remoev the modifier if it is
+    if (unit.modifiers[burnCardId] && !prediction) {
+      Unit.removeModifier(unit, burnCardId, underworld);
+      floatingText({ coords: unit, text: 'Fire Extinguished', style: { fill: '#404ee4ff' } })
+    }
     setTimeout(() => {
       if (!unit.alive) {
         Unit.removeModifier(unit, SubmergeId, underworld);
