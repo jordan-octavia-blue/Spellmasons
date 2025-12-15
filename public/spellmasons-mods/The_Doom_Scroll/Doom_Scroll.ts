@@ -7,6 +7,7 @@ import earth_push from './cards/earth_push';
 import raise_altar from './cards/raise_altar'
 import raise_pillar from './cards/raise_pillar';
 import raise_wall from './cards/raise_wall';
+import sterile_arrow from './cards/sterile_arrow'
 import sunlight from './cards/sunlight';
 import target_pillar from './cards/target_pillar';
 import target_stomp from './cards/target_stomp';

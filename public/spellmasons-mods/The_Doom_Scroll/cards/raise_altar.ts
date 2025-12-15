@@ -10,12 +10,12 @@ const {
   VisualEffects,
   forcePushAwayFrom
 } = globalThis.SpellmasonsAPI
-const {CardCategory, CardRarity, probabilityMap, Faction, UnitType} = commonTypes;
-const {takeDamage} = Unit;
+const { CardCategory, CardRarity, probabilityMap, Faction, UnitType } = commonTypes;
+const { takeDamage } = Unit;
 const { allUnits } = units;
 const { skyBeam } = VisualEffects;
-const {refundLastSpell, getCurrentTargets, defaultTargetsForAllowNonUnitTargetTargetingSpell} = cards;
-const { playDefaultSpellSFX} =cardUtils;
+const { refundLastSpell, getCurrentTargets, defaultTargetsForAllowNonUnitTargetTargetingSpell } = cards;
+const { playDefaultSpellSFX } = cardUtils;
 const { addWarningAtMouse, drawUICirclePrediction } = PlanningView;
 import type { Spell } from '../../types/cards';
 import type { IUnit } from '../../types/entity/Unit';
@@ -40,7 +40,7 @@ const spell: Spell = {
     description: 'Raise a mana conducive Altar at the target location, acting as a target for future spells cast',
     allowNonUnitTarget: true,
     effect: async (state, card, quantity, underworld, prediction) => {
-      const unitId = ALTAR_UNIT_ID; 
+      const unitId = ALTAR_UNIT_ID;
       const sourceUnit = allUnits[unitId];
       if (sourceUnit) {
         const summonLocation = {
@@ -112,7 +112,7 @@ async function pillarExplode(caster: IUnit, radius: number, damage: number, unde
   underworld.getPickupsWithinDistanceOfTarget(caster, radius, prediction)
     .forEach(p => {
       // Push pickups away    
-    const pushDistance = 32
+      const pushDistance = 32
       forcePushAwayFrom(p, state.casterUnit, pushDistance, underworld, prediction, caster);
     })
 }
