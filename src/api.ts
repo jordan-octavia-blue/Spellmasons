@@ -63,6 +63,7 @@ import * as particleEmitter from 'jdoleary-fork-pixi-particle-emitter'
 import * as Arrow from "./cards/arrow"
 import * as Purify from "./cards/purify"
 import * as Clone from './cards/clone';
+import * as TargetCircle from './cards/target_circle';
 import { handmadeMaps } from './MapsHandmade';
 
 
@@ -124,6 +125,7 @@ const SpellmasonsAPI = {
   Rect,
   storage,
   Subsprites,
+  TargetCircle,
   teleport,
   Type,
   Underworld,
