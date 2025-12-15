@@ -61,6 +61,7 @@ import * as commonTypes from './types/commonTypes';
 import * as particleEmitter from 'jdoleary-fork-pixi-particle-emitter'
 import * as Arrow from "./cards/arrow"
 import * as Purify from "./cards/purify"
+import * as Clone from './cards/clone';
 import { handmadeMaps } from './MapsHandmade';
 
 
@@ -73,6 +74,7 @@ const SpellmasonsAPI = {
   cardsUtil,
   CardUI,
   cardUtils,
+  Clone,
   colors,
   colorUtil,
   commonTypes, // Includes enums which are not just types
