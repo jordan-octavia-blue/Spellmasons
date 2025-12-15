@@ -13,3 +13,6 @@
 - **Clear local storage and reboot game and make sure it plays** `localStorage.clear()`
     - Purge saved settings too: spellmasons_settings.json';
     - This is critical: https://discord.com/channels/1032294536640200766/1431665177278808226/1431751252353745119
+- **Deathmason particles not shownig up in hotseat mult?**
+- somehow gripthulu pulled me after death (also after being frozen)
+- souls don't show up in hotseat after you switch back to goru
