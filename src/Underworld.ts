@@ -2838,12 +2838,15 @@ export default class Underworld {
     // allowForceInitGameState so that when the game restarts
     // it will get the full newly created underworld
     this.allowForceInitGameState = true;
-    // Show game over modal after a delay
-    gameOverModalTimeout = setTimeout(() => {
-      document.body.classList.toggle('game-over', true);
-      const playAgainBtn = document.getElementById('play-again');
-      playAgainBtn?.classList.toggle('display-none', !(isSinglePlayer() || isHost(this.pie)));
-    }, 2000);
+    if (!globalThis.recordingShorts) {
+
+      // Show game over modal after a delay
+      gameOverModalTimeout = setTimeout(() => {
+        document.body.classList.toggle('game-over', true);
+        const playAgainBtn = document.getElementById('play-again');
+        playAgainBtn?.classList.toggle('display-none', !(isSinglePlayer() || isHost(this.pie)));
+      }, 2000);
+    }
 
     this.updateGameOverModal();
     if (globalThis.headless) {

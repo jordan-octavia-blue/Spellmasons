@@ -56,11 +56,14 @@ import * as Events from './Events';
 import { forcePushTowards, forcePushAwayFrom, forcePushToDestination, forcePushDelta } from './effects/force_move';
 import * as EffectsHeal from './effects/heal'
 import * as explode from "./effects/explode";
+import { teleport } from "./effects/teleport";
 
 import * as commonTypes from './types/commonTypes';
 import * as particleEmitter from 'jdoleary-fork-pixi-particle-emitter'
 import * as Arrow from "./cards/arrow"
 import * as Purify from "./cards/purify"
+import * as Clone from './cards/clone';
+import * as TargetCircle from './cards/target_circle';
 import { handmadeMaps } from './MapsHandmade';
 
 
@@ -73,6 +76,7 @@ const SpellmasonsAPI = {
   cardsUtil,
   CardUI,
   cardUtils,
+  Clone,
   colors,
   colorUtil,
   commonTypes, // Includes enums which are not just types
@@ -121,6 +125,8 @@ const SpellmasonsAPI = {
   Rect,
   storage,
   Subsprites,
+  TargetCircle,
+  teleport,
   Type,
   Underworld,
   Unit,
