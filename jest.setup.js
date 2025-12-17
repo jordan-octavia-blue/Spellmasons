@@ -1,21 +1,27 @@
 globalThis.animationManager = {
-  animate: () => { },
-  addAnimation: () => { },
-  setTransform: () => { },
-  startAnimate: () => { },
-  startGroup: () => { },
-  endGroup: () => { },
+  animate: () => {},
+  addAnimation: () => {},
+  setTransform: () => {},
+  startAnimate: () => {},
+  startGroup: () => {},
+  endGroup: () => {},
 };
 
 globalThis.usingTestRunner = true;
 // Stub out translation for testing
 globalThis.i18n = (text) => text;
-globalThis.alert = () => { }
+globalThis.alert = () => {};
 
 // Overwrite Jest's obnoxious changes to console.log
-const util = require('util')
+const util = require('util');
 // Simplify logs
-console.log = function () { process.stdout.write(util.format.apply(this, arguments) + '\n'); }
+console.log = function () {
+  process.stdout.write(util.format.apply(this, arguments) + '\n');
+};
+// Bundle text en/decoding because Jest's jsdom enviroment doesnt have them
+import { TextEncoder, TextDecoder } from 'util';
+Object.assign(globalThis, { TextEncoder, TextDecoder });
+
 // Silence logs
 // console.log = () => {}
 // Type guard that checks if a value is null or undefined
