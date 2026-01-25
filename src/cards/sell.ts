@@ -39,16 +39,24 @@ const spell: Spell = {
         const sellValues = cardsToSell.map(cardId => {
           const card = Cards.allCards[cardId];
           if (card && state.casterPlayer) {
-            const rarity: CardRarity = Object.entries(probabilityMap).find(([rarity, probability]) => probability === card.probability)?.[0] as CardRarity || CardRarity.COMMON;
             const highestSellVal = config.STAT_POINTS_PER_LEVEL * 2;
-            const sellValue = Math.round({
-              [CardRarity.COMMON]: highestSellVal / 8,
-              [CardRarity.SPECIAL]: highestSellVal / 6,
-              [CardRarity.UNCOMMON]: highestSellVal / 4,
-              [CardRarity.RARE]: highestSellVal / 2,
-              [CardRarity.FORBIDDEN]: highestSellVal,
-              [CardRarity.RUNIC]: highestSellVal / 2,
-            }[rarity]);
+            let sellValue: number;
+            // Summon cards (from summon_generic) have thumbnails starting with "spellIconSummon_"
+            // and soulFragmentCostOverride represents unit budget cost - use this for sell value
+            const isSummonCard = card.thumbnail?.startsWith('spellIconSummon_');
+            if (isSummonCard && !isNullOrUndef(card.soulFragmentCostOverride)) {
+              sellValue = Math.round(Math.min(card.soulFragmentCostOverride * 10, highestSellVal));
+            } else {
+              const rarity: CardRarity = Object.entries(probabilityMap).find(([rarity, probability]) => probability === card.probability)?.[0] as CardRarity || CardRarity.COMMON;
+              sellValue = Math.round({
+                [CardRarity.COMMON]: highestSellVal / 8,
+                [CardRarity.SPECIAL]: highestSellVal / 6,
+                [CardRarity.UNCOMMON]: highestSellVal / 4,
+                [CardRarity.RARE]: highestSellVal / 2,
+                [CardRarity.FORBIDDEN]: highestSellVal,
+                [CardRarity.RUNIC]: highestSellVal / 2,
+              }[rarity]);
+            }
             state.casterPlayer.statPointsUnspent += sellValue;
             return `${i18n(card.id)}: ${sellValue} SP`;
           } else {
