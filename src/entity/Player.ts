@@ -443,10 +443,11 @@ export function restoreWizardTypeVisuals(player: IPlayer, underworld: Underworld
   if (globalThis.player == player) {
     document.body.classList.toggle('wizardtype-deathmason', player.wizardType == 'Deathmason');
     document.body.classList.toggle('wizardtype-goru', player.wizardType == 'Goru');
-    // Update UI and prediction entities when player changes wizardtype-deathmason status
+    // Update UI and prediction entities when player changes wizardtype status
     if (underworld) {
       CardUI.updateCardBadges(underworld);
       underworld.syncPredictionEntities();
+      Unit.syncPlayerHealthManaUI(underworld);
     }
   }
   underworld.addMissingCompanions(player);
