@@ -73,6 +73,8 @@ export function openCustomRulesPopup(): void {
   const style = document.createElement('style');
   style.textContent = `
     .custom-rules-popup .custom-rules-form {
+      max-height: 80vh;
+      overflow-y:auto;
       display: flex;
       flex-direction: column;
       gap: 12px;
