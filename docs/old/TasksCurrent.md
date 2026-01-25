@@ -18,6 +18,29 @@ Custom Rules:
  7. For multiplayer: Start a 2-player hotseat game and verify both players get custom rules
 
 ---
+Custom rules for extraction:
+
+export const PLAYER_BASE_HEALTH = 60; //previously 40
+export const UNIT_MOVE_SPEED = 0.15;
+export const UNIT_BASE_DAMAGE = 30;
+// Primarily for melee Units
+export const UNIT_BASE_RANGE = 10 + COLLISION_MESH_RADIUS * 2;
+export const UNIT_BASE_STAMINA = 300;
+export const UNIT_BASE_HEALTH = 40;
+export const UNIT_BASE_MANA = 60;
+// For game difficulty, I'm making the attack range less than the unit base stamina
+export const PLAYER_BASE_ATTACK_RANGE = 200; // previously 240 | UNIT_BASE_STAMINA * 0.8
+// For game difficulty, player stamina less than the unit stamina so they can't run away without upgrading it
+export const PLAYER_BASE_STAMINA = 200; //previously 210 | UNIT_BASE_STAMINA * 0.7
+export const STARTING_CARD_COUNT = 3;
+export const STAT_POINTS_PER_LEVEL = 120;
+export const RUNES_PER_LEVEL = 6;
+export const DEATHMASON_DISCARD_DRAW_RATIO = 2;
+export const GORU_PLAYER_STARTING_SOUL_FRAGMENTS = 2;
+export const GORU_SOUL_COLLECT_RADIUS = 100;
+export const SOUL_FRAGMENTS_MAX_STARTING = 10;
+
+---
 - More expensive change modification runes
 ---
 - bug: Sometimes you pickup a scroll and nothing happens

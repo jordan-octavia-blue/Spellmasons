@@ -3,7 +3,7 @@ import { CardCategory, UnitSubType, UnitType } from '../../types/commonTypes';
 import * as Unit from '../Unit';
 import * as math from '../../jmath/math';
 import Underworld from '../../Underworld';
-import * as config from '../../config';
+import { getDefaultGameRules } from '../../types/GameRules';
 import { calculateCost } from '../../cards/cardUtils';
 import { raceTimeout } from '../../Promise';
 import { clone, isVec2, Vec2 } from '../../jmath/Vec';
@@ -16,6 +16,7 @@ import { ultra_clone_id } from '../../cards/clone2';
 import { GORU_ATTACK_IMAGE_PATH, GORU_DEFAULT_IMAGE_PATH } from './goru';
 import { suffocateCardId } from '../../cards/suffocate';
 import { poisonCardId } from '../../cards/poison';
+import { COLLISION_MESH_RADIUS } from '../../config';
 
 export const spellmasonUnitId = 'Spellmason';
 const playerUnit: UnitSource = {
@@ -28,7 +29,7 @@ const playerUnit: UnitSource = {
   unitProps: {
     // Player clones must be able to deal damage
     damage: 20,
-    attackRange: config.PLAYER_BASE_ATTACK_RANGE
+    attackRange: getDefaultGameRules().PLAYER_BASE_ATTACK_RANGE
   },
   // This is how a user unit would act if controlled by AI (this can happen if you clone yourself)
   action: async (unit: Unit.IUnit, attackTargets: Unit.IUnit[] | undefined, underworld: Underworld, canAttackTarget: boolean) => {
@@ -105,7 +106,7 @@ const playerUnit: UnitSource = {
       if (attackTarget) {
         const distanceToEnemy = math.distance(unit, attackTarget);
         // Trick to make the unit only move as far as will put them in range but no closer
-        unit.stamina = Math.min(unit.stamina, distanceToEnemy + config.COLLISION_MESH_RADIUS - unit.attackRange);
+        unit.stamina = Math.min(unit.stamina, distanceToEnemy + COLLISION_MESH_RADIUS - unit.attackRange);
         await Unit.moveTowards(unit, attackTarget, underworld);
       }
     }

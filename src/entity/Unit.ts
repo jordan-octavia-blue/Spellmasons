@@ -1,6 +1,7 @@
 import type * as PIXI from 'pixi.js';
 import { OutlineFilter } from '@pixi/filter-outline';
 import * as config from '../config';
+import { getDefaultGameRules } from '../types/GameRules';
 import * as Image from '../graphics/Image';
 import * as Player from '../entity/Player';
 import * as math from '../jmath/math';
@@ -193,9 +194,9 @@ export function create(
   prediction?: boolean,
   creator?: IUnit,
 ): IUnit {
-  const health = config.UNIT_BASE_HEALTH;
-  const mana = config.UNIT_BASE_MANA;
-  const staminaMax = config.UNIT_BASE_STAMINA;
+  const health = underworld.rules.UNIT_BASE_HEALTH;
+  const mana = underworld.rules.UNIT_BASE_MANA;
+  const staminaMax = underworld.rules.UNIT_BASE_STAMINA;
   const sourceUnit = allUnits[unitSourceId];
   if (sourceUnit) {
     const spawnPoint = { x, y, radius: config.COLLISION_MESH_RADIUS }
@@ -213,11 +214,11 @@ export function create(
       originalLife: false,
       radius: config.UNIT_BASE_RADIUS,
       path: undefined,
-      moveSpeed: config.UNIT_MOVE_SPEED,
+      moveSpeed: underworld.rules.UNIT_MOVE_SPEED,
       resolveDoneMoving: () => { },
       stamina: 0,
       staminaMax,
-      attackRange: config.UNIT_BASE_RANGE,
+      attackRange: underworld.rules.UNIT_BASE_RANGE,
       isMiniboss: false,
       faction,
       image: prediction ? undefined : Image.create({ x, y }, defaultImagePath, containerUnits),
@@ -621,7 +622,7 @@ export function load(unit: IUnitSerialized, underworld: Underworld, prediction: 
   // Protect against bug where stamina loads in as null.  Not sure why this is happening but this
   // with prevent it
   if (loadedunit.stamina == null) {
-    loadedunit.stamina = loadedunit.staminaMax || config.UNIT_BASE_STAMINA;
+    loadedunit.stamina = loadedunit.staminaMax || underworld.rules.UNIT_BASE_STAMINA;
   }
   Image.setScaleFromModifiers(loadedunit.image, loadedunit.strength);
   // Recreate floating souls on dead units on load
@@ -2016,7 +2017,7 @@ export function drawSelectedGraphics(unit: IUnit, prediction: boolean = false, u
     } else {
       if (unit.attackRange > 0) {
         if (globalThis.player && globalThis.player.unit == unit && globalThis.player.wizardType === 'Goru') {
-          drawUICircle(globalThis.selectedUnitGraphics, coordinates, config.GORU_SOUL_COLLECT_RADIUS, 0xd9fff9, 'Soul Collection Radius');
+          drawUICircle(globalThis.selectedUnitGraphics, coordinates, underworld.rules.GORU_SOUL_COLLECT_RADIUS, 0xd9fff9, 'Soul Collection Radius');
 
         }
         // TODO - Unused outOfRangeGrey below, consider for AI refactor

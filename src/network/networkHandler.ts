@@ -337,7 +337,7 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
             fromPlayer.drawChargesSeed = payload.drawChargesSeed;
           }
           Player.discardCards(fromPlayer, overworld.underworld, {});
-          const drawNew = Math.floor(countDiscard / config.DEATHMASON_DISCARD_DRAW_RATIO);
+          const drawNew = Math.floor(countDiscard / overworld.underworld.rules.DEATHMASON_DISCARD_DRAW_RATIO);
           Unit.drawCharges(fromPlayer.unit, overworld.underworld, drawNew);
         } else {
           console.warn('Ignoring incorrect discard message')
@@ -990,7 +990,7 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
           if (!globalThis.headless) {
             // Network Sync: Make sure other players move a little slower so that the MOVE_PLAYER messages have time to set the
             // next move point on the client's screen.  This prevents jagged movement due to network latency
-            fromPlayer.unit.moveSpeed = config.UNIT_MOVE_SPEED * 0.9;
+            fromPlayer.unit.moveSpeed = underworld.rules.UNIT_MOVE_SPEED * 0.9;
             // Network Sync: Make sure the other player always has stamina to get where they're going, this is to ensure that
             // the local copies of other player's stay in sync with the server and aren't prematurely stopped due
             // to a stamina limitation

@@ -7,8 +7,6 @@
 export const RIGHT_CLICK_DOUBLE_MS_THRESHOLD = 500;
 export const RIGHT_CLICK_DOUBLE_DISTANCE_THRESHOLD = 30;
 
-export const PLAYER_BASE_HEALTH = 60; //previously 40
-export const UNIT_MOVE_SPEED = 0.15;
 export const COLLISION_MESH_RADIUS = 32;
 // Though the size of the images for units are generally 64x64, the unit doesn't take up the full height
 // and the unit is generally 50px tall.
@@ -28,18 +26,7 @@ export const UNIT_UI_BAR_WIDTH = 36;
 export const ARROW_PROJECTILE_SPEED = 1.5;
 export const LOB_PROJECTILE_SPEED = 800; // in millis
 export const UNIT_SIZE = COLLISION_MESH_RADIUS * 2;
-export const UNIT_BASE_DAMAGE = 30;
-// Primarily for melee Units
-export const UNIT_BASE_RANGE = 10 + COLLISION_MESH_RADIUS * 2;
-export const UNIT_BASE_STAMINA = 300;
-export const UNIT_BASE_HEALTH = 40;
-export const UNIT_BASE_MANA = 60;
-// For game difficulty, I'm making the attack range less than the unit base stamina
-export const PLAYER_BASE_ATTACK_RANGE = 200; // previously 240 | UNIT_BASE_STAMINA * 0.8
-// For game difficulty, player stamina less than the unit stamina so they can't run away without upgrading it
-export const PLAYER_BASE_STAMINA = 200; //previously 210 | UNIT_BASE_STAMINA * 0.7
 export const NON_HEAVY_UNIT_SCALE = 1.0;
-export const STARTING_CARD_COUNT = 3;
 export const MAX_PLAYERS = 8;
 export const NUMBER_OF_TOOLBAR_SLOTS = 9;
 export const UNIT_MINIBOSS_SCALE_MULTIPLIER = 1.7;
@@ -92,18 +79,12 @@ export const PATHING_POLYGON_OFFSET = 10;
 // the corner of a WallN tile that touches the floor shouldn't block arrows flying at 
 // eye level for example.  This is what WALL_BOUNDS_OFFSET accounts for
 export const WALL_BOUNDS_OFFSET = 14;
-export const STAT_POINTS_PER_LEVEL = 120;
-export const RUNES_PER_LEVEL = 6;
 export const getSmartTargetsChunkSize = 50;
 export const spawnSize = 16;
 export const predictionGlowStrength = 4;
 export const SPACIAL_HASH_CELL_SIZE = 128;
-export const DEATHMASON_DISCARD_DRAW_RATIO = 2;
-export const GORU_PLAYER_STARTING_SOUL_FRAGMENTS = 2;
-export const GORU_SOUL_COLLECT_RADIUS = 100;
 // percent / 100
 export const GORU_SOUL_DEBT_PROPORTION_HEALTH_COST = 5 / 100;
 export const NUMBER_OF_TOOLBARS = 7;
 export const EXTRA_SOULS_PER_EXTRA_PLAYER = 0.7;
 export const MINIBOSS_STRENGTH_MULTIPLIER = 7;
-export const SOUL_FRAGMENTS_MAX_STARTING = 10;

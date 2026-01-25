@@ -1,5 +1,6 @@
 import seedrandom from 'seedrandom';
 import * as config from './config';
+import { getDefaultGameRules } from './types/GameRules';
 import * as storage from "./storage";
 import { calculateCostForSingleCard, type CardCost } from './cards/cardUtils';
 import { cardRarityAsString, getCardRarityColor, getReplacesCardText } from './graphics/ui/CardUI';
@@ -39,9 +40,9 @@ export interface IUpgrade {
   cost: CardCost;
 }
 
-export const filterUpgrades = (u: IUpgrade, player: Pick<IPlayer, "upgrades" | "inventory">, underworld: Pick<Underworld, "activeMods">) => {
+export const filterUpgrades = (u: IUpgrade, player: Pick<IPlayer, "upgrades" | "inventory">, underworld: Pick<Underworld, "activeMods" | "rules">) => {
   let minimumProbability = 0;
-  if (player.inventory.length < config.STARTING_CARD_COUNT) {
+  if (player.inventory.length < underworld.rules.STARTING_CARD_COUNT) {
     // Limit starting cards to a probability of 10 or more
     minimumProbability = 10;
   }

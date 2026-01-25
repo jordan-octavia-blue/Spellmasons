@@ -5,6 +5,7 @@ import { Faction, UnitSubType, UnitType } from '../../types/commonTypes';
 import * as Unit from '../Unit';
 import Underworld, { turn_phase } from '../../Underworld';
 import * as config from '../../config';
+import { getDefaultGameRules } from '../../types/GameRules';
 import { makeCorruptionParticles } from '../../graphics/ParticleCollection';
 import sacrifice from '../../cards/sacrifice';
 import { calculateCost } from '../../cards/cardUtils';
@@ -36,7 +37,7 @@ const deathmason: UnitSource = {
   },
   unitProps: {
     damage: 0,
-    attackRange: config.PLAYER_BASE_ATTACK_RANGE * 3,
+    attackRange: getDefaultGameRules().PLAYER_BASE_ATTACK_RANGE * 3,
     healthMax: 600,
     manaMax: bossmasonMana,
     manaPerTurn: 100,
@@ -146,7 +147,7 @@ const deathmason: UnitSource = {
   }
 };
 export function summonUnitAtPickup(faction: Faction, pickup: Pickup.IPickup, underworld: Underworld) {
-  const enemyIsClose = underworld.units.filter(u => u.faction != faction).some(u => math.distance(pickup, u) <= config.PLAYER_BASE_ATTACK_RANGE)
+  const enemyIsClose = underworld.units.filter(u => u.faction != faction).some(u => math.distance(pickup, u) <= underworld.rules.PLAYER_BASE_ATTACK_RANGE)
   let sourceUnit = allUnits[BLOOD_ARCHER_ID];
   if (enemyIsClose) {
     sourceUnit = allUnits[BLOOD_GOLEM_ID];

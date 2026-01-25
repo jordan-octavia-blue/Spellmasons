@@ -39,7 +39,7 @@ const spell: Spell = {
         const sellValues = cardsToSell.map(cardId => {
           const card = Cards.allCards[cardId];
           if (card && state.casterPlayer) {
-            const highestSellVal = config.STAT_POINTS_PER_LEVEL * 2;
+            const highestSellVal = underworld.rules.STAT_POINTS_PER_LEVEL * 2;
             let sellValue: number;
             // Summon cards (from summon_generic) have thumbnails starting with "spellIconSummon_"
             // and soulFragmentCostOverride represents unit budget cost - use this for sell value

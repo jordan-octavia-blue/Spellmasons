@@ -1,5 +1,6 @@
 import { addUnitTarget, refundLastSpell, Spell } from './index';
 import * as config from '../config';
+import { getDefaultGameRules } from '../types/GameRules';
 import * as Unit from '../entity/Unit';
 import { CardCategory, Faction, UnitSubType, UnitType } from '../types/commonTypes';
 import { allUnits } from '../entity/units';
@@ -142,7 +143,7 @@ export default function makeSpellForUnitId(unitId: string, asMiniboss: boolean, 
 
   if (unitSource) {
     let damage = unitSource.unitProps.damage || 0;
-    let healthMax = unitSource.unitProps.healthMax || config.UNIT_BASE_HEALTH;
+    let healthMax = unitSource.unitProps.healthMax || getDefaultGameRules().UNIT_BASE_HEALTH;
     let manaMax = unitSource.unitProps.manaMax || 0;
     let manaPerTurn = unitSource.unitProps.manaPerTurn || 0;
     if (difficulty && unitSource) {
@@ -210,8 +211,8 @@ export default function makeSpellForUnitId(unitId: string, asMiniboss: boolean, 
             sourceUnit.info.subtype,
             {
               ...sourceUnit.unitProps,
-              healthMax: (sourceUnit.unitProps.healthMax || config.UNIT_BASE_HEALTH) * quantity,
-              health: (sourceUnit.unitProps.health || config.UNIT_BASE_HEALTH) * quantity,
+              healthMax: (sourceUnit.unitProps.healthMax || underworld.rules.UNIT_BASE_HEALTH) * quantity,
+              health: (sourceUnit.unitProps.health || underworld.rules.UNIT_BASE_HEALTH) * quantity,
               damage: (sourceUnit.unitProps.damage || 0) * quantity,
               isMiniboss: asMiniboss,
               strength: quantity,

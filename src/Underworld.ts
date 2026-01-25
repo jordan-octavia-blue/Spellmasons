@@ -2408,7 +2408,7 @@ export default class Underworld {
     // Give stat points, but not in the first level
     if (levelIndex > 0) {
       for (let player of this.players) {
-        let points = config.STAT_POINTS_PER_LEVEL;
+        let points = this.rules.STAT_POINTS_PER_LEVEL;
         // Less stat points per level for Goru and Deathmason
         if (player.wizardType == 'Deathmason' || player.wizardType == 'Goru') {
           points *= 0.6;
@@ -3616,10 +3616,10 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       return 0;
     }
     // .filter out freeSpells because they shouldn't count against upgrades available since they are given to you
-    const upgradesLeftToChoose = this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
+    const upgradesLeftToChoose = this.cardDropsDropped + this.rules.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
     console.debug('Player upgrades left to choose: ', upgradesLeftToChoose, `;
-+ cardDropsDropped: ${this.cardDropsDropped} 
-+ config.STARTING_CARD_COUNT ${config.STARTING_CARD_COUNT} 
++ cardDropsDropped: ${this.cardDropsDropped}
++ rules.STARTING_CARD_COUNT ${this.rules.STARTING_CARD_COUNT} 
 - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length: ${player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length} 
 - (player.skippedCards || 0): ${(player.skippedCards || 0)}`)
     return upgradesLeftToChoose;

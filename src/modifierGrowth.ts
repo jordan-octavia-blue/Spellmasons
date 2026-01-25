@@ -46,7 +46,7 @@ export default function registerGrowth() {
       floatingText({ coords: unit, text: growthId, prediction });
       unit.strength++;
       const sourceUnit = allUnits[unit.unitSourceId];
-      const { healthMax: sourceHealthMax, damage: sourceDamage } = Object.assign({ healthMax: config.UNIT_BASE_HEALTH, damage: config.UNIT_BASE_DAMAGE }, sourceUnit?.unitProps || {});
+      const { healthMax: sourceHealthMax, damage: sourceDamage } = Object.assign({ healthMax: underworld.rules.UNIT_BASE_HEALTH, damage: underworld.rules.UNIT_BASE_DAMAGE }, sourceUnit?.unitProps || {});
       Image.setScaleFromModifiers(unit.image, unit.strength);
       const addHealth = sourceHealthMax * increase_proportion;
       unit.healthMax += addHealth;

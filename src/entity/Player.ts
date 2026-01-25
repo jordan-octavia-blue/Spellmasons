@@ -1,4 +1,4 @@
-import { PLAYER_BASE_HEALTH } from '../config';
+import { getDefaultGameRules } from '../types/GameRules';
 import * as storage from '../storage';
 import * as Unit from './Unit';
 import * as Image from '../graphics/Image';
@@ -153,7 +153,7 @@ export function create(clientId: string, playerId: string, underworld: Underworl
     disabledCards: [],
     cardUsageCounts: {},
     upgrades: [],
-    upgradesLeftToChoose: config.STARTING_CARD_COUNT,
+    upgradesLeftToChoose: underworld.rules.STARTING_CARD_COUNT,
     lobbyReady: false,
     reroll: 0,
     drawChargesSeed: 0,
@@ -166,7 +166,7 @@ export function create(clientId: string, playerId: string, underworld: Underworl
       totalKills: 0
     },
     // backfill stat upgrades for players who join late
-    statPointsUnspent: Math.max(0, underworld.levelIndex) * config.STAT_POINTS_PER_LEVEL,
+    statPointsUnspent: Math.max(0, underworld.levelIndex) * underworld.rules.STAT_POINTS_PER_LEVEL,
     extraStatPointsPerRound: 0,
     lockedRunes: [],
     runePresentedIndex: 0,
@@ -178,12 +178,12 @@ export function create(clientId: string, playerId: string, underworld: Underworl
   // Player units shouldn't be pushed around
   // during collisions while other units move
   player.unit.immovable = true;
-  player.unit.attackRange = config.PLAYER_BASE_ATTACK_RANGE;
+  player.unit.attackRange = underworld.rules.PLAYER_BASE_ATTACK_RANGE;
   player.unit.staminaMax = underworld.rules.PLAYER_BASE_STAMINA;
   player.unit.stamina = underworld.rules.PLAYER_BASE_STAMINA;
 
-  player.unit.health = PLAYER_BASE_HEALTH;
-  player.unit.healthMax = PLAYER_BASE_HEALTH;
+  player.unit.health = underworld.rules.PLAYER_BASE_HEALTH;
+  player.unit.healthMax = underworld.rules.PLAYER_BASE_HEALTH;
 
   underworld.players.push(player);
   restoreWizardTypeVisuals(player, underworld);
@@ -265,10 +265,10 @@ export function initializeWizardStatsForLevelStart(player: IPlayer, underworld: 
     if (player.wizardType == 'Goru') {
       // Get additional starting souls in multiplayer because there is no soul debt in multiplayern
       const additionalStartingSouls = (player.unit.modifiers[startingSoulsId]?.quantity || 0) + (multiplePlayers(underworld) ? 2 : 0);
-      player.unit.soulFragments = config.GORU_PLAYER_STARTING_SOUL_FRAGMENTS + Math.floor(underworld.levelIndex / 2) + additionalStartingSouls;
+      player.unit.soulFragments = underworld.rules.GORU_PLAYER_STARTING_SOUL_FRAGMENTS + Math.floor(underworld.levelIndex / 2) + additionalStartingSouls;
       // Initialize soulFragmentsMax only if it doesn't already exist on Goru so as to not overwrite soul frag max upgrade
       if (!player.unit.soulFragmentsMax) {
-        player.unit.soulFragmentsMax = config.SOUL_FRAGMENTS_MAX_STARTING;
+        player.unit.soulFragmentsMax = underworld.rules.SOUL_FRAGMENTS_MAX_STARTING;
       }
 
     }
@@ -736,7 +736,7 @@ export function getFactionsOf(players: { clientConnected: boolean, unit: { facti
 export function incrementPresentedRunesForPlayer(player: Pick<IPlayer, 'lockedRunes' | 'runePresentedIndex'>, underworld: Underworld) {
   // Increment runePresentedIndex for each player so they get new runes presented on the next level:
   const shuffledRunes = underworld.getShuffledRunesForPlayer(globalThis.player);
-  player.runePresentedIndex = incrementPresentedRunesIndex(player.runePresentedIndex, config.RUNES_PER_LEVEL, shuffledRunes, player.lockedRunes);
+  player.runePresentedIndex = incrementPresentedRunesIndex(player.runePresentedIndex, underworld.rules.RUNES_PER_LEVEL, shuffledRunes, player.lockedRunes);
   // Remove old unlocked level indexes
   // Note: This must occur AFTER incrementPresentedRunesIndex so that 
   // it doesn't skip over runes that were omitted due to previously locked runes
@@ -774,7 +774,7 @@ export function setWizardType(player: IPlayer, wizardType: WizardType | undefine
         player.unit.manaMax = 0;
         player.unit.manaPerTurn = 0;
       } else if (player.wizardType == 'Spellmason' || !player.wizardType) {
-        player.unit.manaMax = config.UNIT_BASE_MANA;
+        player.unit.manaMax = underworld.rules.UNIT_BASE_MANA;
         player.unit.mana = player.unit.manaMax;
       }
     }
