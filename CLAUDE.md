@@ -92,3 +92,7 @@ The game can run headless (no graphics) for multiplayer servers:
 - TypeScript config: `tsconfig.headless.json`
 - Output: `headless-server-build/`
 - Entry point: `src/HeadlessServer.ts`
+
+## Localization
+
+Do not modify localization files (`.json` or `.tsv` in `public/localization/`). These files are generated and managed separately.

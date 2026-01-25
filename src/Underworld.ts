@@ -72,7 +72,7 @@ import type PieClient from '@websocketpie/client';
 import { isOutOfRange, sendPlayerThinkingThrottled } from './PlayerUtils';
 import { DisplayObject, TilingSprite } from 'pixi.js';
 import { HasSpace } from './entity/Type';
-import { explain, EXPLAIN_PING, isTutorialFirstStepsComplete, isTutorialComplete, tutorialCompleteTask, tutorialChecklist, tutorialShowTask } from './graphics/Explain';
+import { explain, EXPLAIN_PING, EXPLAIN_SANDBOX, isTutorialFirstStepsComplete, isTutorialComplete, tutorialCompleteTask, tutorialChecklist, tutorialShowTask } from './graphics/Explain';
 import { makeRisingParticles, makeScrollDissapearParticles, stopAndDestroyForeverEmitter } from './graphics/ParticleCollection';
 import { ensureAllClientsHaveAssociatedPlayers, Overworld, recalculateGameDifficulty } from './Overworld';
 import { Emitter } from 'jdoleary-fork-pixi-particle-emitter';
@@ -295,6 +295,10 @@ export default class Underworld {
     this.random = this.syncronizeRNG(RNGState);
 
     globalThis.spellCasting = false;
+    // Reset adminMode for non-localhost environments to prevent it from persisting across games
+    if (typeof window !== 'undefined' && !window.location.href.includes('localhost')) {
+      globalThis.adminMode = false;
+    }
     this.setContainerUnitsFilter();
 
     // Create the host player
@@ -1768,6 +1772,15 @@ export default class Underworld {
         }
       }
     }
+
+    // Handle sandbox mode - enable adminMode and show explain prompt
+    if (this.gameMode === 'sandbox') {
+      globalThis.adminMode = true;
+      if (levelIndex == 0) {
+        explain(EXPLAIN_SANDBOX);
+      }
+    }
+
     const isFirstTutorialLevel = (levelIndex == -1);
 
     let caveParams = caveSizes.extrasmall;

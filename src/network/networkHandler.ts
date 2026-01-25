@@ -160,6 +160,12 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
         if (gameMode === 'custom') {
           underworld.rules = getStoredCustomRules();
         }
+
+        // Enable adminMode for sandbox difficulty
+        if (gameMode === 'sandbox') {
+          globalThis.adminMode = true;
+        }
+
         // Must be called when difficulty (gameMode) changes to update summon spell stats
         Cards.refreshSummonCardDescriptions(underworld);
         recalculateGameDifficulty(underworld);
