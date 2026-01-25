@@ -13,6 +13,7 @@ import type { ICard } from '../cards';
 import type keyMapping from '../graphics/ui/keyMapping';
 import type { LogLevel } from '../RemoteLogging';
 import type PiePeer from '../network/PiePeer';
+import { IGameRules } from './GameRules';
 
 declare global {
   var SPELLMASONS_PACKAGE_VERSION: string;
@@ -427,4 +428,5 @@ declare global {
   var forceCustomMapName: string;
   var allFamiliars: string[];
   var dlc: undefined | number[];
+  var setGameRules: (rules: Partial<IGameRules>) => void;
 }

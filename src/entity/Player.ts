@@ -179,8 +179,8 @@ export function create(clientId: string, playerId: string, underworld: Underworl
   // during collisions while other units move
   player.unit.immovable = true;
   player.unit.attackRange = config.PLAYER_BASE_ATTACK_RANGE;
-  player.unit.staminaMax = config.PLAYER_BASE_STAMINA;
-  player.unit.stamina = config.PLAYER_BASE_STAMINA;
+  player.unit.staminaMax = underworld.rules.PLAYER_BASE_STAMINA;
+  player.unit.stamina = underworld.rules.PLAYER_BASE_STAMINA;
 
   player.unit.health = PLAYER_BASE_HEALTH;
   player.unit.healthMax = PLAYER_BASE_HEALTH;

@@ -34,6 +34,7 @@ import seedrandom from 'seedrandom';
 import { getUniqueSeedString, SeedrandomState } from '../jmath/rand';
 import { setPlayerNameUI } from '../PlayerUtils';
 import { GameMode, WizardType } from '../types/commonTypes';
+import { getDefaultGameRules } from '../types/GameRules';
 import { getSpellThumbnailPath, recalcPositionForCards, renderRunesMenu } from '../graphics/ui/CardUI';
 import { isSinglePlayer } from './wsPieSetup';
 import { elEndTurnBtn } from '../HTMLElements';
@@ -1258,6 +1259,7 @@ async function handleLoadGameState(payload: {
     underworld.syncronizeRNG(loadedGameState.RNGState);
   }
   underworld.gameMode = loadedGameState.gameMode;
+  underworld.rules = loadedGameState.rules || getDefaultGameRules();
   underworld.turn_phase = loadedGameState.turn_phase;
   underworld.turn_number = loadedGameState.turn_number;
   underworld.processedMessageCount = loadedGameState.processedMessageCount;

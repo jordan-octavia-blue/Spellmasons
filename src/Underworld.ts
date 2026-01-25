@@ -46,6 +46,7 @@ import {
 } from './graphics/PixiUtils';
 import floatingText, { queueCenteredFloatingText, warnNoMoreSpellsToChoose } from './graphics/FloatingText';
 import { UnitType, Faction, UnitSubType, GameMode, Pie } from './types/commonTypes';
+import { IGameRules, getDefaultGameRules } from './types/GameRules';
 import type { Vec2 } from "./jmath/Vec";
 import * as Vec from "./jmath/Vec";
 import Events from './Events';
@@ -155,6 +156,7 @@ let localUnderworldCount = 0;
 export default class Underworld {
   seed: string;
   gameMode?: GameMode;
+  rules: IGameRules = getDefaultGameRules();
   difficulty: number = 1;
   // A simple number to keep track of which underworld this is
   // Used for development to help ensure that all references to the underworld are current

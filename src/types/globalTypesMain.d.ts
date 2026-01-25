@@ -368,4 +368,5 @@ declare global {
   var forceCustomMapName: string;
   var allFamiliars: string[];
   var dlc: number[];
+  var setGameRules: (rules: Partial<IGameRules>) => void;
 }

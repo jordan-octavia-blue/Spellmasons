@@ -1,3 +1,23 @@
+Custom Rules:
+
+1. Host selects "Custom" difficulty via UI -> setDifficulty('custom')
+ 2. Host configures rules via future UI -> setGameRules({ PLAYER_BASE_STAMINA: 300 })
+ 3. Rules stored in localStorage OPTIONS and applied to underworld.rules
+ 4. When game starts, rules are part of serializeForSaving() output
+ 5. Clients receive rules via INIT_GAME_STATE message (existing flow)
+ 6. Clients apply rules in handleLoadGameState
+
+  Verification
+
+ 1. Start a singleplayer game, open console (F12)
+ 2. Run: devUnderworld.rules - should show default values
+ 3. Run: globalThis.setDifficulty('custom')
+ 4. Run: globalThis.setGameRules({ PLAYER_BASE_STAMINA: 500 })
+ 5. Verify: devUnderworld.rules.PLAYER_BASE_STAMINA equals 500
+ 6. Spawn a new player and verify their stamina is 500
+ 7. For multiplayer: Start a 2-player hotseat game and verify both players get custom rules
+
+---
 - More expensive change modification runes
 ---
 - bug: Sometimes you pickup a scroll and nothing happens
