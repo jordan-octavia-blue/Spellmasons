@@ -1,4 +1,10 @@
 # QA Protocol
+**MARCH**
+- QA all latest changes
+    - Custom rule override
+    - Sandbox (qa in steam build)
+    - Burn spells
+
 ## Regular
 - Run `npm run headless-build-only` to check tsc errors which `npm run bun-headless` will not catch
 - Test hosting LAN server from Electron build
