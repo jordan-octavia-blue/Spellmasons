@@ -60,10 +60,16 @@ export function enfeebleFilter(u: Unit.IUnit): boolean {
     && u.unitSourceId != DARK_SUMMONER_ID;
 }
 function add(unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) {
+  const prevQuantity = unit.modifiers[enfeebleId]?.quantity || 0;
   const modifier = getOrInitModifier(unit, enfeebleId, { isCurse: true, quantity, }, () => {
     //no first time setup
   });
-  Unit.changeDamageNonRelative(unit, -statChange * modifier.quantity);
+  // Each stack reduces damage cumulatively: stack 1 = -5, stack 2 = -10, stack 3 = -15, etc.
+  let damageReduction = 0;
+  for (let i = prevQuantity + 1; i <= modifier.quantity; i++) {
+    damageReduction += statChange * i;
+  }
+  Unit.changeDamageNonRelative(unit, -damageReduction);
 }
 
 function remove(unit: Unit.IUnit, underworld: Underworld) {
@@ -73,7 +79,12 @@ function remove(unit: Unit.IUnit, underworld: Underworld) {
     return
   }
 
-  Unit.changeDamageNonRelative(unit, statChange * modifier.quantity);
+  // Restore the cumulative damage reduction: 5 + 10 + 15 + ...
+  let totalReduction = 0;
+  for (let i = 1; i <= modifier.quantity; i++) {
+    totalReduction += statChange * i;
+  }
+  Unit.changeDamageNonRelative(unit, totalReduction);
 }
 
 export default spell;
