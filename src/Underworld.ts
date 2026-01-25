@@ -46,7 +46,7 @@ import {
 } from './graphics/PixiUtils';
 import floatingText, { queueCenteredFloatingText, warnNoMoreSpellsToChoose } from './graphics/FloatingText';
 import { UnitType, Faction, UnitSubType, GameMode, Pie } from './types/commonTypes';
-import { IGameRules, getDefaultGameRules } from './types/GameRules';
+import { IGameRules, getDefaultGameRules, getStoredCustomRules } from './types/GameRules';
 import type { Vec2 } from "./jmath/Vec";
 import * as Vec from "./jmath/Vec";
 import Events from './Events';
@@ -2442,6 +2442,10 @@ export default class Underworld {
   async createLevel(levelData: LevelData, gameMode?: GameMode) {
     if (exists(gameMode)) {
       this.gameMode = gameMode;
+      // Load custom rules from storage when custom difficulty is selected
+      if (gameMode === 'custom') {
+        this.rules = getStoredCustomRules();
+      }
       // Must be called when difficulty (gameMode) changes to update summon spell stats
       Cards.refreshSummonCardDescriptions(this);
     }

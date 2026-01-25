@@ -34,7 +34,7 @@ import seedrandom from 'seedrandom';
 import { getUniqueSeedString, SeedrandomState } from '../jmath/rand';
 import { setPlayerNameUI } from '../PlayerUtils';
 import { GameMode, WizardType } from '../types/commonTypes';
-import { getDefaultGameRules } from '../types/GameRules';
+import { getDefaultGameRules, getStoredCustomRules } from '../types/GameRules';
 import { getSpellThumbnailPath, recalcPositionForCards, renderRunesMenu } from '../graphics/ui/CardUI';
 import { isSinglePlayer } from './wsPieSetup';
 import { elEndTurnBtn } from '../HTMLElements';
@@ -156,6 +156,10 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
       const { gameMode } = payload;
       if (underworld.levelIndex <= 1) {
         underworld.gameMode = gameMode;
+        // Load custom rules from storage when custom difficulty is selected
+        if (gameMode === 'custom') {
+          underworld.rules = getStoredCustomRules();
+        }
         // Must be called when difficulty (gameMode) changes to update summon spell stats
         Cards.refreshSummonCardDescriptions(underworld);
         recalculateGameDifficulty(underworld);
