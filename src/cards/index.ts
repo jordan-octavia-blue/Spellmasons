@@ -24,6 +24,7 @@ import Events, {
   onCast,
 } from '../Events';
 import Subsprites, { Subsprite } from '../Subsprites';
+import { getWardenCategoryUpgrades } from './wardenCategoryCards';
 // Register spells:
 import slash from './slash';
 import heavySlash from './heavy_slash';
@@ -275,7 +276,6 @@ import registerFrozenSolid from '../modifierFrozenSolid';
 // Global events
 import registerAlwaysBounty from '../globalEvents/alwaysBounty';
 import registerTestUnderworldEvents from '../globalEvents/testUnderworldEvents';
-import registerLycanthropy from '../modifierLycanthropy';
 import registerAnemia from '../maladyAnemic';
 import registerStatue from '../maladyStatue';
 import registerNuclearOption from '../maladyNuclearOption';
@@ -774,6 +774,13 @@ export function registerCards(overworld: Overworld) {
   registerHemorrhage();
   registerBloodyRobes();
   registerPacifist();
+
+  // Register Warden category upgrades
+  for (const upgrade of getWardenCategoryUpgrades()) {
+    if (!upgradeCardsSource.find(u => u.title === upgrade.title)) {
+      upgradeCardsSource.push(upgrade);
+    }
+  }
 }
 
 // This is necessary because unit stats change with difficulty.

@@ -10,7 +10,7 @@ Spellmasons is a turn-based, tactical roguelike video game with online cooperati
 
 ```bash
 npm start                    # Start Vite dev server at http://localhost:3000
-npm test                     # Type check + run Jest tests
+npm test                     # Type check + run Jest tests (tests are outdated, don't run)
 npm run tsc                  # Type check only
 npm run build                # Full production build (types + tsc + vite + headless + manifest)
 npm run lint                 # Prettier format check
@@ -76,6 +76,12 @@ WebSocketPie-based real-time multiplayer with message-based architecture. Suppor
 Mods access the engine through `globalThis.SpellmasonsAPI`. The API is defined in `src/api.ts`. Mods may import types only (`import type {...}`) from the engine; everything else must come from SpellmasonsAPI.
 
 Sample mods: `src/DevelopmentMods/`
+
+## Coding Conventions
+
+- **Null/undefined checks**: Do NOT use `=== undefined`, `!== undefined`, `== null`, `!= null`, etc. Instead use the global helpers:
+  - `isNullOrUndef(value)` — returns true if value is null or undefined
+  - `exists(value)` — returns true if value is not null and not undefined (opposite of isNullOrUndef)
 
 ## Development Tips
 

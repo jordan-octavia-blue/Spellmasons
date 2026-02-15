@@ -46,6 +46,7 @@ import { mergeExcessPickups, mergeExcessUnits } from '../stability';
 import { distance, lerp } from '../jmath/math';
 import PiePeer from './PiePeer';
 import { GORU_ATTACK_IMAGE_PATH, GORU_DEFAULT_IMAGE_PATH, GORU_UNIT_ID } from '../entity/units/goru';
+import { PRIEST_ID } from '../entity/units/priest';
 import { visualPolymorphPlayerUnit } from '../cards/polymorph';
 import { spellmasonUnitId } from '../entity/units/playerUnit';
 import { makeManaTrail, removeFloatingParticlesFor } from '../graphics/Particles';
@@ -869,7 +870,9 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
           Player.setWizardType(fromPlayer, wizardType, overworld.underworld);
         }
         // Update the player image
-        const sourceUnit = fromPlayer.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID] : allUnits[spellmasonUnitId];
+        const sourceUnit = fromPlayer.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID]
+          : fromPlayer.wizardType == 'Warden' ? allUnits[PRIEST_ID]
+          : allUnits[spellmasonUnitId];
         if (sourceUnit) {
           visualPolymorphPlayerUnit(fromPlayer.unit, sourceUnit)
           Unit.returnToDefaultSprite(fromPlayer.unit);
@@ -1443,6 +1446,8 @@ async function handleSpell(caster: Player.IPlayer, payload: any, underworld: Und
     }
     if (caster.wizardType == 'Goru') {
       animationKey = GORU_ATTACK_IMAGE_PATH;
+    } else if (caster.wizardType == 'Warden') {
+      animationKey = 'priestAttack';
     }
     await Player.setSpellmasonsToChannellingAnimationClose(caster);
     if (caster.colorMagic === null) {

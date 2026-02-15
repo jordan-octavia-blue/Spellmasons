@@ -8,6 +8,7 @@ import { recalcPositionForCards } from '../graphics/ui/CardUI';
 import floatingText from '../graphics/FloatingText';
 import { makeManaTrail } from '../graphics/Particles';
 import { playDefaultSpellSFX } from './cardUtils';
+import { isWarden } from '../entity/Player';
 
 export const id = 'Capture Soul';
 const healthThreshold = 31;
@@ -37,6 +38,18 @@ const spell: Spell = {
               if (upgrade) {
                 floatingText({ coords: target, text: 'Soul Captured!' });
                 underworld.forceUpgrade(player, upgrade, true);
+                // Track captured souls for Warden
+                if (isWarden(player)) {
+                  if (!player.wardenCapturedSouls.includes(target.unitSourceId)) {
+                    player.wardenCapturedSouls.push(target.unitSourceId);
+                  }
+                  if (target.isMiniboss) {
+                    const minibossName = Unit.unitSourceIdToName(target.unitSourceId, true);
+                    if (!player.wardenCapturedSouls.includes(minibossName)) {
+                      player.wardenCapturedSouls.push(minibossName);
+                    }
+                  }
+                }
                 playDefaultSpellSFX(card, prediction);
               } else {
                 console.error('Cannot capture soul, upgrade not found with title:', newCardId)

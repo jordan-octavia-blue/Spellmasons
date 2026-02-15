@@ -2884,7 +2884,7 @@ export default class Underworld {
       return
     }
 
-    const savedWizardTypes = this.players.map(p => ({ wizardType: p.wizardType, playerId: p.playerId }))
+    const savedWizardTypes = this.players.map(p => ({ wizardType: p.wizardType, playerId: p.playerId, wardenCapturedSouls: p.wardenCapturedSouls || [] }))
 
     const newUnderworld = new Underworld(this.overworld, this.pie, Math.random().toString());
 
@@ -2912,6 +2912,9 @@ export default class Underworld {
         console.error('Attempting to restore player wizard info but no player found with id')
       } else {
         Player.setWizardType(player, savedWizardInfo.wizardType, newUnderworld)
+        if (savedWizardInfo.wardenCapturedSouls) {
+          player.wardenCapturedSouls = savedWizardInfo.wardenCapturedSouls;
+        }
       }
     }
     // Generate the level data

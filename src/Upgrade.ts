@@ -14,6 +14,7 @@ import { bleedCardId } from './cards/bleed';
 import { drownCardId } from './cards/drown';
 import { isModActive } from './registerMod';
 import { allCards } from './cards';
+import { WARDEN_UPGRADE_ID_PREFIX } from './cards/wardenCategoryCards';
 import { boneShrapnelCardId } from './cards/bone_shrapnel';
 import { executeCardId } from './cards/execute';
 import { precisionId } from './modifierPrecision';
@@ -49,7 +50,7 @@ export const filterUpgrades = (u: IUpgrade, player: Pick<IPlayer, "upgrades" | "
   // Exclude upgrades whose requirements have not been met
   return (u.requires ? u.requires.every(title => player.upgrades.find(u => u == title)) : true)
     // Exclude card upgrades already obtained by the player (Can this be done with max copies?)
-    && !player.inventory.includes(u.title)
+    && (u.title.startsWith(WARDEN_UPGRADE_ID_PREFIX) || !player.inventory.includes(u.title))
     // Exclude upgrades considered too rare for this generated set
     && u.probability >= minimumProbability
     // Exclude upgrades with a probability of 0 or less
@@ -101,6 +102,11 @@ export function generateUpgrades(player: IPlayer, numberOfUpgrades: number, unde
 
   // Omit cards that shouldn't be drawn by a given wizardType
   upgradeList = upgradeList.filter(c => !(c.omitForWizardType && c.omitForWizardType.includes(player.wizardType)));
+
+  // Warden only sees Warden category upgrades
+  if (player.wizardType === 'Warden') {
+    upgradeList = upgradeList.filter(u => u.title.startsWith(WARDEN_UPGRADE_ID_PREFIX));
+  }
 
   // Exclude targeting spells so as to not break precision
   if (player.unit.modifiers[precisionId]) {

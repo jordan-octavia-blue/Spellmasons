@@ -53,6 +53,7 @@ import { IPickup } from './Pickup';
 import seedrandom from 'seedrandom';
 import { slimeId } from '../modifierSlime';
 import { deathmasonCardProbabilities, isRune } from '../cards/cardUtils';
+import { animateWardenShuffle, resolveAllWardenSlots } from '../cards/wardenCategoryCards';
 import { VAMPIRE_ID } from './units/vampire';
 import { growthId } from '../modifierGrowth';
 import { resurrect_id } from '../cards/resurrect';
@@ -1629,6 +1630,16 @@ export async function startTurnForUnits(units: IUnit[], underworld: Underworld, 
       }
       // Draw up to max charges
       refillCharges(unit, underworld);
+    }
+    // Warden: re-randomize cards each turn
+    const wardenPlayer = underworld.players.find(p => p.unit == unit && Player.isWarden(p));
+    if (wardenPlayer && wardenPlayer.wardenSlots.length > 0) {
+      resolveAllWardenSlots(wardenPlayer, underworld);
+      if (wardenPlayer == globalThis.player) {
+        CardUI.recalcPositionForCards(wardenPlayer, underworld);
+        CardUI.updateCardBadges(underworld);
+        animateWardenShuffle();
+      }
     }
   }
 

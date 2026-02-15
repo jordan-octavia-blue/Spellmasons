@@ -25,10 +25,12 @@ import floatingText from '../graphics/FloatingText';
 import { CORRUPTION_PARTICLES_JID, makeCorruptionParticles, stopAndDestroyForeverEmitter } from '../graphics/ParticleCollection';
 import { visualPolymorphPlayerUnit } from '../cards/polymorph';
 import { GORU_UNIT_ID } from './units/goru';
+import { PRIEST_ID } from './units/priest';
 import { undyingModifierId } from '../modifierUndying';
 import { bossmasonUnitId } from './units/deathmason';
 import { startingSoulsId } from '../modifierGoruConstants';
 import { multiplePlayers } from '../network/wsPieSetup';
+import { resolveAllWardenSlots } from '../cards/wardenCategoryCards';
 
 const elInGameLobby = document.getElementById('in-game-lobby') as (HTMLElement | undefined);
 elInGameLobby?.addEventListener('click', (e) => {
@@ -109,6 +111,8 @@ export interface IPlayer {
   runePresentedIndex: number;
   gameVersion?: string;
   skippedCards: number;
+  wardenSlots: CardCategory[];
+  wardenCapturedSouls: string[];
 }
 export function inPortal(player: IPlayer): boolean {
   // Note: Even though inPortal can be determined by player.isSpawned,
@@ -171,6 +175,8 @@ export function create(clientId: string, playerId: string, underworld: Underworl
     lockedRunes: [],
     runePresentedIndex: 0,
     skippedCards: 0,
+    wardenSlots: [],
+    wardenCapturedSouls: [],
   };
   player.unit.originalLife = true;
   // Player units get full mana every turn
@@ -277,6 +283,9 @@ export function initializeWizardStatsForLevelStart(player: IPlayer, underworld: 
       discardCards(player, underworld, { forceDiscardAll: true });
       // Refill cards
       Unit.refillCharges(player.unit, underworld);
+    }
+    if (isWarden(player)) {
+      resolveAllWardenSlots(player, underworld);
     }
   }
 
@@ -390,6 +399,12 @@ export function load(player: IPlayerSerialized, index: number, underworld: Under
   if (isNullOrUndef(playerLoaded.cursesChosen)) {
     playerLoaded.cursesChosen = 0;
   }
+  if (!playerLoaded.wardenSlots) {
+    playerLoaded.wardenSlots = [];
+  }
+  if (!playerLoaded.wardenCapturedSouls) {
+    playerLoaded.wardenCapturedSouls = [];
+  }
   // Make sure player unit stays hidden if they are in a portal
   if (inPortal(playerLoaded)) {
     playerLoaded.unit.x = NaN;
@@ -418,9 +433,11 @@ export function load(player: IPlayerSerialized, index: number, underworld: Under
 }
 export function restoreWizardTypeVisuals(player: IPlayer, underworld: Underworld) {
   // Restore visuals for wizard types
-  const sourceUnit = player.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID] : allUnits[spellmasonUnitId];
+  const sourceUnit = player.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID]
+    : player.wizardType == 'Warden' ? allUnits[PRIEST_ID]
+    : allUnits[spellmasonUnitId];
   if (sourceUnit) {
-    const notPolymorphed = ['playerIdle', 'guruIdle'].includes(player.unit.defaultImagePath)
+    const notPolymorphed = ['playerIdle', 'guruIdle', 'priestIdle'].includes(player.unit.defaultImagePath)
     // Only revert the player image if they are not polymorphed
     if (notPolymorphed) {
       visualPolymorphPlayerUnit(player.unit, sourceUnit)
@@ -443,6 +460,7 @@ export function restoreWizardTypeVisuals(player: IPlayer, underworld: Underworld
   if (globalThis.player == player) {
     document.body.classList.toggle('wizardtype-deathmason', player.wizardType == 'Deathmason');
     document.body.classList.toggle('wizardtype-goru', player.wizardType == 'Goru');
+    document.body.classList.toggle('wizardtype-warden', player.wizardType == 'Warden');
     // Update UI and prediction entities when player changes wizardtype status
     if (underworld) {
       CardUI.updateCardBadges(underworld);
@@ -675,6 +693,7 @@ export async function setSpellmasonsToChannellingAnimationClose(player: IPlayer)
 export function setSpellmasonsToChannellingAnimation(player: IPlayer) {
   if (!player.unit.alive) return;
   if (player.wizardType === 'Goru') return;
+  if (player.wizardType === 'Warden') return;
 
   const bookInAnimationPath = 'playerBookIn';
   new Promise<void>((resolve) => {
@@ -774,6 +793,9 @@ export function setWizardType(player: IPlayer, wizardType: WizardType | undefine
         player.unit.mana = 0;
         player.unit.manaMax = 0;
         player.unit.manaPerTurn = 0;
+      } else if (player.wizardType == 'Warden') {
+        player.unit.manaMax = underworld.rules.UNIT_BASE_MANA;
+        player.unit.mana = player.unit.manaMax;
       } else if (player.wizardType == 'Spellmason' || !player.wizardType) {
         player.unit.manaMax = underworld.rules.UNIT_BASE_MANA;
         player.unit.mana = player.unit.manaMax;
@@ -849,4 +871,7 @@ export function isDeathmason(player?: IPlayer): boolean {
 }
 export function isGoru(player: IPlayer): boolean {
   return player.wizardType == 'Goru';
+}
+export function isWarden(player?: IPlayer): boolean {
+  return !!player && player.wizardType == 'Warden';
 }

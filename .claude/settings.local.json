@@ -6,7 +6,8 @@
       "Bash(grep:*)",
       "Bash(npm run tsc:*)",
       "Bash(npx tsc:*)",
-      "Bash(git show:*)"
+      "Bash(git show:*)",
+      "Bash(ls:*)"
     ]
   }
 }

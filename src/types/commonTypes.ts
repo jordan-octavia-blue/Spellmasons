@@ -7,7 +7,7 @@ import type PiePeer from '../network/PiePeer';
 import type { IHostApp } from '../network/networkUtil';
 import { HandmadeMap } from '../MapsHandmade';
 export type GameMode = 'tutorial' | 'hard' | 'impossible' | 'custom' | 'sandbox';
-export type WizardType = 'Spellmason' | 'Deathmason' | 'Goru';
+export type WizardType = 'Spellmason' | 'Deathmason' | 'Goru' | 'Warden';
 export enum UnitType {
   PLAYER_CONTROLLED,
   AI,
