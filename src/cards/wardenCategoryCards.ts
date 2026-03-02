@@ -10,13 +10,13 @@ import { isModActive } from '../registerMod';
 
 // Thumbnails for each category
 const categoryThumbnails: Record<CardCategory, string> = {
-  [CardCategory.Damage]: 'spellIconBolt.png',
-  [CardCategory.Movement]: 'spellIconDash.png',
-  [CardCategory.Targeting]: 'spellIconConnect.png',
-  [CardCategory.Mana]: 'spellIconConserve.png',
-  [CardCategory.Curses]: 'spellIconCursify.png',
-  [CardCategory.Blessings]: 'spellIconHeal.png',
-  [CardCategory.Soul]: 'spellIconCaptureSoul.png',
+  [CardCategory.Damage]: 'images/spell/warden_ball_damage.png',
+  [CardCategory.Movement]: 'images/spell/warden_ball_move.png',
+  [CardCategory.Targeting]: 'images/spell/warden_ball_target.png',
+  [CardCategory.Mana]: 'images/spell/warden_ball_mana.png',
+  [CardCategory.Curses]: 'images/spell/warden_ball_curse.png',
+  [CardCategory.Blessings]: 'images/spell/warden_ball_blessing.png',
+  [CardCategory.Soul]: 'images/spell/warden_ball_soul.png',
 };
 
 const categoryNames: Record<CardCategory, string> = {
@@ -24,8 +24,8 @@ const categoryNames: Record<CardCategory, string> = {
   [CardCategory.Movement]: 'Movement',
   [CardCategory.Targeting]: 'Targeting',
   [CardCategory.Mana]: 'Mana',
-  [CardCategory.Curses]: 'Curses',
-  [CardCategory.Blessings]: 'Blessings',
+  [CardCategory.Curses]: 'Curse',
+  [CardCategory.Blessings]: 'Blessing',
   [CardCategory.Soul]: 'Soul',
 };
 
