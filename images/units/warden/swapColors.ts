@@ -104,9 +104,9 @@ async function main() {
 
     await doSwap('warden', [
         // cowl: fcffc8 -> 8c3b3b (only y >= 51 to distinguish from face)
-        { from: { r: 0xfc, g: 0xff, b: 0xc8 }, to: { r: 0x8c, g: 0x3b, b: 0x3b }, minY: 51 },
+        { from: { r: 0xfc, g: 0xff, b: 0xc8 }, to: { r: 0x8c, g: 0x3b, b: 0x3b }, minY: 54 },
         // face: fcffc8 -> 8fd69c (y < 51)
-        { from: { r: 0xfc, g: 0xff, b: 0xc8 }, to: { r: 0x8f, g: 0xd6, b: 0x9c }, maxY: 50 },
+        { from: { r: 0xfc, g: 0xff, b: 0xc8 }, to: { r: 0x3a, g: 0x9c, b: 0x4b }, maxY: 53 },
         // arms: a6b671 -> 42b657
         { from: { r: 0xa6, g: 0xb6, b: 0x71 }, to: { r: 0x42, g: 0xb6, b: 0x57 } },
         // thigh: bfc280 -> 4ebf63
@@ -115,6 +115,13 @@ async function main() {
         { from: { r: 0xa1, g: 0xa4, b: 0x66 }, to: { r: 0x3c, g: 0xa7, b: 0x4f } },
         // back leg: 808344 -> 30843f
         { from: { r: 0x80, g: 0x83, b: 0x44 }, to: { r: 0x30, g: 0x84, b: 0x3f } },
+        // e5e8b6 -> 19ae33                                 
+        { from: { r: 229, g: 232, b: 182 }, to: { r: 0x28, g: 0x93, b: 0x3b } },
+        // c6ca8a -> 1bc239                                 
+        { from: { r: 0xc6, g: 0xca, b: 0x8a }, to: { r: 0x1b, g: 0xc2, b: 0x39 } },
+        // 83905a -> 138828                                 
+        { from: { r: 0x83, g: 0x90, b: 0x5a }, to: { r: 0x13, g: 0x88, b: 0x28 } },
+        { from: { r: 178, g: 182, b: 113 }, to: { r: 19, g: 149, b: 50 } },
     ]);
 
 
