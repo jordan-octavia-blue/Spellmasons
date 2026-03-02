@@ -25,7 +25,7 @@ const spell: Spell = {
         healthCost: 0,
         expenseScaling: 1,
         probability: probabilityMap[CardRarity.UNCOMMON],
-        thumbnail: 'spellIconPoison.png',
+        thumbnail: 'burn.png',
         animationPath: 'spellPoison',
         description: "Inflicts a stack of Burn. Burn damage scales according to 5 times the number of stacks squared. Burn stacks decrease by 1 every turn.",
         effect: async (state, card, quantity, underworld, prediction) => {
@@ -99,7 +99,7 @@ const spell: Spell = {
 };
 
 function add(unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1, extra?: { [key: string]: any }) {
-    if (unit.modifiers[flammableId] && !prediction) {
+    if (unit.modifiers[flammableId]) {
         const flammableStacks = unit.modifiers[flammableId].quantity;
         quantity = quantity * (flammableStacks + 1);
         Unit.removeModifier(unit, flammableId, underworld);
@@ -120,9 +120,9 @@ function addModifierVisuals(unit: Unit.IUnit, underworld: Underworld) {
     if (spell.modifiers?.subsprite) {
         // @ts-ignore: imagePath is a property that i've added and is not a part of the PIXI type
         // which is used for identifying the sprite or animation that is currently active
-        const poisonSubsprite = unit.image?.sprite.children.find(c => c.imagePath == spell.modifiers?.subsprite?.imageName)
-        if (poisonSubsprite) {
-            const animatedSprite = poisonSubsprite as PIXI.AnimatedSprite;
+        const burnSubsprite = unit.image?.sprite.children.find(c => c.imagePath == spell.modifiers?.subsprite?.imageName)
+        if (burnSubsprite) {
+            const animatedSprite = burnSubsprite as PIXI.AnimatedSprite;
             animatedSprite.onFrameChange = (currentFrame) => {
                 if (currentFrame == 5) {
                     animatedSprite.anchor.x = (3 + Math.random() * (6 - 3)) / 10;

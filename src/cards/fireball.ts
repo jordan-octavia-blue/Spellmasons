@@ -28,7 +28,7 @@ const spell: Spell = {
         healthCost: 0,
         expenseScaling: 1,
         probability: probabilityMap[CardRarity.COMMON],
-        thumbnail: 'spellIconArrow.png',
+        thumbnail: 'fireball.png',
         // so that you can fire the arrow at targets out of range
         allowNonUnitTarget: true,
         ignoreRange: true,
@@ -41,7 +41,7 @@ const spell: Spell = {
         onProjectileCollision: ({ unit, underworld, projectile, prediction }) => {
             const impactLocation = projectile.pushedObject;
             const adjustedRadius = baseRadius * (1 + (0.25 * projectile.state.aggregator.radiusBoost));
-            const burnedUnits = underworld.getUnitsWithinDistanceOfTarget(impactLocation, baseRadius, prediction);
+            const burnedUnits = underworld.getUnitsWithinDistanceOfTarget(impactLocation, adjustedRadius, prediction);
             for (let burnVictim of burnedUnits) {
                 Unit.addModifier(burnVictim, burnCardId, underworld, prediction, 3, { sourceUnitId: projectile.state.casterUnit.id });
             }

@@ -28,7 +28,7 @@ const spell: Spell = {
         healthCost: 0,
         expenseScaling: 1,
         probability: probabilityMap[CardRarity.SPECIAL],
-        thumbnail: 'spellIconContaminate.png',
+        thumbnail: 'wildfire.png',
         description: 'Spreads the burn stacks of all burning targets to nearby units.',
         effect: async (state, card, quantity, underworld, prediction) => {
             // .filter: only target living units

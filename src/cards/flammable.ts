@@ -1,15 +1,10 @@
-import { addTarget, EffectState, ICard, Spell } from './index';
+import { EffectState, ICard, Spell } from './index';
 import { CardCategory } from '../types/commonTypes';
-import { Vec2, lerpVec2 } from '../jmath/Vec';
 import * as Unit from '../entity/Unit';
 import { IUnit } from '../entity/Unit';
 import { CardRarity, probabilityMap } from '../types/commonTypes';
-import { easeOutCubic } from '../jmath/Easing';
-import * as config from '../config';
-import * as colors from '../graphics/ui/colors';
 import Underworld from '../Underworld';
 import { getOrInitModifier } from './util';
-import { playDefaultSpellSFX } from './cardUtils';
 import { burnCardId } from './burn';
 import { fireballCardId } from './fireball';
 export const flammableId = 'Flammable';
@@ -30,7 +25,7 @@ const spell: Spell = {
         requires: [fireballCardId],
         requiresFollowingCard: false,
         sfx: 'targetCursed',
-        thumbnail: 'spellIconTargetCursed.png',
+        thumbnail: 'flammable.png',
         description: 'When cursed unit first gets burned, double the burn stacks and removes itself. \n Stackable.',
         allowNonUnitTarget: true,
         effect: async (state: EffectState, card: ICard, quantity: number, underworld: Underworld, prediction: boolean, outOfRange?: boolean) => {

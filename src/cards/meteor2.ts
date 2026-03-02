@@ -19,7 +19,6 @@ import { raceTimeout } from '../Promise';
 import { distance, similarTriangles } from '../jmath/math';
 import { meteorCardId } from './meteor';
 import { burnCardId } from './burn';
-import { addModifier } from '../entity/Unit';
 import * as Unit from '../entity/Unit';
 
 export const meteor2CardId = 'meteor 2';
@@ -38,7 +37,7 @@ const spell: Spell = {
         expenseScaling: 2,
         allowNonUnitTarget: true,
         probability: probabilityMap[CardRarity.RARE],
-        thumbnail: 'spellIconMeteor.png',
+        thumbnail: 'spellIconMeteor2.png',
         description: 'Summon a superheated meteor that falls from the sky and does 60 splash damage and inflicts 3 stacks of burn.',
         effect: async (state, card, quantity, underworld, prediction) => {
             // We should create a meteor at each targeted unit
@@ -82,6 +81,11 @@ const spell: Spell = {
                     state.casterUnit,
                     underworld, prediction,
                     colors.bloatExplodeStart, colors.bloatExplodeEnd)
+                // Inflict 3 stacks of Burn on each target within meteor radius
+                const burnedUnits = underworld.getUnitsWithinDistanceOfTarget(meteorLocation, adjustedRadius, prediction);
+                for (let burnedUnit of burnedUnits) {
+                    Unit.addModifier(burnedUnit, burnCardId, underworld, prediction, 3, { sourceUnitId: state.casterUnit.id });
+                }
             }
             await underworld.awaitForceMoves();
             return state;
@@ -103,11 +107,6 @@ export async function meteorProjectiles(meteorLocations: Vec2[], underworld: Und
         const travelTime = randFloat(arrivalTime / 4, arrivalTime); //ms
         const angleFromUp = randFloat(-30, 30);
         meteors.push({ destination: meteorLocation, travelTime: travelTime, angle: angleFromUp })
-        //Inflict 3 stacks of Burn on each target within meteor radius of each meteor
-        const burnedUnits = underworld.getUnitsWithinDistanceOfTarget(meteorLocation, basePushDistance, false);
-        for (let burnedUnit of burnedUnits) {
-            Unit.addModifier(burnedUnit, burnCardId, underworld, false, 3);
-        }
     }
     meteors.sort((a, b) => b.travelTime - a.travelTime);
 

@@ -1,14 +1,7 @@
-import type * as PIXI from 'pixi.js';
-import { IUnit, takeDamage } from '../entity/Unit';
-import * as Image from '../graphics/Image';
 import { Spell } from './index';
-import * as Unit from '../entity/Unit';
-import Underworld from '../Underworld';
 import { CardCategory } from '../types/commonTypes';
 import { playDefaultSpellAnimation, playDefaultSpellSFX } from './cardUtils';
-import floatingText from '../graphics/FloatingText';
 import { CardRarity, probabilityMap } from '../types/commonTypes';
-import { getOrInitModifier } from './util';
 import { refundLastSpell } from './index';
 import { burnCardId } from './burn';
 
@@ -24,7 +17,7 @@ const spell: Spell = {
         healthCost: 0,
         expenseScaling: 1,
         probability: probabilityMap[CardRarity.UNCOMMON],
-        thumbnail: 'spellIconPoison.png',
+        thumbnail: 'stoke.png',
         animationPath: 'spellPoison',
         description: "Adds 1 stack of Burn to all targeted Burning Units",
         effect: async (state, card, quantity, underworld, prediction) => {
