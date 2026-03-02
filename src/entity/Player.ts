@@ -25,7 +25,7 @@ import floatingText from '../graphics/FloatingText';
 import { CORRUPTION_PARTICLES_JID, makeCorruptionParticles, stopAndDestroyForeverEmitter } from '../graphics/ParticleCollection';
 import { visualPolymorphPlayerUnit } from '../cards/polymorph';
 import { GORU_UNIT_ID } from './units/goru';
-import { PRIEST_ID } from './units/priest';
+import { WARDEN_UNIT_ID } from './units/warden';
 import { undyingModifierId } from '../modifierUndying';
 import { bossmasonUnitId } from './units/deathmason';
 import { startingSoulsId } from '../modifierGoruConstants';
@@ -434,10 +434,10 @@ export function load(player: IPlayerSerialized, index: number, underworld: Under
 export function restoreWizardTypeVisuals(player: IPlayer, underworld: Underworld) {
   // Restore visuals for wizard types
   const sourceUnit = player.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID]
-    : player.wizardType == 'Warden' ? allUnits[PRIEST_ID]
+    : player.wizardType == 'Warden' ? allUnits[WARDEN_UNIT_ID]
     : allUnits[spellmasonUnitId];
   if (sourceUnit) {
-    const notPolymorphed = ['playerIdle', 'guruIdle', 'priestIdle'].includes(player.unit.defaultImagePath)
+    const notPolymorphed = ['playerIdle', 'guruIdle', 'priestIdle', 'warden/priestIdle'].includes(player.unit.defaultImagePath)
     // Only revert the player image if they are not polymorphed
     if (notPolymorphed) {
       visualPolymorphPlayerUnit(player.unit, sourceUnit)
