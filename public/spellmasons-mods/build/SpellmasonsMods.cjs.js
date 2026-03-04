@@ -3,28 +3,28 @@ const {
   PixiUtils: PixiUtils$9,
   rand: rand$6,
   cardUtils: cardUtils$s,
-  commonTypes: commonTypes$M,
-  cards: cards$E
+  commonTypes: commonTypes$N,
+  cards: cards$F
 } = globalThis.SpellmasonsAPI;
 const { randFloat: randFloat$1 } = rand$6;
-const { refundLastSpell: refundLastSpell$r } = cards$E;
+const { refundLastSpell: refundLastSpell$r } = cards$F;
 const { containerSpells: containerSpells$3 } = PixiUtils$9;
 const Unit$D = globalThis.SpellmasonsAPI.Unit;
 const { oneOffImage: oneOffImage$3, playDefaultSpellSFX: playDefaultSpellSFX$p } = cardUtils$s;
-const { CardCategory: CardCategory$K, probabilityMap: probabilityMap$J, CardRarity: CardRarity$I } = commonTypes$M;
+const { CardCategory: CardCategory$L, probabilityMap: probabilityMap$K, CardRarity: CardRarity$J } = commonTypes$N;
 const cardId$i = "Undead Blade";
 const damageDone$2 = 60;
 const animationPath$4 = "spellUndeadBlade";
 const delayBetweenAnimationsStart$1 = 400;
-const spell$I = {
+const spell$J = {
   card: {
     id: cardId$i,
-    category: CardCategory$K.Damage,
+    category: CardCategory$L.Damage,
     supportQuantity: true,
     manaCost: 10,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$J[CardRarity$I.COMMON],
+    probability: probabilityMap$K[CardRarity$J.COMMON],
     thumbnail: "spellmasons-mods/undead_blade/spellIconUndeadBlade.png",
     animationPath: animationPath$4,
     sfx: "hurt",
@@ -71,38 +71,38 @@ const spell$I = {
     }
   }
 };
-const mod$8 = {
+const mod$9 = {
   modName: "Undead Blade",
   author: "Jordan O'Leary",
   description: "A spell that does lots of damage to summons and resurrected units",
   screenshot: "spellmasons-mods/undead_blade/spellIconUndeadBlade.png",
   spells: [
-    spell$I
+    spell$J
   ],
   // The spritesheet is created with TexturePacker: https://www.codeandweb.com/texturepacker
   spritesheet: "spellmasons-mods/undead_blade/undead_blade.json"
 };
 const {
   cardUtils: cardUtils$r,
-  commonTypes: commonTypes$L,
-  cards: cards$D,
+  commonTypes: commonTypes$M,
+  cards: cards$E,
   cardsUtil: cardsUtil$b,
-  FloatingText: FloatingText$a
+  FloatingText: FloatingText$b
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$q } = cards$D;
+const { refundLastSpell: refundLastSpell$q } = cards$E;
 const Unit$C = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$o } = cardUtils$r;
-const { CardCategory: CardCategory$J, probabilityMap: probabilityMap$I, CardRarity: CardRarity$H } = commonTypes$L;
+const { CardCategory: CardCategory$K, probabilityMap: probabilityMap$J, CardRarity: CardRarity$I } = commonTypes$M;
 const cardId$h = "Decay";
-const spell$H = {
+const spell$I = {
   card: {
     id: cardId$h,
-    category: CardCategory$J.Curses,
+    category: CardCategory$K.Curses,
     supportQuantity: true,
     manaCost: 35,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$I[CardRarity$H.RARE],
+    probability: probabilityMap$J[CardRarity$I.RARE],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconDecay.png",
     sfx: "poison",
     description: [`Causes the target to take damage equal to the number of decay stacks squared at the start of their turn. The target then gains another stack.`],
@@ -129,7 +129,7 @@ const spell$H = {
       const modifier = unit2.modifiers[cardId$h];
       if (modifier && !!Math.pow(modifier.quantity, 2) && !prediction) {
         Unit$C.takeDamage({ unit: unit2, amount: Math.pow(modifier.quantity, 2) }, underworld, prediction);
-        FloatingText$a.default({
+        FloatingText$b.default({
           coords: unit2,
           text: `${Math.pow(modifier.quantity, 2)} decay damage`,
           style: { fill: "#525863", strokeThickness: 1 }
@@ -150,24 +150,24 @@ function add$9(unit2, _underworld, _prediction, quantity) {
 }
 const {
   cardUtils: cardUtils$q,
-  commonTypes: commonTypes$K,
-  cards: cards$C
+  commonTypes: commonTypes$L,
+  cards: cards$D
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$p } = cards$C;
+const { refundLastSpell: refundLastSpell$p } = cards$D;
 const Unit$B = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$n } = cardUtils$q;
-const { CardCategory: CardCategory$I, probabilityMap: probabilityMap$H, CardRarity: CardRarity$G } = commonTypes$K;
+const { CardCategory: CardCategory$J, probabilityMap: probabilityMap$I, CardRarity: CardRarity$H } = commonTypes$L;
 const cardId$g = "Dominate";
 const healthThreshhold = 0.25;
-const spell$G = {
+const spell$H = {
   card: {
     id: cardId$g,
-    category: CardCategory$I.Soul,
+    category: CardCategory$J.Soul,
     supportQuantity: false,
     manaCost: 60,
     healthCost: 0,
     expenseScaling: 2.5,
-    probability: probabilityMap$H[CardRarity$G.RARE],
+    probability: probabilityMap$I[CardRarity$H.RARE],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconDominate.png",
     sfx: "suffocate",
     description: [`Converts an enemy to fight for you if they are below ${healthThreshhold * 100}% health.`],
@@ -189,24 +189,24 @@ const spell$G = {
 };
 const {
   cardUtils: cardUtils$p,
-  commonTypes: commonTypes$J,
-  cards: cards$B,
+  commonTypes: commonTypes$K,
+  cards: cards$C,
   cardsUtil: cardsUtil$a
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$o } = cards$B;
+const { refundLastSpell: refundLastSpell$o } = cards$C;
 const Unit$A = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$m } = cardUtils$p;
-const { CardCategory: CardCategory$H, probabilityMap: probabilityMap$G, CardRarity: CardRarity$F } = commonTypes$J;
+const { CardCategory: CardCategory$I, probabilityMap: probabilityMap$H, CardRarity: CardRarity$G } = commonTypes$K;
 const cardId$f = "Ensnare";
-const spell$F = {
+const spell$G = {
   card: {
     id: cardId$f,
-    category: CardCategory$H.Curses,
+    category: CardCategory$I.Curses,
     supportQuantity: true,
     manaCost: 25,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$G[CardRarity$F.SPECIAL],
+    probability: probabilityMap$H[CardRarity$G.SPECIAL],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconEnsnare.png",
     sfx: "",
     description: [`Prevents the target from moving for one turn. Furthur casts increase duration.`],
@@ -263,26 +263,26 @@ function remove$3(unit2, underworld) {
 }
 const {
   cardUtils: cardUtils$o,
-  commonTypes: commonTypes$I,
-  cards: cards$A,
-  FloatingText: FloatingText$9
+  commonTypes: commonTypes$J,
+  cards: cards$B,
+  FloatingText: FloatingText$a
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$n } = cards$A;
+const { refundLastSpell: refundLastSpell$n } = cards$B;
 globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$l } = cardUtils$o;
-const { CardCategory: CardCategory$G, probabilityMap: probabilityMap$F, CardRarity: CardRarity$E } = commonTypes$I;
+const { CardCategory: CardCategory$H, probabilityMap: probabilityMap$G, CardRarity: CardRarity$F } = commonTypes$J;
 const Events = globalThis.SpellmasonsAPI.Events;
 const cardId$e = "Fast Forward";
-const spell$E = {
+const spell$F = {
   card: {
     id: cardId$e,
-    category: CardCategory$G.Soul,
+    category: CardCategory$H.Soul,
     //Theres no "other" category
     supportQuantity: false,
     manaCost: 25,
     healthCost: 0,
     expenseScaling: 1.5,
-    probability: probabilityMap$F[CardRarity$E.RARE],
+    probability: probabilityMap$G[CardRarity$F.RARE],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconFastForward.png",
     sfx: "push",
     //TODO
@@ -294,7 +294,7 @@ const spell$E = {
         playDefaultSpellSFX$l(card, prediction);
         for (let unit2 of targets) {
           setTimeout(() => {
-            FloatingText$9.default({
+            FloatingText$a.default({
               coords: unit2,
               text: `Fast Forward`,
               style: { fill: "#ff0000", strokeThickness: 1 }
@@ -409,28 +409,28 @@ function makeFlameStrikeWithParticles(position, prediction, resolver) {
 }
 const {
   cardUtils: cardUtils$n,
-  commonTypes: commonTypes$H,
+  commonTypes: commonTypes$I,
   PlanningView: PlanningView$b,
-  cards: cards$z
+  cards: cards$A
 } = globalThis.SpellmasonsAPI;
 const { drawUICircle: drawUICircle$1 } = PlanningView$b;
 const Unit$z = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$k } = cardUtils$n;
-const { refundLastSpell: refundLastSpell$m } = cards$z;
-const { CardCategory: CardCategory$F, probabilityMap: probabilityMap$E, CardRarity: CardRarity$D } = commonTypes$H;
+const { refundLastSpell: refundLastSpell$m } = cards$A;
+const { CardCategory: CardCategory$G, probabilityMap: probabilityMap$F, CardRarity: CardRarity$E } = commonTypes$I;
 const cardId$d = "FlameStrike";
 const damageMain = 40;
 const damageSplash = 10;
 const splashRadius = 64;
-const spell$D = {
+const spell$E = {
   card: {
     id: cardId$d,
-    category: CardCategory$F.Damage,
+    category: CardCategory$G.Damage,
     supportQuantity: true,
     manaCost: 40,
     healthCost: 0,
     expenseScaling: 1.5,
-    probability: probabilityMap$E[CardRarity$D.UNCOMMON],
+    probability: probabilityMap$F[CardRarity$E.UNCOMMON],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconFlameStrike.png",
     sfx: "burst",
     description: [`Deals ${damageMain} damage to the target and ${damageSplash} damage to nearby targets in a small area.`],
@@ -477,28 +477,28 @@ function getAdjustedRadius(radiusBoost2 = 0) {
 }
 const {
   cardUtils: cardUtils$m,
-  commonTypes: commonTypes$G,
-  cards: cards$y,
+  commonTypes: commonTypes$H,
+  cards: cards$z,
   cardsUtil: cardsUtil$9,
   JImage: JImage$7,
   JAudio: JAudio$8,
-  FloatingText: FloatingText$8
+  FloatingText: FloatingText$9
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$l } = cards$y;
+const { refundLastSpell: refundLastSpell$l } = cards$z;
 const Unit$y = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$j } = cardUtils$m;
-const { CardCategory: CardCategory$E, probabilityMap: probabilityMap$D, CardRarity: CardRarity$C } = commonTypes$G;
+const { CardCategory: CardCategory$F, probabilityMap: probabilityMap$E, CardRarity: CardRarity$D } = commonTypes$H;
 const cardId$c = "Grace";
 var healingAmount$1 = -40;
-const spell$C = {
+const spell$D = {
   card: {
     id: cardId$c,
-    category: CardCategory$E.Blessings,
+    category: CardCategory$F.Blessings,
     supportQuantity: true,
     manaCost: 20,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$D[CardRarity$C.RARE],
+    probability: probabilityMap$E[CardRarity$D.RARE],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconGrace.png",
     sfx: "purify",
     //TODO
@@ -531,7 +531,7 @@ const spell$C = {
           let healing = calculateGraceHealing(modifier.graceQuantity);
           Unit$y.takeDamage({ unit: unit2, amount: healing }, underworld, prediction);
           if (!prediction) {
-            FloatingText$8.default({
+            FloatingText$9.default({
               coords: unit2,
               text: `Grace +${-healing} health`,
               style: { fill: "#40a058", strokeThickness: 1 }
@@ -572,27 +572,27 @@ function calculateGraceHealing(graceQuantity) {
 }
 const {
   cardUtils: cardUtils$l,
-  commonTypes: commonTypes$F,
-  cards: cards$x,
+  commonTypes: commonTypes$G,
+  cards: cards$y,
   Particles: Particles$5,
-  FloatingText: FloatingText$7,
+  FloatingText: FloatingText$8,
   EffectsHeal: EffectsHeal$2
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$k } = cards$x;
+const { refundLastSpell: refundLastSpell$k } = cards$y;
 const Unit$x = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$i } = cardUtils$l;
-const { CardCategory: CardCategory$D, probabilityMap: probabilityMap$C, CardRarity: CardRarity$B, UnitType: UnitType$a } = commonTypes$F;
+const { CardCategory: CardCategory$E, probabilityMap: probabilityMap$D, CardRarity: CardRarity$C, UnitType: UnitType$a } = commonTypes$G;
 const cardId$b = "Harvest";
 const manaRegain = 20;
-const spell$B = {
+const spell$C = {
   card: {
     id: cardId$b,
-    category: CardCategory$D.Mana,
+    category: CardCategory$E.Mana,
     supportQuantity: false,
     manaCost: 0,
     healthCost: 35,
     expenseScaling: 1,
-    probability: probabilityMap$C[CardRarity$B.UNCOMMON],
+    probability: probabilityMap$D[CardRarity$C.UNCOMMON],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconHarvest.png",
     sfx: "sacrifice",
     description: [`Consumes target corpse for ${manaRegain} mana. Does not work on player corpses. Unstackable.
@@ -623,7 +623,7 @@ Tastes like chicken.`],
         refundLastSpell$k(state, prediction, "No corpses, health refunded");
       }
       if (!prediction && !!totalManaHarvested) {
-        FloatingText$7.default({
+        FloatingText$8.default({
           coords: state.casterUnit,
           text: `${totalManaHarvested} Mana Harvested`,
           style: { fill: "blue", strokeThickness: 1 }
@@ -635,25 +635,25 @@ Tastes like chicken.`],
 };
 const {
   cardUtils: cardUtils$k,
-  commonTypes: commonTypes$E,
-  cards: cards$w,
+  commonTypes: commonTypes$F,
+  cards: cards$x,
   cardsUtil: cardsUtil$8,
-  FloatingText: FloatingText$6
+  FloatingText: FloatingText$7
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$j } = cards$w;
+const { refundLastSpell: refundLastSpell$j } = cards$x;
 const Unit$w = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$h } = cardUtils$k;
-const { CardCategory: CardCategory$C, probabilityMap: probabilityMap$B, CardRarity: CardRarity$A } = commonTypes$E;
+const { CardCategory: CardCategory$D, probabilityMap: probabilityMap$C, CardRarity: CardRarity$B } = commonTypes$F;
 const cardId$a = "Regenerate";
-const spell$A = {
+const spell$B = {
   card: {
     id: cardId$a,
-    category: CardCategory$C.Blessings,
+    category: CardCategory$D.Blessings,
     supportQuantity: true,
     manaCost: 20,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$B[CardRarity$A.SPECIAL],
+    probability: probabilityMap$C[CardRarity$B.SPECIAL],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconRegen.png",
     sfx: "heal",
     //TODO
@@ -686,7 +686,7 @@ const spell$A = {
         modifier.quantity--;
         if (!prediction) {
           updateTooltip$1(unit2);
-          FloatingText$6.default({
+          FloatingText$7.default({
             coords: unit2,
             text: `Regenerate +${-healing} health`,
             style: { fill: "#40a058", strokeThickness: 1 }
@@ -736,24 +736,24 @@ function updateTooltip$1(unit2) {
 }
 const {
   cardUtils: cardUtils$j,
-  commonTypes: commonTypes$D,
-  cards: cards$v,
+  commonTypes: commonTypes$E,
+  cards: cards$w,
   cardsUtil: cardsUtil$7
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$i } = cards$v;
+const { refundLastSpell: refundLastSpell$i } = cards$w;
 const Unit$v = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$g } = cardUtils$j;
-const { CardCategory: CardCategory$B, probabilityMap: probabilityMap$A, CardRarity: CardRarity$z } = commonTypes$D;
+const { CardCategory: CardCategory$C, probabilityMap: probabilityMap$B, CardRarity: CardRarity$A } = commonTypes$E;
 const cardId$9 = "Pacify";
-const spell$z = {
+const spell$A = {
   card: {
     id: cardId$9,
-    category: CardCategory$B.Curses,
+    category: CardCategory$C.Curses,
     supportQuantity: true,
     manaCost: 30,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$A[CardRarity$z.SPECIAL],
+    probability: probabilityMap$B[CardRarity$A.SPECIAL],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconPacify.png",
     sfx: "",
     description: [`Prevents the target from attacking for one turn. Stacks increase duration. Does not affect Support Class units such as summoners or priests.`],
@@ -809,24 +809,24 @@ function remove$1(unit2, underworld) {
 }
 const {
   cardUtils: cardUtils$i,
-  commonTypes: commonTypes$C,
-  cards: cards$u,
+  commonTypes: commonTypes$D,
+  cards: cards$v,
   Particles: Particles$4
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$h } = cards$u;
+const { refundLastSpell: refundLastSpell$h } = cards$v;
 const Unit$u = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$f } = cardUtils$i;
-const { CardCategory: CardCategory$A, probabilityMap: probabilityMap$z, CardRarity: CardRarity$y } = commonTypes$C;
+const { CardCategory: CardCategory$B, probabilityMap: probabilityMap$A, CardRarity: CardRarity$z } = commonTypes$D;
 const cardId$8 = "Vengeance";
-const spell$y = {
+const spell$z = {
   card: {
     id: cardId$8,
-    category: CardCategory$A.Damage,
+    category: CardCategory$B.Damage,
     supportQuantity: true,
     manaCost: 15,
     healthCost: 0,
     expenseScaling: 1.5,
-    probability: probabilityMap$z[CardRarity$y.UNCOMMON],
+    probability: probabilityMap$A[CardRarity$z.UNCOMMON],
     thumbnail: "spellmasons-mods/Wodes_Grimoire/graphics/icons/spelliconVengeance.png",
     sfx: "hurt",
     description: [`Deals damage equal to your missing health. This harms you first if you are targeted, then enemies.`],
@@ -870,7 +870,7 @@ function damageDone$1(state) {
   damageMain2 = Math.max(0, damageMain2);
   return damageMain2;
 }
-const mod$7 = {
+const mod$8 = {
   modName: "Wode's Grimoire",
   author: "Blood Spartan",
   description: "Adds 10 new spells to your arsenal.",
@@ -878,18 +878,18 @@ const mod$7 = {
   screenshot: "spellmasons-mods/Wodes_Grimoire/graphics/icons/Wodes_grimoire_icon.png",
   spells: [
     //Add or Remove spells here.
+    spell$I,
     spell$H,
     spell$G,
     spell$F,
-    spell$E,
     //Very buggy, absolutly no idea how I got this working, but it does /shrug
+    spell$E,
     spell$D,
     spell$C,
     spell$B,
     spell$A,
-    spell$z,
     //Stasis, //Not working as intended, can still be pushed
-    spell$y
+    spell$z
   ],
   // This spritesheet allows spell icons to be used in player thought bubbles in multiplayer
   spritesheet: "spellmasons-mods/Wodes_Grimoire/graphics/wodes_grimoire_spritesheet.json"
@@ -897,25 +897,25 @@ const mod$7 = {
 const {
   PixiUtils: PixiUtils$8,
   cardUtils: cardUtils$h,
-  commonTypes: commonTypes$B,
-  cards: cards$t
+  commonTypes: commonTypes$C,
+  cards: cards$u
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$g } = cards$t;
+const { refundLastSpell: refundLastSpell$g } = cards$u;
 const { containerSpells: containerSpells$2 } = PixiUtils$8;
 const Unit$t = globalThis.SpellmasonsAPI.Unit;
 const { oneOffImage: oneOffImage$2 } = cardUtils$h;
-const { CardCategory: CardCategory$z, probabilityMap: probabilityMap$y, CardRarity: CardRarity$x } = commonTypes$B;
+const { CardCategory: CardCategory$A, probabilityMap: probabilityMap$z, CardRarity: CardRarity$y } = commonTypes$C;
 const animationPath$3 = "VampBite";
 const cardId$7 = "Vampire Bite";
-const spell$x = {
+const spell$y = {
   card: {
     id: cardId$7,
-    category: CardCategory$z.Damage,
+    category: CardCategory$A.Damage,
     supportQuantity: true,
     manaCost: 15,
     healthCost: 0,
     expenseScaling: 1.5,
-    probability: probabilityMap$y[CardRarity$x.UNCOMMON],
+    probability: probabilityMap$z[CardRarity$y.UNCOMMON],
     thumbnail: "spellmasons-mods/Renes_gimmicks/graphics/icons/VampireBite.png",
     animationPath: animationPath$3,
     sfx: "hurt",
@@ -954,26 +954,26 @@ const spell$x = {
 };
 const {
   cardUtils: cardUtils$g,
-  commonTypes: commonTypes$A,
-  cards: cards$s,
+  commonTypes: commonTypes$B,
+  cards: cards$t,
   VisualEffects: VisualEffects$6,
-  config: config$e,
+  config: config$f,
   math: math$c,
   Pickup: Pickup$4
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$f } = cards$s;
+const { refundLastSpell: refundLastSpell$f } = cards$t;
 const { playDefaultSpellSFX: playDefaultSpellSFX$e } = cardUtils$g;
-const { CardCategory: CardCategory$y, probabilityMap: probabilityMap$x, CardRarity: CardRarity$w } = commonTypes$A;
+const { CardCategory: CardCategory$z, probabilityMap: probabilityMap$y, CardRarity: CardRarity$x } = commonTypes$B;
 const cardId$6 = "Summon Trap";
-const spell$w = {
+const spell$x = {
   card: {
     id: cardId$6,
-    category: CardCategory$y.Damage,
+    category: CardCategory$z.Damage,
     supportQuantity: true,
     manaCost: 10,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$x[CardRarity$w.UNCOMMON],
+    probability: probabilityMap$y[CardRarity$x.UNCOMMON],
     thumbnail: "spellmasons-mods/Renes_gimmicks/graphics/icons/SummonTrap.png",
     sfx: "hurt",
     description: [`Summons a trap that does 30 damage when stepped on`],
@@ -984,7 +984,7 @@ const spell$w = {
         y: state.castLocation.y
       };
       for (let unit2 of underworld.units) {
-        if (unit2.alive && math$c.distance(unit2, summonLocation) < config$e.COLLISION_MESH_RADIUS) {
+        if (unit2.alive && math$c.distance(unit2, summonLocation) < config$f.COLLISION_MESH_RADIUS) {
           refundLastSpell$f(state, prediction, "Invalid summon location, mana refunded.");
           return state;
         }
@@ -1016,23 +1016,23 @@ const spell$w = {
   }
 };
 const {
-  commonTypes: commonTypes$z,
-  cards: cards$r
+  commonTypes: commonTypes$A,
+  cards: cards$s
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$e } = cards$r;
+const { refundLastSpell: refundLastSpell$e } = cards$s;
 const Unit$s = globalThis.SpellmasonsAPI.Unit;
-const { CardCategory: CardCategory$x, probabilityMap: probabilityMap$w, CardRarity: CardRarity$v } = commonTypes$z;
+const { CardCategory: CardCategory$y, probabilityMap: probabilityMap$x, CardRarity: CardRarity$w } = commonTypes$A;
 const retaliate = 0.15;
 const cardId$5 = "Sadism";
-const spell$v = {
+const spell$w = {
   card: {
     id: cardId$5,
-    category: CardCategory$x.Damage,
+    category: CardCategory$y.Damage,
     supportQuantity: true,
     manaCost: 40,
     healthCost: 0,
     expenseScaling: 1.5,
-    probability: probabilityMap$w[CardRarity$v.UNCOMMON],
+    probability: probabilityMap$x[CardRarity$w.UNCOMMON],
     thumbnail: "spellmasons-mods/Renes_gimmicks/graphics/icons/Sadism.png",
     sfx: "hurt",
     description: [`Damage to target equal to its attack, you receive ${retaliate * 100}% of that attack damage`],
@@ -1057,10 +1057,10 @@ const {
   Particles: Particles$3,
   PixiUtils: PixiUtils$7,
   cardUtils: cardUtils$f,
-  commonTypes: commonTypes$y,
-  cards: cards$q,
+  commonTypes: commonTypes$z,
+  cards: cards$r,
   cardsUtil: cardsUtil$6,
-  FloatingText: FloatingText$5,
+  FloatingText: FloatingText$6,
   ParticleCollection: ParticleCollection$3
 } = globalThis.SpellmasonsAPI;
 const BURNING_RAGE_PARTICLE_EMITTER_NAME = "BURNING_RAGE";
@@ -1144,22 +1144,22 @@ function makeBurningRageParticles(follow, underworld, prediction) {
     return;
   }
 }
-const { refundLastSpell: refundLastSpell$d } = cards$q;
+const { refundLastSpell: refundLastSpell$d } = cards$r;
 const Unit$r = globalThis.SpellmasonsAPI.Unit;
 const { playDefaultSpellSFX: playDefaultSpellSFX$d } = cardUtils$f;
-const { CardCategory: CardCategory$w, probabilityMap: probabilityMap$v, CardRarity: CardRarity$u } = commonTypes$y;
+const { CardCategory: CardCategory$x, probabilityMap: probabilityMap$w, CardRarity: CardRarity$v } = commonTypes$z;
 const damageMultiplier$1 = 8;
 const attackMultiplier = 5;
 const cardId$4 = "Burning Rage";
-const spell$u = {
+const spell$v = {
   card: {
     id: cardId$4,
-    category: CardCategory$w.Curses,
+    category: CardCategory$x.Curses,
     supportQuantity: true,
     manaCost: 35,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$v[CardRarity$u.RARE],
+    probability: probabilityMap$w[CardRarity$v.RARE],
     thumbnail: "spellmasons-mods/Renes_gimmicks/graphics/icons/Burninig_rage.png",
     sfx: "poison",
     description: [`Each stack causes target to take ${damageMultiplier$1} damage, but also increases the target's damage by ${attackMultiplier}. Staks increase each turn`],
@@ -1193,7 +1193,7 @@ const spell$u = {
       const modifier = unit2.modifiers[cardId$4];
       if (modifier && !prediction) {
         Unit$r.takeDamage({ unit: unit2, amount: modifier.quantity * damageMultiplier$1 }, underworld, prediction);
-        FloatingText$5.default({
+        FloatingText$6.default({
           coords: unit2,
           text: `${modifier.quantity * damageMultiplier$1} rage damage`,
           style: { fill: "red", strokeThickness: 1 }
@@ -1225,26 +1225,26 @@ function remove(unit2, underworld) {
   }
 }
 const {
-  commonTypes: commonTypes$x,
-  cards: cards$p,
+  commonTypes: commonTypes$y,
+  cards: cards$q,
   cardsUtil: cardsUtil$5,
-  FloatingText: FloatingText$4
+  FloatingText: FloatingText$5
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$c } = cards$p;
+const { refundLastSpell: refundLastSpell$c } = cards$q;
 const Unit$q = globalThis.SpellmasonsAPI.Unit;
-const { CardCategory: CardCategory$v, probabilityMap: probabilityMap$u, CardRarity: CardRarity$t } = commonTypes$x;
+const { CardCategory: CardCategory$w, probabilityMap: probabilityMap$v, CardRarity: CardRarity$u } = commonTypes$y;
 const maxDuration = 3;
 const distanceToDamageRatio = 0.05;
 const cardId$3 = "Caltrops";
-const spell$t = {
+const spell$u = {
   card: {
     id: cardId$3,
-    category: CardCategory$v.Curses,
+    category: CardCategory$w.Curses,
     supportQuantity: true,
     manaCost: 30,
     healthCost: 0,
     expenseScaling: 1.5,
-    probability: probabilityMap$u[CardRarity$t.UNCOMMON],
+    probability: probabilityMap$v[CardRarity$u.UNCOMMON],
     thumbnail: "spellmasons-mods/Renes_gimmicks/graphics/icons/" + cardId$3 + ".png",
     sfx: "hurt",
     description: [`Target takes some damage it moves. Stacks, casting again replenishes duration up to ${maxDuration} turns. (Updates on turn change, recasts or damage)`],
@@ -1336,25 +1336,25 @@ function triggerDistanceDamage(unit2, underworld, prediction = false) {
   modifier.last_y = unit2.y;
   Unit$q.takeDamage({ unit: unit2, amount: damage2 }, underworld, prediction);
   if (!prediction) {
-    FloatingText$4.default({
+    FloatingText$5.default({
       coords: unit2,
       text: `${damage2} caltrops damage`,
       style: { fill: "#grey", strokeThickness: 1 }
     });
   }
 }
-const mod$6 = {
+const mod$7 = {
   modName: "Renes gimmicks",
   author: "Renesans123/Edeusz",
   description: "Adds some new spells to the game",
   screenshot: "spellmasons-mods/Renes_gimmicks/graphics/icons/Renes_Gimmicks_icon.png",
   spells: [
     //Add or Remove spells here.
+    spell$y,
     spell$x,
     spell$w,
     spell$v,
-    spell$u,
-    spell$t
+    spell$u
     //OnMove doesnt seem to be implemented
     //Thorns,//composeOnDamageEvents do not pass argument damageDealer right now
   ],
@@ -1362,28 +1362,28 @@ const mod$6 = {
 };
 const {
   PixiUtils: PixiUtils$6,
-  commonTypes: commonTypes$w,
-  cards: cards$o,
+  commonTypes: commonTypes$x,
+  cards: cards$p,
   cardUtils: cardUtils$e,
   Unit: Unit$p,
   JPromise: JPromise$6
 } = globalThis.SpellmasonsAPI;
 const { oneOffImage: oneOffImage$1, playDefaultSpellSFX: playDefaultSpellSFX$c, playSpellSFX } = cardUtils$e;
-const { refundLastSpell: refundLastSpell$b } = cards$o;
-const { CardCategory: CardCategory$u, probabilityMap: probabilityMap$t, CardRarity: CardRarity$s } = commonTypes$w;
+const { refundLastSpell: refundLastSpell$b } = cards$p;
+const { CardCategory: CardCategory$v, probabilityMap: probabilityMap$u, CardRarity: CardRarity$t } = commonTypes$x;
 const { containerSpells: containerSpells$1 } = PixiUtils$6;
 const animationPath$2 = "spellGravity";
 const cardId$2 = "Gravity";
 const percentDamage = 0.1;
-const spell$s = {
+const spell$t = {
   card: {
     id: cardId$2,
-    category: CardCategory$u.Damage,
+    category: CardCategory$v.Damage,
     supportQuantity: true,
     manaCost: 30,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$t[CardRarity$s.RARE],
+    probability: probabilityMap$u[CardRarity$t.RARE],
     animationPath: animationPath$2,
     thumbnail: "spellmasons-mods/DaiNekoIchis_TomeOfSpells/graphics/Gravity.png",
     sfx: "pull",
@@ -1420,30 +1420,30 @@ const spell$s = {
   }
 };
 const {
-  commonTypes: commonTypes$v,
-  cards: cards$n,
+  commonTypes: commonTypes$w,
+  cards: cards$o,
   Unit: Unit$o,
   cardUtils: cardUtils$d,
   PixiUtils: PixiUtils$5
 } = globalThis.SpellmasonsAPI;
 const { oneOffImage, playDefaultSpellSFX: playDefaultSpellSFX$b } = cardUtils$d;
-const { refundLastSpell: refundLastSpell$a } = cards$n;
-const { CardCategory: CardCategory$t, probabilityMap: probabilityMap$s, CardRarity: CardRarity$r } = commonTypes$v;
+const { refundLastSpell: refundLastSpell$a } = cards$o;
+const { CardCategory: CardCategory$u, probabilityMap: probabilityMap$t, CardRarity: CardRarity$s } = commonTypes$w;
 const { containerSpells } = PixiUtils$5;
 const cardId$1 = "Limit Blast";
 const animationPath$1 = "Limit Glove";
 const healthRequirement = 0.3;
 const baseDamage = 5;
 const damageMultiplier = 10;
-const spell$r = {
+const spell$s = {
   card: {
     id: cardId$1,
-    category: CardCategory$t.Damage,
+    category: CardCategory$u.Damage,
     supportQuantity: true,
     manaCost: 25,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$s[CardRarity$r.UNCOMMON],
+    probability: probabilityMap$t[CardRarity$s.UNCOMMON],
     thumbnail: "spellmasons-mods/DaiNekoIchis_TomeOfSpells/graphics/LimitGlove.png",
     animationPath: animationPath$1,
     sfx: "debilitate",
@@ -1485,13 +1485,13 @@ const {
   Particles: Particles$2,
   ParticleCollection: ParticleCollection$2,
   particleEmitter,
-  commonTypes: commonTypes$u,
+  commonTypes: commonTypes$v,
   Unit: Unit$n,
   PlanningView: PlanningView$a,
   colors: colors$8,
   cardUtils: cardUtils$c
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$s, probabilityMap: probabilityMap$r, CardRarity: CardRarity$q } = commonTypes$u;
+const { CardCategory: CardCategory$t, probabilityMap: probabilityMap$s, CardRarity: CardRarity$r } = commonTypes$v;
 const { drawUICirclePrediction: drawUICirclePrediction$5 } = PlanningView$a;
 const { playDefaultSpellSFX: playDefaultSpellSFX$a } = cardUtils$c;
 const { simpleEmitter } = Particles$2;
@@ -1562,15 +1562,15 @@ function makeWhiteWindParticles(position, radius, underworld, prediction) {
 const cardId = "Healing Breeze";
 const baseRange = 100;
 const waitTime = 2;
-const spell$q = {
+const spell$r = {
   card: {
     id: cardId,
-    category: CardCategory$s.Blessings,
+    category: CardCategory$t.Blessings,
     supportQuantity: true,
     manaCost: 50,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$r[CardRarity$q.RARE],
+    probability: probabilityMap$s[CardRarity$r.RARE],
     allowNonUnitTarget: true,
     thumbnail: "spellmasons-mods/DaiNekoIchis_TomeOfSpells/graphics/WhiteWind.png",
     sfx: "heal",
@@ -1600,14 +1600,14 @@ const spell$q = {
   }
 };
 const {
-  cards: cards$m,
+  cards: cards$n,
   Pickup: Pickup$3,
   Unit: Unit$m,
   math: math$b,
-  commonTypes: commonTypes$t
+  commonTypes: commonTypes$u
 } = globalThis.SpellmasonsAPI;
-const { addTarget: addTarget$5 } = cards$m;
-const { CardCategory: CardCategory$r, probabilityMap: probabilityMap$q } = commonTypes$t;
+const { addTarget: addTarget$5 } = cards$n;
+const { CardCategory: CardCategory$s, probabilityMap: probabilityMap$r } = commonTypes$u;
 const UNITS_PER_STACK = 3;
 function generateTargetHpMultipleOfSpell(multipleOf, manaCost, requiredId, rarity) {
   let reqId;
@@ -1624,12 +1624,12 @@ function generateTargetHpMultipleOfSpell(multipleOf, manaCost, requiredId, rarit
     card: {
       id: `Target Health * ${multipleOf}`,
       requires: reqId,
-      category: CardCategory$r.Targeting,
+      category: CardCategory$s.Targeting,
       supportQuantity: true,
       manaCost,
       healthCost: 0,
       expenseScaling: 1,
-      probability: probabilityMap$q[rarity],
+      probability: probabilityMap$r[rarity],
       thumbnail: `spellmasons-mods/DaiNekoIchis_TomeOfSpells/graphics/TargetHp${multipleOf}.png`,
       requiresFollowingCard: true,
       description: [`Target ${UNITS_PER_STACK} living units (per stack) with health that is any multiple of ${multipleOf}, starting with the closest from the target point.`],
@@ -1661,18 +1661,18 @@ function isPrime(num) {
   }
   return true;
 }
-const TargetHp3 = generateTargetHpMultipleOfSpell(3, 30, "Prime", commonTypes$t.CardRarity.UNCOMMON);
-const TargetHp4 = generateTargetHpMultipleOfSpell(4, 35, 3, commonTypes$t.CardRarity.RARE);
-const TargetHp5 = generateTargetHpMultipleOfSpell(5, 40, 4, commonTypes$t.CardRarity.FORBIDDEN);
+const TargetHp3 = generateTargetHpMultipleOfSpell(3, 30, "Prime", commonTypes$u.CardRarity.UNCOMMON);
+const TargetHp4 = generateTargetHpMultipleOfSpell(4, 35, 3, commonTypes$u.CardRarity.RARE);
+const TargetHp5 = generateTargetHpMultipleOfSpell(5, 40, 4, commonTypes$u.CardRarity.FORBIDDEN);
 const TargetHpPrime = {
   card: {
     id: `Target Health Prime`,
-    category: CardCategory$r.Targeting,
+    category: CardCategory$s.Targeting,
     supportQuantity: true,
     manaCost: 25,
     healthCost: 0,
     expenseScaling: 4,
-    probability: probabilityMap$q[commonTypes$t.CardRarity.COMMON],
+    probability: probabilityMap$r[commonTypes$u.CardRarity.COMMON],
     thumbnail: "spellmasons-mods/DaiNekoIchis_TomeOfSpells/graphics/TargetHpPrime.png",
     requiresFollowingCard: true,
     description: [`Target ${UNITS_PER_STACK} living units (per stack) with health that is any prime number, starting with the closest from the target point.`],
@@ -1693,15 +1693,15 @@ const TargetHpPrime = {
     }
   }
 };
-const mod$5 = {
+const mod$6 = {
   modName: "DaiNekoIchi's Tome of Spells",
   author: "DaiNekoIchi, PADS",
   description: "Adds several spells (probably heavily inspired from Final Fantasy)",
   screenshot: "spellmasons-mods/DaiNekoIchis_TomeOfSpells/graphics/TomeOfSpellsIcon.png",
   spells: [
+    spell$t,
     spell$s,
     spell$r,
-    spell$q,
     TargetHpPrime,
     TargetHp3,
     TargetHp4,
@@ -1714,8 +1714,8 @@ const urn_poison_id$1 = "Toxic Urn";
 const urn_ice_id$1 = "Ice Urn";
 const {
   cardUtils: cardUtils$b,
-  commonTypes: commonTypes$s,
-  cards: cards$l,
+  commonTypes: commonTypes$t,
+  cards: cards$m,
   VisualEffects: VisualEffects$5,
   rand: rand$5,
   units: units$6,
@@ -1725,19 +1725,19 @@ const {
 } = globalThis.SpellmasonsAPI;
 const { chooseObjectWithProbability: chooseObjectWithProbability$1, getUniqueSeedString: getUniqueSeedString$2 } = rand$5;
 const { allUnits: allUnits$5 } = units$6;
-const { refundLastSpell: refundLastSpell$9, addUnitTarget: addUnitTarget$1 } = cards$l;
+const { refundLastSpell: refundLastSpell$9, addUnitTarget: addUnitTarget$1 } = cards$m;
 const { playDefaultSpellSFX: playDefaultSpellSFX$9 } = cardUtils$b;
-const { CardCategory: CardCategory$q, probabilityMap: probabilityMap$p, CardRarity: CardRarity$p, Faction: Faction$5, UnitType: UnitType$9 } = commonTypes$s;
+const { CardCategory: CardCategory$r, probabilityMap: probabilityMap$q, CardRarity: CardRarity$q, Faction: Faction$5, UnitType: UnitType$9 } = commonTypes$t;
 const chaosWarpCardId = "Chaos Warp";
-const spell$p = {
+const spell$q = {
   card: {
     id: chaosWarpCardId,
-    category: CardCategory$q.Soul,
+    category: CardCategory$r.Soul,
     supportQuantity: false,
     manaCost: 40,
     healthCost: 0,
     expenseScaling: 1.5,
-    probability: probabilityMap$p[CardRarity$p.UNCOMMON],
+    probability: probabilityMap$q[CardRarity$q.UNCOMMON],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/ChaosWarp.png",
     sfx: "summonDecoy",
     description: [`Summons a random item. Potion, Trap, Urn, Portal`],
@@ -1824,27 +1824,27 @@ const spell$p = {
   }
 };
 const {
-  commonTypes: commonTypes$r,
-  cards: cards$k,
+  commonTypes: commonTypes$s,
+  cards: cards$l,
   VisualEffects: VisualEffects$4,
   rand: rand$4,
   Pickup: Pickup$1,
   JAudio: JAudio$6
 } = globalThis.SpellmasonsAPI;
 const { chooseObjectWithProbability, getUniqueSeedString: getUniqueSeedString$1 } = rand$4;
-const { refundLastSpell: refundLastSpell$8 } = cards$k;
-const { CardCategory: CardCategory$p, probabilityMap: probabilityMap$o, CardRarity: CardRarity$o } = commonTypes$r;
+const { refundLastSpell: refundLastSpell$8 } = cards$l;
+const { CardCategory: CardCategory$q, probabilityMap: probabilityMap$p, CardRarity: CardRarity$p } = commonTypes$s;
 const chaosWarpPotionCardId = "Chaos Warp - Potion";
-const spell$o = {
+const spell$p = {
   card: {
     id: chaosWarpPotionCardId,
-    category: CardCategory$p.Soul,
+    category: CardCategory$q.Soul,
     supportQuantity: false,
     requires: [chaosWarpCardId],
     manaCost: 40,
     healthCost: 0,
     expenseScaling: 1.5,
-    probability: probabilityMap$o[CardRarity$o.RARE],
+    probability: probabilityMap$p[CardRarity$p.RARE],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/ChaosWarpPotion.png",
     sfx: "spawnPotion",
     description: [`Summons a random Potion`],
@@ -1883,8 +1883,8 @@ const urn_explosive_id = "Explosive Urn";
 const urn_poison_id = "Toxic Urn";
 const urn_ice_id = "Ice Urn";
 const {
-  commonTypes: commonTypes$q,
-  cards: cards$j,
+  commonTypes: commonTypes$r,
+  cards: cards$k,
   VisualEffects: VisualEffects$3,
   rand: rand$3,
   units: units$5,
@@ -1892,19 +1892,19 @@ const {
 } = globalThis.SpellmasonsAPI;
 const { allUnits: allUnits$4 } = units$5;
 const { getUniqueSeedString } = rand$3;
-const { refundLastSpell: refundLastSpell$7, addUnitTarget } = cards$j;
-const { CardCategory: CardCategory$o, probabilityMap: probabilityMap$n, CardRarity: CardRarity$n, Faction: Faction$4, UnitType: UnitType$8 } = commonTypes$q;
+const { refundLastSpell: refundLastSpell$7, addUnitTarget } = cards$k;
+const { CardCategory: CardCategory$p, probabilityMap: probabilityMap$o, CardRarity: CardRarity$o, Faction: Faction$4, UnitType: UnitType$8 } = commonTypes$r;
 const chaosWarpUrnCardId = "Chaos Warp - Urn";
-const spell$n = {
+const spell$o = {
   card: {
     id: chaosWarpUrnCardId,
-    category: CardCategory$o.Soul,
+    category: CardCategory$p.Soul,
     supportQuantity: false,
     manaCost: 10,
     healthCost: 0,
     expenseScaling: 1.5,
     requires: [chaosWarpCardId],
-    probability: probabilityMap$n[CardRarity$n.RARE],
+    probability: probabilityMap$o[CardRarity$o.RARE],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/ChaosWarpUrn.png",
     sfx: "summonDecoy",
     description: [`Summons a random Urn.`],
@@ -1955,23 +1955,23 @@ const spell$n = {
 };
 const plusRadiusId = "Plus Radius";
 const {
-  commonTypes: commonTypes$p,
-  cards: cards$i
+  commonTypes: commonTypes$q,
+  cards: cards$j
 } = globalThis.SpellmasonsAPI;
-const { refundLastSpell: refundLastSpell$6 } = cards$i;
-const { CardCategory: CardCategory$n, probabilityMap: probabilityMap$m, CardRarity: CardRarity$m, UnitType: UnitType$7 } = commonTypes$p;
+const { refundLastSpell: refundLastSpell$6 } = cards$j;
+const { CardCategory: CardCategory$o, probabilityMap: probabilityMap$n, CardRarity: CardRarity$n, UnitType: UnitType$7 } = commonTypes$q;
 const targetDistanceId = "Distance Increase";
 const radiusBoost = 20;
-const spell$m = {
+const spell$n = {
   card: {
     id: targetDistanceId,
-    category: CardCategory$n.Blessings,
+    category: CardCategory$o.Blessings,
     supportQuantity: true,
     requires: [plusRadiusId],
     manaCost: 25,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$m[CardRarity$m.RARE],
+    probability: probabilityMap$n[CardRarity$n.RARE],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/Distance_Increase.png",
     description: "Increases a unit's attack range.  Does not affect Spellmasons.",
     effect: async (state, card, quantity, underworld, prediction, outOfRange) => {
@@ -1988,7 +1988,7 @@ const spell$m = {
 };
 const thornsId = "Thorns";
 const {
-  commonTypes: commonTypes$o,
+  commonTypes: commonTypes$p,
   rand: rand$2,
   Unit: Unit$j,
   JImage: JImage$6,
@@ -1997,7 +1997,7 @@ const {
 } = globalThis.SpellmasonsAPI;
 const { getOrInitModifier: getOrInitModifier$2 } = cardsUtil$4;
 const { playDefaultSpellSFX: playDefaultSpellSFX$8 } = cardUtils$a;
-const { CardCategory: CardCategory$m, probabilityMap: probabilityMap$l, CardRarity: CardRarity$l } = commonTypes$o;
+const { CardCategory: CardCategory$n, probabilityMap: probabilityMap$m, CardRarity: CardRarity$m } = commonTypes$p;
 const reflectCardId = "Reflect";
 const reflectMultiplier = 0.2;
 let caster;
@@ -2007,16 +2007,16 @@ function add$2(unit2, underworld, prediction, quantity = 1) {
     Unit$j.addEvent(unit2, reflectCardId);
   });
 }
-const spell$l = {
+const spell$m = {
   card: {
     id: reflectCardId,
-    category: CardCategory$m.Blessings,
+    category: CardCategory$n.Blessings,
     supportQuantity: true,
     manaCost: 80,
     healthCost: 0,
     expenseScaling: 3,
     costGrowthAlgorithm: "nlogn",
-    probability: probabilityMap$l[CardRarity$l.RARE],
+    probability: probabilityMap$m[CardRarity$m.RARE],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/Reflect.png",
     animationPath: "spellShield",
     description: `Reflects ` + (reflectMultiplier * 100).toString() + `% of damage received back to attackers.`,
@@ -2093,22 +2093,22 @@ const spell$l = {
   }
 };
 const {
-  commonTypes: commonTypes$n,
-  cards: cards$h
+  commonTypes: commonTypes$o,
+  cards: cards$i
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$l, probabilityMap: probabilityMap$k, CardRarity: CardRarity$k, UnitType: UnitType$6 } = commonTypes$n;
-const { refundLastSpell: refundLastSpell$5 } = cards$h;
+const { CardCategory: CardCategory$m, probabilityMap: probabilityMap$l, CardRarity: CardRarity$l, UnitType: UnitType$6 } = commonTypes$o;
+const { refundLastSpell: refundLastSpell$5 } = cards$i;
 const reinforceCardId = "Reinforce";
 const reinforceAmount = 20;
-const spell$k = {
+const spell$l = {
   card: {
     id: reinforceCardId,
-    category: CardCategory$l.Blessings,
+    category: CardCategory$m.Blessings,
     supportQuantity: true,
     manaCost: 40,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$k[CardRarity$k.RARE],
+    probability: probabilityMap$l[CardRarity$l.RARE],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/Reinforce.png",
     animationPath: "potionPickup",
     description: "Increases Max HP by " + reinforceAmount.toString() + ".  Does not affect Spellmasons.",
@@ -2140,21 +2140,21 @@ async function healStaminaUnits(units2, amount2, sourceUnit, underworld, predict
   return state;
 }
 const {
-  commonTypes: commonTypes$m
+  commonTypes: commonTypes$n
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$k, probabilityMap: probabilityMap$j, CardRarity: CardRarity$j } = commonTypes$m;
+const { CardCategory: CardCategory$l, probabilityMap: probabilityMap$k, CardRarity: CardRarity$k } = commonTypes$n;
 const revitaliseCardId = "Revitalise";
 const revitaliseAmount = 100;
-const spell$j = {
+const spell$k = {
   card: {
     id: revitaliseCardId,
-    category: CardCategory$k.Blessings,
+    category: CardCategory$l.Blessings,
     //sfx: healSfx, // Heal FX Handled in Unit.takeDamage()
     supportQuantity: true,
     manaCost: 15,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$j[CardRarity$j.COMMON],
+    probability: probabilityMap$k[CardRarity$k.COMMON],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/Revitalise.png",
     animationPath: "potionPickup",
     description: "Restores " + revitaliseAmount.toString() + " stamina to the target.",
@@ -2166,26 +2166,26 @@ const spell$j = {
 };
 const {
   Particles: Particles$1,
-  commonTypes: commonTypes$l,
+  commonTypes: commonTypes$m,
   Unit: Unit$i,
   EffectsHeal: EffectsHeal$1,
-  cards: cards$g
+  cards: cards$h
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$j, probabilityMap: probabilityMap$i, CardRarity: CardRarity$i } = commonTypes$l;
-const { refundLastSpell: refundLastSpell$4 } = cards$g;
+const { CardCategory: CardCategory$k, probabilityMap: probabilityMap$j, CardRarity: CardRarity$j } = commonTypes$m;
+const { refundLastSpell: refundLastSpell$4 } = cards$h;
 const siphonCardId = "Siphon";
 const amount = 10;
-const spell$i = {
+const spell$j = {
   card: {
     id: siphonCardId,
-    category: CardCategory$j.Mana,
+    category: CardCategory$k.Mana,
     sfx: "potionPickupMana",
     supportQuantity: true,
     manaCost: 0,
     healthCost: 8,
     costGrowthAlgorithm: "nlogn",
     expenseScaling: 1,
-    probability: probabilityMap$i[CardRarity$i.FORBIDDEN],
+    probability: probabilityMap$j[CardRarity$j.FORBIDDEN],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/Siphon.png",
     animationPath: "potionPickup",
     description: `Drain 10 health and 10 mana from targets.`,
@@ -2224,29 +2224,29 @@ const spell$i = {
 };
 const targetSimilarId = "Target Similar";
 const {
-  commonTypes: commonTypes$k,
-  cards: cards$f,
-  config: config$d,
+  commonTypes: commonTypes$l,
+  cards: cards$g,
+  config: config$e,
   math: math$a,
   colors: colors$6,
   JAudio: JAudio$5,
   Unit: Unit$h
 } = globalThis.SpellmasonsAPI;
-const { addTarget: addTarget$4 } = cards$f;
+const { addTarget: addTarget$4 } = cards$g;
 const { distance: distance$4 } = math$a;
-const { CardCategory: CardCategory$i, probabilityMap: probabilityMap$h, CardRarity: CardRarity$h, UnitSubType: UnitSubType$4 } = commonTypes$k;
+const { CardCategory: CardCategory$j, probabilityMap: probabilityMap$i, CardRarity: CardRarity$i, UnitSubType: UnitSubType$4 } = commonTypes$l;
 const targetAllyId = "Target Ally";
 const targetsPerQuantity$1 = 2;
-const spell$h = {
+const spell$i = {
   card: {
     id: targetAllyId,
-    category: CardCategory$i.Targeting,
+    category: CardCategory$j.Targeting,
     supportQuantity: true,
     requires: [targetSimilarId],
     manaCost: 35,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$h[CardRarity$h.RARE],
+    probability: probabilityMap$i[CardRarity$i.RARE],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/TargetAlly.png",
     requiresFollowingCard: true,
     description: `Target the closest ally. ${targetsPerQuantity$1} per stack.`,
@@ -2274,7 +2274,7 @@ async function animateTargetAlly(newTargets) {
     for (let target of newTargets) {
       if (globalThis.predictionGraphicsGreen) {
         globalThis.predictionGraphicsGreen.lineStyle(2, colors$6.targetingSpellGreen, 1);
-        globalThis.predictionGraphicsGreen.drawCircle(target.x, target.y, config$d.COLLISION_MESH_RADIUS);
+        globalThis.predictionGraphicsGreen.drawCircle(target.x, target.y, config$e.COLLISION_MESH_RADIUS);
         setTimeout(resolve, animationDelay);
       } else {
         resolve();
@@ -2285,30 +2285,30 @@ async function animateTargetAlly(newTargets) {
   return;
 }
 const {
-  commonTypes: commonTypes$j,
-  cards: cards$e,
-  config: config$c,
+  commonTypes: commonTypes$k,
+  cards: cards$f,
+  config: config$d,
   math: math$9,
   colors: colors$5,
   Unit: Unit$g,
   JAudio: JAudio$4
 } = globalThis.SpellmasonsAPI;
-const { addTarget: addTarget$3 } = cards$e;
+const { addTarget: addTarget$3 } = cards$f;
 const { distance: distance$3 } = math$9;
-const { CardCategory: CardCategory$h, probabilityMap: probabilityMap$g, CardRarity: CardRarity$g, UnitSubType: UnitSubType$3 } = commonTypes$j;
+const { CardCategory: CardCategory$i, probabilityMap: probabilityMap$h, CardRarity: CardRarity$h, UnitSubType: UnitSubType$3 } = commonTypes$k;
 const targetPlayerId = "Target Player";
 const targetsPerQuantity = 2;
 const PLAYER_CONTROLLED = 0;
-const spell$g = {
+const spell$h = {
   card: {
     id: targetPlayerId,
-    category: CardCategory$h.Targeting,
+    category: CardCategory$i.Targeting,
     supportQuantity: true,
     requires: [targetAllyId],
     manaCost: 35,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$g[CardRarity$g.RARE],
+    probability: probabilityMap$h[CardRarity$h.RARE],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/TargetPlayer.png",
     requiresFollowingCard: true,
     description: `Target the closest Player.`,
@@ -2340,7 +2340,7 @@ async function animateTargetPlayer(newTargets) {
     for (let target of newTargets) {
       if (globalThis.predictionGraphicsGreen) {
         globalThis.predictionGraphicsGreen.lineStyle(2, colors$5.targetingSpellGreen, 1);
-        globalThis.predictionGraphicsGreen.drawCircle(target.x, target.y, config$c.COLLISION_MESH_RADIUS);
+        globalThis.predictionGraphicsGreen.drawCircle(target.x, target.y, config$d.COLLISION_MESH_RADIUS);
         setTimeout(resolve, animationDelay);
       } else {
         resolve();
@@ -2352,29 +2352,29 @@ async function animateTargetPlayer(newTargets) {
 }
 const slashCardId = "Slash";
 const {
-  commonTypes: commonTypes$i,
-  cards: cards$d,
+  commonTypes: commonTypes$j,
+  cards: cards$e,
   rand: rand$1,
   cardUtils: cardUtils$9,
   PixiUtils: PixiUtils$4,
   Unit: Unit$f
 } = globalThis.SpellmasonsAPI;
 const { randFloat } = rand$1;
-const { CardCategory: CardCategory$g, probabilityMap: probabilityMap$f, CardRarity: CardRarity$f } = commonTypes$i;
+const { CardCategory: CardCategory$h, probabilityMap: probabilityMap$g, CardRarity: CardRarity$g } = commonTypes$j;
 const tripleSlashCardId = "Triple Slash";
 const damageDone = 20;
 const delayBetweenAnimationsStart = 250;
 const animationPath = "spellHurtCuts";
-const spell$f = {
+const spell$g = {
   card: {
     id: tripleSlashCardId,
     requires: [slashCardId],
-    category: CardCategory$g.Damage,
+    category: CardCategory$h.Damage,
     supportQuantity: true,
     manaCost: 20,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$f[CardRarity$f.UNCOMMON],
+    probability: probabilityMap$g[CardRarity$g.UNCOMMON],
     thumbnail: "spellmasons-mods/Bogiacs_Spells/graphics/icons/TripleSlash.png",
     animationPath,
     sfx: "hurt",
@@ -2425,7 +2425,7 @@ async function tripleSlashEffect(state, card, quantity, underworld, prediction, 
   }
   return state;
 }
-const mod$4 = {
+const mod$5 = {
   modName: "Bogiac's Spells",
   author: "Bogiac",
   description: "Adds some new spells to the game",
@@ -2433,47 +2433,47 @@ const mod$4 = {
   spritesheet: "spellmasons-mods/Bogiacs_Spells/graphics/spritesheet.json",
   spells: [
     //Add or Remove spells here.
+    spell$q,
     spell$p,
     spell$o,
     spell$n,
-    spell$m,
     //Impact,
+    spell$m,
     spell$l,
     spell$k,
     spell$j,
     spell$i,
     spell$h,
-    spell$g,
-    spell$f
+    spell$g
   ]
 };
 const {
-  commonTypes: commonTypes$h,
+  commonTypes: commonTypes$i,
   Unit: Unit$e,
   colors: colors$4,
-  config: config$b,
+  config: config$c,
   math: math$8,
   Vec: Vec$7,
   PlanningView: PlanningView$9,
   JPromise: JPromise$5
 } = globalThis.SpellmasonsAPI;
 const { add: add$1 } = Vec$7;
-const { CardCategory: CardCategory$f, CardRarity: CardRarity$e, probabilityMap: probabilityMap$e, UnitType: UnitType$5 } = commonTypes$h;
+const { CardCategory: CardCategory$g, CardRarity: CardRarity$f, probabilityMap: probabilityMap$f, UnitType: UnitType$5 } = commonTypes$i;
 const { distance: distance$2 } = math$8;
 const { drawPredictionLine, drawUICircleFillPrediction } = PlanningView$9;
 const { raceTimeout: raceTimeout$4 } = JPromise$5;
 const id$8 = "Assimilate";
 const numberOfTargetsPerQuantity = 5;
 const baseRadius$1 = 250;
-const spell$e = {
+const spell$f = {
   card: {
     id: id$8,
-    category: CardCategory$f.Soul,
+    category: CardCategory$g.Soul,
     manaCost: 0,
     healthCost: 50,
     expenseScaling: 2,
     costGrowthAlgorithm: "exponential",
-    probability: probabilityMap$e[CardRarity$e.RARE],
+    probability: probabilityMap$f[CardRarity$f.RARE],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconAssimilate.png",
     supportQuantity: true,
     requiresFollowingCard: false,
@@ -2598,7 +2598,7 @@ function getNextConnectingEntities(source, baseRadius2, chainsLeft, potentialTar
     adjustedRadius *= radiusModifierFn(source, chainsLeft);
   }
   if (prediction) {
-    drawUICircleFillPrediction(source, adjustedRadius - config$b.COLLISION_MESH_RADIUS / 2, colors$4.trueWhite);
+    drawUICircleFillPrediction(source, adjustedRadius - config$c.COLLISION_MESH_RADIUS / 2, colors$4.trueWhite);
   }
   let connected = [];
   do {
@@ -2646,7 +2646,7 @@ async function animateConnections(links, underworld, prediction) {
   }));
 }
 const millisToGrow$3 = 750;
-const circleRadius = config$b.COLLISION_MESH_RADIUS / 2;
+const circleRadius = config$c.COLLISION_MESH_RADIUS / 2;
 function animateFrame$3(linkGroups, startTime, entitiesTargeted, underworld, resolve, prediction) {
   return function animateFrameInner() {
     if (globalThis.headless || prediction) {
@@ -2699,32 +2699,32 @@ function animateFrame$3(linkGroups, startTime, entitiesTargeted, underworld, res
   };
 }
 const {
-  commonTypes: commonTypes$g,
+  commonTypes: commonTypes$h,
   Unit: Unit$d,
   colors: colors$3,
   math: math$7,
-  config: config$a,
+  config: config$b,
   Vec: Vec$6,
-  cards: cards$c,
+  cards: cards$d,
   PixiUtils: PixiUtils$3,
   moveWithCollision: moveWithCollision$6,
   modifierSummonerSickness: modifierSummonerSickness$2,
   JImage: JImage$4,
-  FloatingText: FloatingText$3,
+  FloatingText: FloatingText$4,
   Arrow: Arrow$2
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$e, CardRarity: CardRarity$d, probabilityMap: probabilityMap$d } = commonTypes$g;
+const { CardCategory: CardCategory$f, CardRarity: CardRarity$e, probabilityMap: probabilityMap$e } = commonTypes$h;
 const { summoningSicknessId: summoningSicknessId$2 } = modifierSummonerSickness$2;
-const floatingText$2 = FloatingText$3.default;
+const floatingText$2 = FloatingText$4.default;
 const bloodArrowCardId = "Bloodied Arrow";
 const damage$2 = 10;
 const bloodiedArrowEffect = Arrow$2.arrowEffect(1, bloodArrowCardId);
 const corpseDecayId$2 = "Corpse Decay";
-const spell$d = {
+const spell$e = {
   card: {
     id: bloodArrowCardId,
-    category: CardCategory$e.Curses,
-    probability: probabilityMap$d[CardRarity$d.UNCOMMON],
+    category: CardCategory$f.Curses,
+    probability: probabilityMap$e[CardRarity$e.UNCOMMON],
     manaCost: 0,
     healthCost: 10,
     expenseScaling: 1,
@@ -2790,33 +2790,33 @@ const spell$d = {
   }
 };
 const {
-  commonTypes: commonTypes$f,
+  commonTypes: commonTypes$g,
   Unit: Unit$c,
   colors: colors$2,
   math: math$6,
-  config: config$9,
+  config: config$a,
   Vec: Vec$5,
-  cards: cards$b,
+  cards: cards$c,
   PixiUtils: PixiUtils$2,
   moveWithCollision: moveWithCollision$5,
   modifierSummonerSickness: modifierSummonerSickness$1,
   JImage: JImage$3,
-  FloatingText: FloatingText$2,
+  FloatingText: FloatingText$3,
   Arrow: Arrow$1,
   Purify
 } = globalThis.SpellmasonsAPI;
-const floatingText$1 = FloatingText$2.default;
-const { CardCategory: CardCategory$d, CardRarity: CardRarity$c, probabilityMap: probabilityMap$c } = commonTypes$f;
+const floatingText$1 = FloatingText$3.default;
+const { CardCategory: CardCategory$e, CardRarity: CardRarity$d, probabilityMap: probabilityMap$d } = commonTypes$g;
 const { summoningSicknessId: summoningSicknessId$1 } = modifierSummonerSickness$1;
 const damage$1 = 20;
 const corpseDecayId$1 = "Corpse Decay";
 const STERILE_ARROW_ID = "Sterile Arrow";
 const serileArrowEffect = Arrow$1.arrowEffect(1, STERILE_ARROW_ID);
-const spell$c = {
+const spell$d = {
   card: {
     id: STERILE_ARROW_ID,
-    category: CardCategory$d.Curses,
-    probability: probabilityMap$c[CardRarity$c.UNCOMMON],
+    category: CardCategory$e.Curses,
+    probability: probabilityMap$d[CardRarity$d.UNCOMMON],
     manaCost: 0,
     healthCost: 15,
     expenseScaling: 1,
@@ -2870,31 +2870,31 @@ const spell$c = {
   }
 };
 const {
-  commonTypes: commonTypes$e,
+  commonTypes: commonTypes$f,
   Unit: Unit$b,
   colors: colors$1,
   math: math$5,
-  config: config$8,
+  config: config$9,
   Vec: Vec$4,
-  cards: cards$a,
+  cards: cards$b,
   PixiUtils: PixiUtils$1,
   moveWithCollision: moveWithCollision$4,
   modifierSummonerSickness,
   JImage: JImage$2,
-  FloatingText: FloatingText$1,
+  FloatingText: FloatingText$2,
   Arrow
 } = globalThis.SpellmasonsAPI;
-const floatingText = FloatingText$1.default;
-const { CardCategory: CardCategory$c, CardRarity: CardRarity$b, probabilityMap: probabilityMap$b } = commonTypes$e;
+const floatingText = FloatingText$2.default;
+const { CardCategory: CardCategory$d, CardRarity: CardRarity$c, probabilityMap: probabilityMap$c } = commonTypes$f;
 const { summoningSicknessId } = modifierSummonerSickness;
 const damage = 20;
 const corpseDecayId = "Corpse Decay";
 const BLOODTHORN_ARROW_ID = "Bloodthorn Arrow";
-const spell$b = {
+const spell$c = {
   card: {
     id: BLOODTHORN_ARROW_ID,
-    category: CardCategory$c.Curses,
-    probability: probabilityMap$b[CardRarity$b.UNCOMMON],
+    category: CardCategory$d.Curses,
+    probability: probabilityMap$c[CardRarity$c.UNCOMMON],
     manaCost: 0,
     healthCost: 15,
     expenseScaling: 1,
@@ -2944,34 +2944,34 @@ const spell$b = {
   }
 };
 const {
-  commonTypes: commonTypes$d,
+  commonTypes: commonTypes$e,
   Unit: Unit$a,
   units: units$4,
-  config: config$7,
-  cards: cards$9,
+  config: config$8,
+  cards: cards$a,
   cardUtils: cardUtils$8,
   PlanningView: PlanningView$8,
   VisualEffects: VisualEffects$2,
   forcePushAwayFrom: forcePushAwayFrom$3
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$b, CardRarity: CardRarity$a, probabilityMap: probabilityMap$a, Faction: Faction$3, UnitType: UnitType$4 } = commonTypes$d;
+const { CardCategory: CardCategory$c, CardRarity: CardRarity$b, probabilityMap: probabilityMap$b, Faction: Faction$3, UnitType: UnitType$4 } = commonTypes$e;
 const { takeDamage: takeDamage$5 } = Unit$a;
 const { allUnits: allUnits$3 } = units$4;
 const { skyBeam: skyBeam$2 } = VisualEffects$2;
-const { refundLastSpell: refundLastSpell$3, getCurrentTargets: getCurrentTargets$6, defaultTargetsForAllowNonUnitTargetTargetingSpell: defaultTargetsForAllowNonUnitTargetTargetingSpell$4 } = cards$9;
+const { refundLastSpell: refundLastSpell$3, getCurrentTargets: getCurrentTargets$6, defaultTargetsForAllowNonUnitTargetTargetingSpell: defaultTargetsForAllowNonUnitTargetTargetingSpell$4 } = cards$a;
 const { playDefaultSpellSFX: playDefaultSpellSFX$7 } = cardUtils$8;
 const { addWarningAtMouse: addWarningAtMouse$2, drawUICirclePrediction: drawUICirclePrediction$4 } = PlanningView$8;
 const id$7 = "Raise Pillar";
-const spell$a = {
+const spell$b = {
   card: {
     id: id$7,
-    category: CardCategory$b.Soul,
+    category: CardCategory$c.Soul,
     sfx: "summonDecoy",
     supportQuantity: false,
     manaCost: 20,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$a[CardRarity$a.COMMON],
+    probability: probabilityMap$b[CardRarity$b.COMMON],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconRaise_Pillar.png",
     description: "Raise a pillar at the target location, dealing 10 damage to nearby enemies and pushing them away.",
     allowNonUnitTarget: true,
@@ -3006,8 +3006,8 @@ const spell$a = {
             sourceUnit.info.subtype,
             {
               ...sourceUnit.unitProps,
-              healthMax: (sourceUnit.unitProps.healthMax || config$7.UNIT_BASE_HEALTH) * quantity,
-              health: (sourceUnit.unitProps.health || config$7.UNIT_BASE_HEALTH) * quantity,
+              healthMax: (sourceUnit.unitProps.healthMax || config$8.UNIT_BASE_HEALTH) * quantity,
+              health: (sourceUnit.unitProps.health || config$8.UNIT_BASE_HEALTH) * quantity,
               damage: (sourceUnit.unitProps.damage || 0) * quantity,
               strength: quantity
             },
@@ -3050,38 +3050,38 @@ async function pillarExplode$2(caster2, radius, damage2, underworld, prediction,
   });
 }
 const {
-  commonTypes: commonTypes$c,
+  commonTypes: commonTypes$d,
   Unit: Unit$9,
   math: math$4,
-  config: config$6,
+  config: config$7,
   PixiUtils,
   moveWithCollision: moveWithCollision$3,
   cardUtils: cardUtils$7,
-  cards: cards$8,
+  cards: cards$9,
   JImage: JImage$1,
   units: units$3,
   forcePushTowards: forcePushTowards$2
 } = globalThis.SpellmasonsAPI;
 const { allUnits: allUnits$2 } = units$3;
-const { CardCategory: CardCategory$a, CardRarity: CardRarity$9, probabilityMap: probabilityMap$9, Faction: Faction$2, UnitSubType: UnitSubType$2, UnitType: UnitType$3 } = commonTypes$c;
+const { CardCategory: CardCategory$b, CardRarity: CardRarity$a, probabilityMap: probabilityMap$a, Faction: Faction$2, UnitSubType: UnitSubType$2, UnitType: UnitType$3 } = commonTypes$d;
 const { takeDamage: takeDamage$4 } = Unit$9;
 const { containerProjectiles } = PixiUtils;
 const { makeForceMoveProjectile } = moveWithCollision$3;
 const { playDefaultSpellSFX: playDefaultSpellSFX$6 } = cardUtils$7;
-const { refundLastSpell: refundLastSpell$2 } = cards$8;
+const { refundLastSpell: refundLastSpell$2 } = cards$9;
 const id$6 = "Earth Push";
 const defaultPushDistance$2 = 140;
-const spell$9 = {
+const spell$a = {
   card: {
     id: id$6,
-    category: CardCategory$a.Damage,
+    category: CardCategory$b.Damage,
     supportQuantity: true,
     sfx: "push",
     manaCost: 15,
     healthCost: 0,
     expenseScaling: 1,
     requires: [id$7],
-    probability: probabilityMap$9[CardRarity$9.COMMON],
+    probability: probabilityMap$a[CardRarity$a.COMMON],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconEarthPush.png",
     description: "Launches targeted traps, pillars, and urns towards the cast location. Pillars deal 60 damage each and urns explode on collision with units.",
     ignoreRange: true,
@@ -3106,7 +3106,7 @@ const spell$9 = {
             let target = state.castLocation;
             let image;
             const startPoint = casterPositionAtTimeOfCast;
-            const velocity = math$4.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$4.distance(startPoint, target), config$6.ARROW_PROJECTILE_SPEED);
+            const velocity = math$4.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$4.distance(startPoint, target), config$7.ARROW_PROJECTILE_SPEED);
             if (!prediction) {
               image = JImage$1.create(casterPositionAtTimeOfCast, "pillar", containerProjectiles);
               if (image) {
@@ -3143,7 +3143,7 @@ const spell$9 = {
             let target = state.castLocation;
             let image;
             const startPoint = casterPositionAtTimeOfCast;
-            const velocity = math$4.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$4.distance(startPoint, target), config$6.ARROW_PROJECTILE_SPEED);
+            const velocity = math$4.similarTriangles(target.x - startPoint.x, target.y - casterPositionAtTimeOfCast.y, math$4.distance(startPoint, target), config$7.ARROW_PROJECTILE_SPEED);
             if (!prediction && urn.image) {
               image = JImage$1.load(JImage$1.serialize(urn.image), containerProjectiles);
               if (image) {
@@ -3202,8 +3202,8 @@ const spell$9 = {
     }
   }
 };
-const { commonTypes: commonTypes$b, Unit: Unit$8, cardsUtil: cardsUtil$3 } = globalThis.SpellmasonsAPI;
-const { UnitSubType: UnitSubType$1 } = commonTypes$b;
+const { commonTypes: commonTypes$c, Unit: Unit$8, cardsUtil: cardsUtil$3 } = globalThis.SpellmasonsAPI;
+const { UnitSubType: UnitSubType$1 } = commonTypes$c;
 const ALTAR_UNIT_ID = "Altar";
 const unit$1 = {
   id: ALTAR_UNIT_ID,
@@ -3267,34 +3267,34 @@ const modifierRemoveOnDeath = {
   }
 };
 const {
-  commonTypes: commonTypes$a,
+  commonTypes: commonTypes$b,
   Unit: Unit$7,
   units: units$2,
-  config: config$5,
-  cards: cards$7,
+  config: config$6,
+  cards: cards$8,
   cardUtils: cardUtils$6,
   PlanningView: PlanningView$7,
   VisualEffects: VisualEffects$1,
   forcePushAwayFrom: forcePushAwayFrom$2
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$9, CardRarity: CardRarity$8, probabilityMap: probabilityMap$8, Faction: Faction$1, UnitType: UnitType$2 } = commonTypes$a;
+const { CardCategory: CardCategory$a, CardRarity: CardRarity$9, probabilityMap: probabilityMap$9, Faction: Faction$1, UnitType: UnitType$2 } = commonTypes$b;
 const { takeDamage: takeDamage$3 } = Unit$7;
 const { allUnits: allUnits$1 } = units$2;
 const { skyBeam: skyBeam$1 } = VisualEffects$1;
-const { refundLastSpell: refundLastSpell$1, getCurrentTargets: getCurrentTargets$5, defaultTargetsForAllowNonUnitTargetTargetingSpell: defaultTargetsForAllowNonUnitTargetTargetingSpell$3 } = cards$7;
+const { refundLastSpell: refundLastSpell$1, getCurrentTargets: getCurrentTargets$5, defaultTargetsForAllowNonUnitTargetTargetingSpell: defaultTargetsForAllowNonUnitTargetTargetingSpell$3 } = cards$8;
 const { playDefaultSpellSFX: playDefaultSpellSFX$5 } = cardUtils$6;
 const { addWarningAtMouse: addWarningAtMouse$1, drawUICirclePrediction: drawUICirclePrediction$3 } = PlanningView$7;
 const id$5 = "Raise Altar";
-const spell$8 = {
+const spell$9 = {
   card: {
     id: id$5,
-    category: CardCategory$9.Soul,
+    category: CardCategory$a.Soul,
     sfx: "summonDecoy",
     supportQuantity: true,
     manaCost: 35,
     healthCost: 0,
     expenseScaling: 2,
-    probability: probabilityMap$8[CardRarity$8.COMMON],
+    probability: probabilityMap$9[CardRarity$9.COMMON],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconRaise_Altar.png",
     description: "Raise a mana conducive Altar at the target location, acting as a target for future spells cast",
     allowNonUnitTarget: true,
@@ -3326,8 +3326,8 @@ const spell$8 = {
           sourceUnit.info.subtype,
           {
             ...sourceUnit.unitProps,
-            healthMax: (sourceUnit.unitProps.healthMax || config$5.UNIT_BASE_HEALTH) * quantity,
-            health: (sourceUnit.unitProps.health || config$5.UNIT_BASE_HEALTH) * quantity,
+            healthMax: (sourceUnit.unitProps.healthMax || config$6.UNIT_BASE_HEALTH) * quantity,
+            health: (sourceUnit.unitProps.health || config$6.UNIT_BASE_HEALTH) * quantity,
             damage: (sourceUnit.unitProps.damage || 0) * quantity,
             strength: quantity
           },
@@ -3369,38 +3369,38 @@ async function pillarExplode$1(caster2, radius, damage2, underworld, prediction,
   });
 }
 const {
-  commonTypes: commonTypes$9,
+  commonTypes: commonTypes$a,
   Unit: Unit$6,
   units: units$1,
-  config: config$4,
+  config: config$5,
   Vec: Vec$3,
   moveWithCollision: moveWithCollision$2,
-  cards: cards$6,
+  cards: cards$7,
   cardUtils: cardUtils$5,
   PlanningView: PlanningView$6,
   VisualEffects,
   forcePushAwayFrom: forcePushAwayFrom$1
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$8, CardRarity: CardRarity$7, probabilityMap: probabilityMap$7, Faction, UnitType: UnitType$1 } = commonTypes$9;
+const { CardCategory: CardCategory$9, CardRarity: CardRarity$8, probabilityMap: probabilityMap$8, Faction, UnitType: UnitType$1 } = commonTypes$a;
 const { takeDamage: takeDamage$2 } = Unit$6;
 const { moveAlongVector: moveAlongVector$2, normalizedVector: normalizedVector$2 } = moveWithCollision$2;
 const { invert: invert$2 } = Vec$3;
-const { refundLastSpell, getCurrentTargets: getCurrentTargets$4 } = cards$6;
+const { refundLastSpell, getCurrentTargets: getCurrentTargets$4 } = cards$7;
 const { playDefaultSpellSFX: playDefaultSpellSFX$4 } = cardUtils$5;
 const { addWarningAtMouse, drawUICirclePrediction: drawUICirclePrediction$2 } = PlanningView$6;
 const { skyBeam } = VisualEffects;
 const { allUnits } = units$1;
 const id$4 = "Raise Wall";
 const baseWidth$2 = 48;
-const spell$7 = {
+const spell$8 = {
   card: {
     id: id$4,
-    category: CardCategory$8.Soul,
+    category: CardCategory$9.Soul,
     supportQuantity: true,
     manaCost: 30,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$7[CardRarity$7.SPECIAL],
+    probability: probabilityMap$8[CardRarity$8.SPECIAL],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconRaise_Wall.png",
     requiresFollowingCard: false,
     description: "Raise a wall of pillars at the target location, blocking enemy movement but allowing projectiles through.",
@@ -3446,8 +3446,8 @@ const spell$7 = {
               sourceUnit.info.subtype,
               {
                 ...sourceUnit.unitProps,
-                healthMax: sourceUnit.unitProps.healthMax || config$4.UNIT_BASE_HEALTH,
-                health: sourceUnit.unitProps.health || config$4.UNIT_BASE_HEALTH,
+                healthMax: sourceUnit.unitProps.healthMax || config$5.UNIT_BASE_HEALTH,
+                health: sourceUnit.unitProps.health || config$5.UNIT_BASE_HEALTH,
                 damage: (sourceUnit.unitProps.damage || 0) * quantity,
                 strength: quantity
               },
@@ -3505,9 +3505,9 @@ async function pillarExplode(caster2, radius, damage2, underworld, prediction, s
   });
 }
 const {
-  commonTypes: commonTypes$8,
+  commonTypes: commonTypes$9,
   Unit: Unit$5,
-  config: config$3,
+  config: config$4,
   math: math$3,
   Vec: Vec$2,
   JPromise: JPromise$4,
@@ -3517,30 +3517,30 @@ const {
   Angle,
   PlanningView: PlanningView$5,
   EffectsHeal,
-  cards: cards$5
+  cards: cards$6
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$7, CardRarity: CardRarity$6, probabilityMap: probabilityMap$6 } = commonTypes$8;
+const { CardCategory: CardCategory$8, CardRarity: CardRarity$7, probabilityMap: probabilityMap$7 } = commonTypes$9;
 const { distance: distance$1, sortCosestTo: sortCosestTo$2 } = math$3;
 const { getAngleBetweenVec2s } = Vec$2;
 const { healUnits } = EffectsHeal;
 const { drawUICone, drawUIConePrediction } = PlanningView$5;
 const { isAngleBetweenAngles } = Angle;
 const { playDefaultSpellSFX: playDefaultSpellSFX$3 } = cardUtils$4;
-const { getCurrentTargets: getCurrentTargets$3, defaultTargetsForAllowNonUnitTargetTargetingSpell: defaultTargetsForAllowNonUnitTargetTargetingSpell$2, addTarget: addTarget$2 } = cards$5;
+const { getCurrentTargets: getCurrentTargets$3, defaultTargetsForAllowNonUnitTargetTargetingSpell: defaultTargetsForAllowNonUnitTargetTargetingSpell$2, addTarget: addTarget$2 } = cards$6;
 const bloodCurseCardId = "Blood Curse";
 const sunlightId = "Sunlight";
 const range$2 = 200;
 const coneAngle = Math.PI / 4;
 const healAmount = 20;
-const spell$6 = {
+const spell$7 = {
   card: {
     id: sunlightId,
-    category: CardCategory$7.Blessings,
+    category: CardCategory$8.Blessings,
     supportQuantity: true,
     manaCost: 20,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$6[CardRarity$6.SPECIAL],
+    probability: probabilityMap$7[CardRarity$7.SPECIAL],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconSunlight.png",
     requiresFollowingCard: false,
     description: "Heals 20 health to units in a cone originating from the caster. Deals 80 damage to blood cursed units.",
@@ -3586,24 +3586,24 @@ function withinCone(origin, coneStartPoint, radius, startAngle, endAngle, target
 }
 const {
   Unit: Unit$4,
-  commonTypes: commonTypes$7,
-  cards: cards$4,
+  commonTypes: commonTypes$8,
+  cards: cards$5,
   math: math$2
 } = globalThis.SpellmasonsAPI;
 const { isUnit } = Unit$4;
-const { CardCategory: CardCategory$6, CardRarity: CardRarity$5, probabilityMap: probabilityMap$5 } = commonTypes$7;
-const { getCurrentTargets: getCurrentTargets$2, addTarget: addTarget$1 } = cards$4;
+const { CardCategory: CardCategory$7, CardRarity: CardRarity$6, probabilityMap: probabilityMap$6 } = commonTypes$8;
+const { getCurrentTargets: getCurrentTargets$2, addTarget: addTarget$1 } = cards$5;
 const { sortCosestTo: sortCosestTo$1 } = math$2;
 const id$3 = "Target Pillar";
-const spell$5 = {
+const spell$6 = {
   card: {
     id: id$3,
-    category: CardCategory$6.Targeting,
+    category: CardCategory$7.Targeting,
     supportQuantity: true,
     manaCost: 10,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$5[CardRarity$5.SPECIAL],
+    probability: probabilityMap$6[CardRarity$6.SPECIAL],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconTargetPillar.png",
     requiresFollowingCard: true,
     requires: [id$7],
@@ -3624,22 +3624,22 @@ const spell$5 = {
   }
 };
 const {
-  commonTypes: commonTypes$6,
+  commonTypes: commonTypes$7,
   math: math$1,
   colors,
   forcePushTowards: forcePushTowards$1,
   cardUtils: cardUtils$3,
-  cards: cards$3,
+  cards: cards$4,
   Unit: Unit$3,
   JAudio: JAudio$2,
   PlanningView: PlanningView$4,
   ParticleCollection: ParticleCollection$1,
   Particles
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$5, CardRarity: CardRarity$4, probabilityMap: probabilityMap$4 } = commonTypes$6;
+const { CardCategory: CardCategory$6, CardRarity: CardRarity$5, probabilityMap: probabilityMap$5 } = commonTypes$7;
 const { distance } = math$1;
 const { playDefaultSpellSFX: playDefaultSpellSFX$2 } = cardUtils$3;
-const { addTarget } = cards$3;
+const { addTarget } = cards$4;
 const { takeDamage: takeDamage$1 } = Unit$3;
 const { playSFXKey: playSFXKey$2 } = JAudio$2;
 const { drawUICirclePrediction: drawUICirclePrediction$1 } = PlanningView$4;
@@ -3649,10 +3649,10 @@ const targetStompCardId = "Target Stomp";
 const baseExplosionRadius = 140;
 const stompMoveDistance = 100;
 const stompRadius = 115;
-const spell$4 = {
+const spell$5 = {
   card: {
     id: targetStompCardId,
-    category: CardCategory$5.Targeting,
+    category: CardCategory$6.Targeting,
     supportQuantity: true,
     allowNonUnitTarget: true,
     ignoreRange: true,
@@ -3660,7 +3660,7 @@ const spell$4 = {
     manaCost: 10,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$4[CardRarity$4.RARE],
+    probability: probabilityMap$5[CardRarity$5.RARE],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconTargetStomp.png",
     description: "Jump to a location and stomp, pulling enemies towards you and adds them as a target to subsequent spells.",
     effect: async (state, card, quantity, underworld, prediction) => {
@@ -3725,20 +3725,20 @@ function makeStompWindupParticles(position, prediction) {
   }
 }
 const {
-  commonTypes: commonTypes$5,
-  config: config$2,
+  commonTypes: commonTypes$6,
+  config: config$3,
   Vec: Vec$1,
   JPromise: JPromise$3,
   JAudio: JAudio$1,
   Polygon2: Polygon2$1,
   Easing: Easing$2,
   cardUtils: cardUtils$2,
-  cards: cards$2,
+  cards: cards$3,
   moveWithCollision: moveWithCollision$1,
   forcePushToDestination: forcePushToDestination$1,
   PlanningView: PlanningView$3
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$4, CardRarity: CardRarity$3, probabilityMap: probabilityMap$3 } = commonTypes$5;
+const { CardCategory: CardCategory$5, CardRarity: CardRarity$4, probabilityMap: probabilityMap$4 } = commonTypes$6;
 const { raceTimeout: raceTimeout$3 } = JPromise$3;
 const { playDefaultSpellSFX: playDefaultSpellSFX$1 } = cardUtils$2;
 const { easeOutCubic: easeOutCubic$2 } = Easing$2;
@@ -3752,15 +3752,15 @@ const defaultPushDistance$1 = 140;
 const range$1 = 250;
 const baseWidth$1 = 20;
 const timeoutMsAnimation$2 = 2e3;
-const spell$3 = {
+const spell$4 = {
   card: {
     id: windTunnelId,
-    category: CardCategory$4.Movement,
+    category: CardCategory$5.Movement,
     supportQuantity: true,
     manaCost: 20,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$3[CardRarity$3.SPECIAL],
+    probability: probabilityMap$4[CardRarity$4.SPECIAL],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconWind_Tunnel.png",
     requiresFollowingCard: false,
     description: "Pushes targets in a column away from the caster.",
@@ -3845,7 +3845,7 @@ function animateFrame$2(columns, startTime, entitiesTargeted, underworld, resolv
             entitiesTargeted.push(v);
             playSFXKey$1("targetAquired");
           }
-          (_a = globalThis.predictionGraphicsGreen) == null ? void 0 : _a.drawCircle(v.x, v.y, config$2.COLLISION_MESH_RADIUS);
+          (_a = globalThis.predictionGraphicsGreen) == null ? void 0 : _a.drawCircle(v.x, v.y, config$3.COLLISION_MESH_RADIUS);
         });
       }
       if (timeDiff > millisToGrow$2) {
@@ -3860,24 +3860,24 @@ function animateFrame$2(columns, startTime, entitiesTargeted, underworld, resolv
   };
 }
 const {
-  commonTypes: commonTypes$4,
-  config: config$1,
+  commonTypes: commonTypes$5,
+  config: config$2,
   Vec,
   JPromise: JPromise$2,
   JAudio,
   Polygon2,
   Easing: Easing$1,
   cardUtils: cardUtils$1,
-  cards: cards$1,
+  cards: cards$2,
   moveWithCollision,
   forcePushToDestination,
   PlanningView: PlanningView$2
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$3, CardRarity: CardRarity$2, probabilityMap: probabilityMap$2 } = commonTypes$4;
+const { CardCategory: CardCategory$4, CardRarity: CardRarity$3, probabilityMap: probabilityMap$3 } = commonTypes$5;
 const { raceTimeout: raceTimeout$2 } = JPromise$2;
 const { playDefaultSpellSFX } = cardUtils$1;
 const { easeOutCubic: easeOutCubic$1 } = Easing$1;
-const { getCurrentTargets: getCurrentTargets$1, defaultTargetsForAllowNonUnitTargetTargetingSpell: defaultTargetsForAllowNonUnitTargetTargetingSpell$1 } = cards$1;
+const { getCurrentTargets: getCurrentTargets$1, defaultTargetsForAllowNonUnitTargetTargetingSpell: defaultTargetsForAllowNonUnitTargetTargetingSpell$1 } = cards$2;
 const { playSFXKey } = JAudio;
 const { invert } = Vec;
 const { moveAlongVector, normalizedVector } = moveWithCollision;
@@ -3888,16 +3888,16 @@ const defaultPushDistance = 140;
 const range = 250;
 const baseWidth = 20;
 const timeoutMsAnimation$1 = 2e3;
-const spell$2 = {
+const spell$3 = {
   card: {
     id: id$2,
-    category: CardCategory$3.Movement,
+    category: CardCategory$4.Movement,
     supportQuantity: true,
     manaCost: 30,
     healthCost: 0,
     expenseScaling: 1,
     requires: [windTunnelId],
-    probability: probabilityMap$2[CardRarity$2.SPECIAL],
+    probability: probabilityMap$3[CardRarity$3.SPECIAL],
     thumbnail: "spellmasons-mods/The_Doom_Scroll/graphics/spellIconWind_Explosion.png",
     requiresFollowingCard: false,
     description: "Creates a wind tunnel pointing at each target.",
@@ -3990,7 +3990,7 @@ function animateFrame$1(columns, startTime, entitiesTargeted, underworld, resolv
             entitiesTargeted.push(v);
             playSFXKey("targetAquired");
           }
-          (_a = globalThis.predictionGraphicsGreen) == null ? void 0 : _a.drawCircle(v.x, v.y, config$1.COLLISION_MESH_RADIUS);
+          (_a = globalThis.predictionGraphicsGreen) == null ? void 0 : _a.drawCircle(v.x, v.y, config$2.COLLISION_MESH_RADIUS);
         });
       }
       if (timeDiff > millisToGrow$1) {
@@ -4004,8 +4004,8 @@ function animateFrame$1(columns, startTime, entitiesTargeted, underworld, resolv
     }
   };
 }
-const { commonTypes: commonTypes$3 } = globalThis.SpellmasonsAPI;
-const { UnitSubType } = commonTypes$3;
+const { commonTypes: commonTypes$4 } = globalThis.SpellmasonsAPI;
+const { UnitSubType } = commonTypes$4;
 const unit = {
   id: "pillar",
   info: {
@@ -4053,27 +4053,27 @@ const unit = {
     return [];
   }
 };
-const mod$3 = {
+const mod$4 = {
   modName: "The Doom Scroll",
   author: "Bug Jones, Dorioso Aytario",
   description: "Adds a variety of interesting new cards to support existing builds as well as introducing a new build.",
   screenshot: "spellmasons-mods/The_Doom_Scroll/graphics/Doom_Scroll.png",
   spells: [
+    spell$f,
     spell$e,
-    spell$d,
+    spell$c,
+    spell$a,
     spell$b,
     spell$9,
-    spell$a,
     spell$8,
+    spell$9,
+    spell$d,
     spell$7,
-    spell$8,
-    spell$c,
     spell$6,
     spell$5,
-    spell$4,
-    spell$2,
     spell$3,
-    spell$c
+    spell$4,
+    spell$d
   ],
   units: [
     unit,
@@ -4084,34 +4084,34 @@ const mod$3 = {
 };
 const {
   Unit: Unit$2,
-  config,
+  config: config$1,
   cardsUtil: cardsUtil$2,
-  commonTypes: commonTypes$2,
+  commonTypes: commonTypes$3,
   math,
   Easing,
   PlanningView: PlanningView$1,
   JPromise: JPromise$1,
-  cards
+  cards: cards$1
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$2, CardRarity: CardRarity$1, probabilityMap: probabilityMap$1 } = commonTypes$2;
+const { CardCategory: CardCategory$3, CardRarity: CardRarity$2, probabilityMap: probabilityMap$2 } = commonTypes$3;
 const { sortCosestTo } = math;
 const { raceTimeout: raceTimeout$1 } = JPromise$1;
 const { easeOutCubic } = Easing;
 const { drawUICirclePrediction } = PlanningView$1;
-const { defaultTargetsForAllowNonUnitTargetTargetingSpell, getCurrentTargets } = cards;
+const { defaultTargetsForAllowNonUnitTargetTargetingSpell, getCurrentTargets } = cards$1;
 const SubmergeId = "Submerge";
 const timeoutMsAnimation = 2e3;
 const id$1 = "Bubble Burst";
 const baseRadius = 100;
-const spell$1 = {
+const spell$2 = {
   card: {
     id: id$1,
-    category: CardCategory$2.Damage,
+    category: CardCategory$3.Damage,
     supportQuantity: false,
     manaCost: 60,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap$1[CardRarity$1.RARE],
+    probability: probabilityMap$2[CardRarity$2.RARE],
     thumbnail: "spellmasons-mods/RunicAlphabet/graphics/spellIconBubbleBurst.png",
     requiresFollowingCard: false,
     description: "Summons a damaging bubble that pops and deals liquid damage to all units within radius.",
@@ -4197,7 +4197,7 @@ function animateFrame(circles, startTime, entitiesTargeted, underworld, resolve,
           if (!entitiesTargeted.includes(v)) {
             entitiesTargeted.push(v);
           }
-          (_a = globalThis.predictionGraphicsBlue) == null ? void 0 : _a.drawCircle(v.x, v.y, config.COLLISION_MESH_RADIUS);
+          (_a = globalThis.predictionGraphicsBlue) == null ? void 0 : _a.drawCircle(v.x, v.y, config$1.COLLISION_MESH_RADIUS);
         });
       }
       if (timeDiff > millisToGrow) {
@@ -4214,10 +4214,10 @@ function animateFrame(circles, startTime, entitiesTargeted, underworld, resolve,
 const {
   Pickup,
   Unit: Unit$1,
-  commonTypes: commonTypes$1,
+  commonTypes: commonTypes$2,
   cardsUtil: cardsUtil$1
 } = globalThis.SpellmasonsAPI;
-const { CardCategory: CardCategory$1, CardRarity, probabilityMap } = commonTypes$1;
+const { CardCategory: CardCategory$2, CardRarity: CardRarity$1, probabilityMap: probabilityMap$1 } = commonTypes$2;
 const { getOrInitModifier: getOrInitModifier$1 } = cardsUtil$1;
 const id = "Ephemerate";
 function add(unit2, underworld, prediction, quantity, extra) {
@@ -4229,14 +4229,14 @@ function add(unit2, underworld, prediction, quantity, extra) {
     Unit$1.addEvent(unit2, id);
   });
 }
-const spell = {
+const spell$1 = {
   card: {
     id,
-    category: CardCategory$1.Movement,
+    category: CardCategory$2.Movement,
     manaCost: 30,
     healthCost: 0,
     expenseScaling: 1,
-    probability: probabilityMap[CardRarity.FORBIDDEN],
+    probability: probabilityMap$1[CardRarity$1.FORBIDDEN],
     thumbnail: "spellmasons-mods/RunicAlphabet/graphics/spellIconEphemerate.png",
     description: `Causes the caster to phase out of reality, allowing them to phase back in anywhere on the map. Warning: Excessive warping may incur true damage to the caster.`,
     allowNonUnitTarget: true,
@@ -4286,7 +4286,7 @@ const spell = {
 const shieldId = "shield";
 const freezeCardId = "freeze";
 const {
-  FloatingText,
+  FloatingText: FloatingText$1,
   Unit,
   Upgrade,
   JImage,
@@ -4295,8 +4295,8 @@ const {
   cardUtils,
   forcePushAwayFrom,
   forcePushTowards,
-  commonTypes,
-  CardUI,
+  commonTypes: commonTypes$1,
+  CardUI: CardUI$1,
   explode,
   PlanningView,
   units,
@@ -4304,7 +4304,7 @@ const {
   ParticleCollection
 } = globalThis.SpellmasonsAPI;
 const { getOrInitModifier } = cardsUtil;
-const { CardCategory, UnitType } = commonTypes;
+const { CardCategory: CardCategory$1, UnitType } = commonTypes$1;
 const { drawUICircle } = PlanningView;
 const { raceTimeout } = JPromise;
 const { randInt } = rand;
@@ -4497,8 +4497,8 @@ const modifierSelectiveMemory = {
           unit2.modifiers[selectiveMemoryId].stolenSpell = availableSpells[spellStealIndex];
         }
       }
-      CardUI.recalcPositionForCards(player, underworld);
-      CardUI.syncInventory(void 0, underworld);
+      CardUI$1.recalcPositionForCards(player, underworld);
+      CardUI$1.syncInventory(void 0, underworld);
     }
   }
 };
@@ -4529,7 +4529,7 @@ const hardLandingEvent = {
         forcePushAwayFrom(p, spawnLocation, 100, underworld, prediction, unit2);
       });
       setTimeout(() => {
-        FloatingText.default({ coords: spawnLocation, text: HardLandingId, prediction });
+        FloatingText$1.default({ coords: spawnLocation, text: HardLandingId, prediction });
       }, 500);
     } else {
       console.error(`Expected to find ${HardLandingId} modifier`);
@@ -4567,7 +4567,7 @@ const acrobaticsEvent = {
   onCostCalculation(player, card, timesUsedSoFar, cardCost) {
     const modifier = player.unit.modifiers[acrobaticsId];
     if (modifier) {
-      if (card.category == CardCategory.Movement) {
+      if (card.category == CardCategory$1.Movement) {
         cardCost.staminaCost = cardCost.manaCost;
         cardCost.manaCost = 0;
       }
@@ -4606,7 +4606,7 @@ const blurEvent = {
         const roll = randInt(1, 100, seed);
         if (roll <= modifier.quantity) {
           amount2 = 0;
-          FloatingText.default({ coords: unit2, text: BlurId, prediction });
+          FloatingText$1.default({ coords: unit2, text: BlurId, prediction });
         }
       }
     }
@@ -4618,7 +4618,7 @@ const heavyHitterEvent = {
   onCostCalculation(player, card, timesUsedSoFar, cardCost) {
     const modifier = player.unit.modifiers[heavyHitterId];
     if (modifier) {
-      if (card.category == CardCategory.Damage) {
+      if (card.category == CardCategory$1.Damage) {
         cardCost.manaCost *= 2;
         cardCost.staminaCost *= 2;
         cardCost.healthCost *= 2;
@@ -4646,7 +4646,7 @@ const frozenSolidEvent = {
       const freezeModifier = unit2.modifiers[freezeCardId];
       if (freezeModifier && freezeModifier.quantity >= 0) {
         amount2 = 0;
-        FloatingText.default({ coords: unit2, text: "Frozen Solid", prediction });
+        FloatingText$1.default({ coords: unit2, text: "Frozen Solid", prediction });
       }
     }
     return amount2;
@@ -4695,11 +4695,11 @@ const selectiveMemoryEvent = {
         modifier.stolenSpell = availableSpells[spellStealIndex];
       }
     }
-    CardUI.recalcPositionForCards(player, underworld);
-    CardUI.syncInventory(void 0, underworld);
+    CardUI$1.recalcPositionForCards(player, underworld);
+    CardUI$1.syncInventory(void 0, underworld);
   }
 };
-const mod$2 = {
+const mod$3 = {
   modName: "Runic Alphabet",
   author: "Bug Jones & Dorioso",
   description: "Adds a variety of new runes, and a handful of spells to support them.",
@@ -4735,15 +4735,15 @@ const mod$2 = {
     //immovableEvent
   ],
   spells: [
-    spell$1,
-    spell
+    spell$2,
+    spell$1
     //wild_swipe,
     //lunge
   ],
   //units: [werewolf],
   spritesheet: "spellmasons-mods/RunicAlphabet/graphics/spritesheet.json"
 };
-const mod$1 = {
+const mod$2 = {
   modName: "Dorioso's Minions",
   author: "Dorioso Aytario",
   description: "Adds familiars that accompany you.",
@@ -4751,7 +4751,7 @@ const mod$1 = {
   spritesheet: "spellmasons-mods/Doriosos_minions/spritesheet/sheet.json",
   familiars: ["beholder", "shroom", "goo"]
 };
-const mod = {
+const mod$1 = {
   modName: "Weedy's Worlds",
   author: "Weedybird",
   description: "New maps? New maps!",
@@ -7683,7 +7683,101 @@ const mod = {
     }
   ]
 };
+const {
+  cards,
+  FloatingText,
+  config,
+  CardUI,
+  commonTypes
+} = globalThis.SpellmasonsAPI;
+const { CardRarity, probabilityMap, CardCategory } = commonTypes;
+const Cards = cards;
+const sellCardId = "Sell For Deathmason";
+const spell = {
+  card: {
+    id: sellCardId,
+    replaces: [],
+    category: CardCategory.Blessings,
+    supportQuantity: false,
+    manaCost: 10,
+    healthCost: 0,
+    expenseScaling: 1,
+    probability: probabilityMap[CardRarity.RARE],
+    thumbnail: "spellIconSell.png",
+    allowNonUnitTarget: true,
+    requiresFollowingCard: true,
+    ignoreRange: true,
+    animationPath: "",
+    sfx: "",
+    omitForWizardType: ["Spellmason", "Goru"],
+    description: ["spell_sell"],
+    frontload: true,
+    effect: async (state, card, quantity, underworld, prediction) => {
+      const sellIndex = state.cardIds.indexOf(sellCardId);
+      if (sellIndex !== 0) {
+        FloatingText.default({ coords: state.castLocation, text: "sell error" });
+        return state;
+      }
+      if (!prediction && state.casterPlayer) {
+        const cardsToSell = Array.from(new Set(state.cardIds.slice(sellIndex + 1)));
+        const sellValues = cardsToSell.map((cardId2) => {
+          var _a, _b;
+          const card2 = Cards.allCards[cardId2];
+          if (card2 && state.casterPlayer) {
+            const highestSellVal = config.STAT_POINTS_PER_LEVEL * 2;
+            let sellValue;
+            const isSummonCard = (_a = card2.thumbnail) == null ? void 0 : _a.startsWith("spellIconSummon_");
+            if (isSummonCard && !isNullOrUndef(card2.soulFragmentCostOverride)) {
+              sellValue = Math.round(Math.min(card2.soulFragmentCostOverride * 10, highestSellVal));
+            } else {
+              const rarity = ((_b = Object.entries(probabilityMap).find(([rarity2, probability]) => probability === card2.probability)) == null ? void 0 : _b[0]) || CardRarity.COMMON;
+              const sellValues2 = {
+                [CardRarity.COMMON]: highestSellVal / 8,
+                [CardRarity.SPECIAL]: highestSellVal / 6,
+                [CardRarity.UNCOMMON]: highestSellVal / 4,
+                [CardRarity.RARE]: highestSellVal / 2,
+                [CardRarity.FORBIDDEN]: highestSellVal,
+                [CardRarity.RUNIC]: highestSellVal / 2
+              };
+              sellValue = Math.round(sellValues2[rarity]);
+            }
+            debugger;
+            state.casterPlayer.statPointsUnspent += sellValue;
+            return `${card2.id}: ${sellValue} SP`;
+          } else {
+            return "";
+          }
+        });
+        if (!state.casterPlayer.disabledCards) {
+          state.casterPlayer.disabledCards = [];
+        }
+        state.casterPlayer.disabledCards.push(...cardsToSell);
+        state.casterPlayer.cardsInToolbar = state.casterPlayer.cardsInToolbar.map((cardId2) => cardsToSell.includes(cardId2) ? "" : cardId2);
+        const removeFromInventory = new Set(cardsToSell);
+        state.casterPlayer.inventory = state.casterPlayer.inventory.filter((item) => !removeFromInventory.has(item));
+        if (state.casterPlayer === globalThis.player) {
+          FloatingText.default({ coords: state.castLocation, text: sellValues.join("\n") });
+          CardUI.recalcPositionForCards(globalThis.player, underworld);
+          CardUI.syncInventory(void 0, underworld);
+        }
+      }
+      state.cardIds = [];
+      return state;
+    }
+  }
+};
+const mod = {
+  modName: "Sell for Deathmason",
+  author: "GoldenQuiche",
+  description: "Adds Sell for Deathmason, which is not available in vanilla because it would be broken with him",
+  screenshot: "spellmasons-mods/SellforDeathmason/SellforDeathmasonImage.png",
+  spells: [
+    spell
+  ],
+  spritesheet: "SellforDeathmasonJson.json"
+};
 const mods = [
+  mod$9,
   mod$8,
   mod$7,
   mod$6,
