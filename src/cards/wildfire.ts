@@ -15,7 +15,7 @@ import { summoningSicknessId } from '../modifierSummoningSickness';
 import { corpseDecayId } from '../modifierCorpseDecay';
 import { baseExplosionRadius } from '../effects/explode';
 import { runeWitchId } from '../modifierWitch';
-import { burnCardId } from './burn';
+import { burnCardId, applyBurnWithEffect } from './burn';
 
 export const wildfire_id = 'Wildfire';
 const baseRange = baseExplosionRadius;
@@ -128,15 +128,14 @@ async function spreadCurses(unit: IUnit, ignore: IUnit[], curses: CurseData[], r
             }
             // Spread the curse after the animation promise completes
             animationPromise.then(() => {
-                if (!prediction) {
-                    floatingText({ coords: touchingUnit, text: curse.modId });
-                    playSFXKey('contageousSplat');
-                }
                 if (touchingUnit.alive) {
                     const existingQuantity = touchingUnit.modifiers[curse.modId]?.quantity as number;
                     if (isNullOrUndef(existingQuantity) || existingQuantity < curse.modifier.quantity) {
                         const quantityToAdd = curse.modifier.quantity - (exists(existingQuantity) ? existingQuantity : 0);
-                        Unit.addModifier(touchingUnit, curse.modId, underworld, prediction, quantityToAdd, curse.modifier);
+                        if (!prediction) {
+                            floatingText({ coords: touchingUnit, text: curse.modId });
+                        }
+                        applyBurnWithEffect(touchingUnit, underworld, prediction, quantityToAdd, curse.modifier);
                     }
                 }
             });

@@ -4,6 +4,7 @@ import { Vec2 } from "../jmath/Vec";
 import { raceTimeout } from "../Promise";
 import * as Image from '../graphics/Image';
 import { containerProjectiles, containerSpells } from "../graphics/PixiUtils";
+import { makeFireExplosion } from "../graphics/ParticleCollection";
 import * as captureSoul from '../cards/capture_soul';
 import * as lastWill from '../cards/lastwill';
 import { Container } from "pixi.js";
@@ -68,6 +69,18 @@ export function playDefaultSpellSFX(card: ICard, prediction: boolean) {
             globalThis.playSFX(chooseOneOf(globalThis.sfx[card.sfx]));
         }
     }
+}
+export async function playFireSpellAnimation(targets: Vec2[], prediction: boolean) {
+    if (prediction || globalThis.headless) {
+        return Promise.resolve();
+    }
+    const promises: Promise<void>[] = [];
+    for (let target of targets) {
+        promises.push(new Promise<void>((resolve) => {
+            makeFireExplosion(target, prediction, resolve);
+        }));
+    }
+    return Promise.all(promises);
 }
 export async function playDefaultSpellAnimation(card: ICard, targets: Vec2[], prediction: boolean) {
     if (globalThis.headless) {

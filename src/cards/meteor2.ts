@@ -18,7 +18,7 @@ import { stopAndDestroyForeverEmitter } from '../graphics/ParticleCollection';
 import { raceTimeout } from '../Promise';
 import { distance, similarTriangles } from '../jmath/math';
 import { meteorCardId } from './meteor';
-import { burnCardId } from './burn';
+import { burnCardId, applyBurnWithEffect } from './burn';
 import * as Unit from '../entity/Unit';
 
 export const meteor2CardId = 'meteor 2';
@@ -84,7 +84,7 @@ const spell: Spell = {
                 // Inflict 3 stacks of Burn on each target within meteor radius
                 const burnedUnits = underworld.getUnitsWithinDistanceOfTarget(meteorLocation, adjustedRadius, prediction);
                 for (let burnedUnit of burnedUnits) {
-                    Unit.addModifier(burnedUnit, burnCardId, underworld, prediction, 3, { sourceUnitId: state.casterUnit.id });
+                    applyBurnWithEffect(burnedUnit, underworld, prediction, 3, { sourceUnitId: state.casterUnit.id });
                 }
             }
             await underworld.awaitForceMoves();

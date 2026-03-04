@@ -1,18 +1,20 @@
 import * as Unit from '../entity/Unit';
 import type { HasSpace } from '../entity/Type';
-import * as Image from '../graphics/Image';
 import { CardCategory } from '../types/commonTypes';
-import { EffectState, ICard, refundLastSpell, Spell } from './index';
+import { EffectState, ICard, Spell } from './index';
 import * as math from '../jmath/math';
 import { CardRarity, probabilityMap } from '../types/commonTypes';
 import * as config from '../config';
 import { Vec2 } from '../jmath/Vec';
 import Underworld from '../Underworld';
-import { makeForceMoveProjectile, moveAlongVector, normalizedVector } from '../jmath/moveWithCollision';
-import { addPixiSpriteAnimated, containerProjectiles } from '../graphics/PixiUtils';
+import { ForceMoveProjectile, makeForceMoveProjectile } from '../jmath/moveWithCollision';
+import { containerProjectiles } from '../graphics/PixiUtils';
 import { explode } from '../effects/explode';
 import { burnCardId } from './burn';
 import * as colors from '../graphics/ui/colors';
+import * as particles from 'jdoleary-fork-pixi-particle-emitter';
+import { createParticleTexture, logNoTextureWarning, wrappedEmitter } from '../graphics/Particles';
+import { stopAndDestroyForeverEmitter } from '../graphics/ParticleCollection';
 
 
 export const fireballCardId = 'Fireball';
@@ -39,6 +41,10 @@ const spell: Spell = {
     },
     events: {
         onProjectileCollision: ({ unit, underworld, projectile, prediction }) => {
+            // Stop the fire trail emitter on impact
+            if (projectile.emitter) {
+                stopAndDestroyForeverEmitter(projectile.emitter);
+            }
             const impactLocation = projectile.pushedObject;
             const adjustedRadius = baseRadius * (1 + (0.25 * projectile.state.aggregator.radiusBoost));
             const burnedUnits = underworld.getUnitsWithinDistanceOfTarget(impactLocation, adjustedRadius, prediction);
@@ -61,23 +67,16 @@ export function fireballEffect(multiShotCount: number, collideFnKey: string, pie
         for (let i = 0; i < quantity; i++) {
             for (let target of targets) {
                 const velocity = math.similarTriangles(target.x - casterPositionAtTimeOfCast.x, target.y - casterPositionAtTimeOfCast.y, math.distance(startPoint, target), config.ARROW_PROJECTILE_SPEED)
-                let image: Image.IImageAnimated | undefined;
-                if (!prediction) {
-                    image = Image.create(casterPositionAtTimeOfCast, 'arrow', containerProjectiles)
-                    if (image) {
-                        image.sprite.rotation = Math.atan2(velocity.y, velocity.x);
-                    }
-                }
                 const pushedObject: HasSpace = {
                     x: casterPositionAtTimeOfCast.x,
                     y: casterPositionAtTimeOfCast.y,
                     radius: 1,
                     inLiquid: false,
                     immovable: false,
-                    image,
                     beingPushed: false,
                 }
-                makeForceMoveProjectile({
+                const emitter = !prediction ? attachFireballParticles(pushedObject, underworld) : undefined;
+                const projectile = makeForceMoveProjectile({
                     sourceUnit: state.casterUnit,
                     pushedObject,
                     startPoint,
@@ -87,11 +86,92 @@ export function fireballEffect(multiShotCount: number, collideFnKey: string, pie
                     collidingUnitIds: [state.casterUnit.id],
                     collideFnKey,
                     state,
-                }, underworld, prediction);
+                }, underworld, prediction) as ForceMoveProjectile;
+                if (emitter) {
+                    projectile.emitter = emitter;
+                }
             }
         }
         await underworld.awaitForceMoves();
         return state;
     }
 }
+
+function attachFireballParticles(target: HasSpace, underworld: Underworld): particles.Emitter | undefined {
+    const texture = createParticleTexture();
+    if (!texture) {
+        logNoTextureWarning('attachFireballParticles');
+        return;
+    }
+    const particleConfig =
+        particles.upgradeConfig(fireballEmitterConfig(), [texture]);
+    if (containerProjectiles) {
+        const wrapped = wrappedEmitter(particleConfig, containerProjectiles);
+        if (wrapped) {
+            underworld.particleFollowers.push({
+                displayObject: wrapped.container,
+                emitter: wrapped.emitter,
+                target,
+            });
+            return wrapped.emitter;
+        }
+    }
+    return undefined;
+}
+
+const fireballEmitterConfig = () => ({
+    autoUpdate: true,
+    "alpha": {
+        "start": 1,
+        "end": 0
+    },
+    "scale": {
+        "start": 3,
+        "end": 0.5,
+        "minimumScaleMultiplier": 0.5
+    },
+    "color": {
+        "start": "#ffcc33",
+        "end": "#aa2200"
+    },
+    "speed": {
+        "start": 40,
+        "end": 10,
+        "minimumSpeedMultiplier": 0.5
+    },
+    "acceleration": {
+        "x": 0,
+        "y": -60
+    },
+    "maxSpeed": 0,
+    "startRotation": {
+        "min": 0,
+        "max": 360
+    },
+    "noRotation": false,
+    "rotationSpeed": {
+        "min": 0,
+        "max": 200
+    },
+    "lifetime": {
+        "min": 0.2,
+        "max": 0.5
+    },
+    "blendMode": "normal",
+    "frequency": 0.003,
+    "emitterLifetime": 0,
+    "maxParticles": 300,
+    "pos": {
+        "x": 0,
+        "y": 0
+    },
+    "addAtBack": false,
+    "spawnType": "circle",
+    "spawnCircle": {
+        "x": 0,
+        "y": 0,
+        "r": 8
+    }
+});
+
 export default spell;

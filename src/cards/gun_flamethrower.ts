@@ -8,7 +8,8 @@ import { CardRarity, probabilityMap } from '../types/commonTypes';
 import { IUnit } from '../entity/Unit';
 import * as Unit from '../entity/Unit';
 import { playDefaultSpellSFX } from './cardUtils';
-import { burnCardId } from './burn';
+import { burnCardId, applyBurnWithEffect } from './burn';
+import { makeFlameConeParticles } from '../graphics/ParticleCollection';
 
 export const gunFlamethrowerId = 'Flamethrower';
 const coneAngle = Math.PI / 4;
@@ -53,8 +54,14 @@ const spell: Spell = {
             // Add entities to target
             withinRadiusAndAngle.forEach(e => addTarget(e, state, underworld, prediction));
             playDefaultSpellSFX(card, prediction);
+            // Play flame cone particle animation
+            if (!prediction && !globalThis.headless) {
+                await new Promise<void>(resolve => {
+                    makeFlameConeParticles(state.casterUnit, depth, startAngle, endAngle, prediction, resolve);
+                });
+            }
             for (let unit of withinRadiusAndAngle) {
-                Unit.addModifier(unit, burnCardId, underworld, prediction, 4 * quantity, { sourceUnitId: state.casterUnit.id });
+                applyBurnWithEffect(unit, underworld, prediction, 4 * quantity, { sourceUnitId: state.casterUnit.id });
                 Unit.takeDamage({ unit: unit, amount: damage * quantity, sourceUnit: state.casterUnit }, underworld, prediction);
             }
             return state;

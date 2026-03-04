@@ -2,10 +2,10 @@ import { Spell } from './index';
 import * as Unit from '../entity/Unit';
 import Underworld from '../Underworld';
 import { CardCategory } from '../types/commonTypes';
-import { playDefaultSpellAnimation, playDefaultSpellSFX } from './cardUtils';
+import { playDefaultSpellSFX } from './cardUtils';
 import { CardRarity, probabilityMap } from '../types/commonTypes';
 import { refundLastSpell } from './index';
-import { burnCardId } from './burn';
+import { burnCardId, applyBurnWithEffect } from './burn';
 import { stokeCardId } from './stoke';
 
 export const stoke2CardId = 'Stoke 2';
@@ -23,19 +23,19 @@ const spell: Spell = {
         requires: [stokeCardId],
         probability: probabilityMap[CardRarity.UNCOMMON],
         thumbnail: 'stoke2.png',
-        animationPath: 'spellPoison',
         description: "Adds 1 stack of Burn to ALL Burning Units",
         effect: async (state, card, quantity, underworld, prediction) => {
             // .filter: only target living units
             const targets = underworld.getAllUnits(prediction).filter(u => u.modifiers[burnCardId]);
             if (targets.length > 0) {
-                await Promise.all([playDefaultSpellAnimation(card, targets, prediction), playDefaultSpellSFX(card, prediction)]);
+                playDefaultSpellSFX(card, prediction);
                 for (let unit of targets) {
                     const modifier = unit.modifiers[burnCardId];
                     if (modifier) {
                         modifier.quantity += baseBurnStacks * quantity;
+                        applyBurnWithEffect(unit, underworld, prediction, 0);
                     } else {
-                        Unit.addModifier(unit, burnCardId, underworld, prediction, baseBurnStacks * quantity);
+                        applyBurnWithEffect(unit, underworld, prediction, baseBurnStacks * quantity);
                     }
                 }
             } else {
