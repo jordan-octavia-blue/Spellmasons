@@ -292,7 +292,7 @@ export function setupPieAndUnderworld() {
     globalThis.isConnected = pie.isConnected.bind(pie);
     // Caution! pieDisconnect just kills the pie connection but does not change menu state, you may be looking for globalThis.pieLeaveRoom
     globalThis.pieDisconnect = async (disconnectReason: string): Promise<void> => pie instanceof PiePeer ? pie.disconnect(disconnectReason) : pie.disconnect();
-    globalThis.setDifficulty = (gameMode: 'normal' | 'hard' | 'impossible' | 'custom') => pie.sendData({ type: MESSAGE_TYPES.SET_GAME_MODE, gameMode });
+    globalThis.setDifficulty = (gameMode: 'normal' | 'hard' | 'impossible' | 'custom' | 'sandbox') => pie.sendData({ type: MESSAGE_TYPES.SET_GAME_MODE, gameMode });
     globalThis.setGameRules = (rules: Partial<IGameRules>) => {
       // Apply rules to underworld
       if (overworld.underworld) {
