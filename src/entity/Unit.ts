@@ -2152,6 +2152,8 @@ export function drawCharges(unit: IUnit, underworld: Underworld, count: number =
   const replacedCardIds = cards.flatMap(card => card.replaces || []);
   // Exclude replaced cards from being drawn
   cards = cards.filter(c => !replacedCardIds.includes(c.id))
+  // Exclude disabled cards from being drawn
+  cards = cards.filter(c => !player.disabledCards.includes(c.id))
   const rSeed = `${underworld.seed}-${player.playerId}-${player.drawChargesSeed}-${player.inventory.filter(x => !!x).length}`;
   const random = seedrandom(rSeed);
   if (isNullOrUndef(unit.charges)) {
