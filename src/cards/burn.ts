@@ -3,7 +3,6 @@ import { Spell } from './index';
 import * as Unit from '../entity/Unit';
 import Underworld from '../Underworld';
 import { CardCategory } from '../types/commonTypes';
-import { playFireSpellAnimation, playDefaultSpellSFX } from './cardUtils';
 import floatingText from '../graphics/FloatingText';
 import { CardRarity, probabilityMap } from '../types/commonTypes';
 import { getOrInitModifier } from './util';
@@ -11,7 +10,7 @@ import { freezeCardId } from './freeze';
 import { flammableId } from './flammable';
 import { makeFireExplosion } from '../graphics/ParticleCollection';
 
-export const burnCardId = 'Ignite';
+export const burnCardId = 'Burn';
 export const baseBurnStacks = 1;
 const spell: Spell = {
     card: {
@@ -29,9 +28,8 @@ const spell: Spell = {
             // .filter: only target living units
             const targets = state.targetedUnits.filter(u => u.alive);
             if (targets.length) {
-                await Promise.all([playFireSpellAnimation(targets, prediction), playDefaultSpellSFX(card, prediction)]);
                 for (let unit of targets) {
-                    Unit.addModifier(unit, burnCardId, underworld, prediction, baseBurnStacks * quantity, { sourceUnitId: state.casterUnit.id });
+                    applyBurnWithEffect(unit, underworld, prediction, baseBurnStacks * quantity, { sourceUnitId: state.casterUnit.id });
                 }
             }
             return state;

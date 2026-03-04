@@ -70,18 +70,6 @@ export function playDefaultSpellSFX(card: ICard, prediction: boolean) {
         }
     }
 }
-export async function playFireSpellAnimation(targets: Vec2[], prediction: boolean) {
-    if (prediction || globalThis.headless) {
-        return Promise.resolve();
-    }
-    const promises: Promise<void>[] = [];
-    for (let target of targets) {
-        promises.push(new Promise<void>((resolve) => {
-            makeFireExplosion(target, prediction, resolve);
-        }));
-    }
-    return Promise.all(promises);
-}
 export async function playDefaultSpellAnimation(card: ICard, targets: Vec2[], prediction: boolean) {
     if (globalThis.headless) {
         return Promise.resolve();

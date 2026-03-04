@@ -36,7 +36,7 @@ const spell: Spell = {
         ignoreRange: true,
         animationPath: '',
         sfx: 'arrow',
-        description: ['spell_arrow', damage.toString()],
+        description: ['spell_fireball', damage.toString()],
         effect: fireballEffect(1, fireballCardId)
     },
     events: {
