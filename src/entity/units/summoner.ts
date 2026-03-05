@@ -7,7 +7,7 @@ import * as config from '../../config';
 import Underworld from '../../Underworld';
 import { oneOffImage } from '../../cards/cardUtils';
 import { containerUnits } from '../../graphics/PixiUtils';
-import { PLAYER_BASE_ATTACK_RANGE } from '../../config';
+import { getDefaultGameRules } from '../../types/GameRules';
 import { summoningSicknessId } from '../../modifierSummoningSickness';
 import seedrandom from 'seedrandom';
 import { makeManaTrail } from '../../graphics/Particles';
@@ -66,7 +66,7 @@ export async function summonerAction(unit: Unit.IUnit, ableToSummon: boolean, un
       for (let i = 0; i < numberOfSummons; i++) {
         const coords = chosenSpawnCoords[i];
         if (coords) {
-          const enemyIsClose = underworld.units.filter(u => u.faction !== unit.faction).some(u => math.distance(coords, u) <= PLAYER_BASE_ATTACK_RANGE)
+          const enemyIsClose = underworld.units.filter(u => u.faction !== unit.faction).some(u => math.distance(coords, u) <= underworld.rules.PLAYER_BASE_ATTACK_RANGE)
           let sourceUnit = farUnit;
           if (enemyIsClose) {
             sourceUnit = closeUnit;
@@ -106,7 +106,7 @@ export async function summonerAction(unit: Unit.IUnit, ableToSummon: boolean, un
     });
   } else {
 
-    const enemyIsClose = underworld.units.filter(u => u.unitType == UnitType.PLAYER_CONTROLLED && u.faction !== unit.faction).some(u => math.distance(unit, u) <= PLAYER_BASE_ATTACK_RANGE)
+    const enemyIsClose = underworld.units.filter(u => u.unitType == UnitType.PLAYER_CONTROLLED && u.faction !== unit.faction).some(u => math.distance(unit, u) <= underworld.rules.PLAYER_BASE_ATTACK_RANGE)
     if (enemyIsClose) {
       // Teleport away
       const teleportFromLocation = clone(unit);

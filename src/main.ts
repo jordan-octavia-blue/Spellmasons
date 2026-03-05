@@ -19,6 +19,7 @@ import type PieClient from '@websocketpie/client';
 import { setupPieAndUnderworld } from './network/wsPieSetup';
 import { returnToDefaultSprite } from './entity/Unit';
 import Jprompt from './graphics/Jprompt';
+import './graphics/ui/CustomRulesPopup';
 import { Faction, Pie } from './types/commonTypes';
 import './api';
 // DevelopmentMods must be imported AFTER api

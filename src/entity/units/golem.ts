@@ -1,7 +1,7 @@
 import type { UnitSource } from './index';
 import { UnitSubType } from '../../types/commonTypes';
 import { meleeAction } from './actions/meleeAction';
-import * as config from '../../config'
+import { getDefaultGameRules } from '../../types/GameRules';
 import * as Unit from '../Unit';
 import type Underworld from '../../Underworld';
 
@@ -15,7 +15,7 @@ const unit: UnitSource = {
   },
   unitProps: {
     damage: 30,
-    staminaMax: config.UNIT_BASE_STAMINA,
+    staminaMax: getDefaultGameRules().UNIT_BASE_STAMINA,
     healthMax: 20,
     manaMax: 0,
   },

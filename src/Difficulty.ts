@@ -12,6 +12,7 @@ export function calculateGameDifficulty(underworld: Underworld) {
     if (underworld.gameMode == 'impossible') {
         difficulty *= 1.5;
     }
+    // 'custom' mode uses base difficulty (no multiplier)
     return difficulty;
 }
 export function unavailableUntilLevelIndexDifficultyModifier(underworld: Underworld): {
@@ -35,6 +36,7 @@ export function unavailableUntilLevelIndexDifficultyModifier(underworld: Underwo
         }
 
     }
+    // 'custom' and 'normal' (undefined) use default values
     return {
         budgetMultiplier: 1,
         unitMinLevelIndexSubtractor: 0

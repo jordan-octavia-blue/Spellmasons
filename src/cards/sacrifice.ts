@@ -4,13 +4,14 @@ import { addPixiSpriteAnimated } from '../graphics/PixiUtils';
 import { makeManaTrail } from '../graphics/Particles';
 import { CardCategory, UnitSubType } from '../types/commonTypes';
 import { playDefaultSpellSFX } from './cardUtils';
-import * as config from '../config';
+import { getDefaultGameRules } from '../types/GameRules';
 import { explain, EXPLAIN_OVERFILL } from '../graphics/Explain';
 import { CardRarity, probabilityMap } from '../types/commonTypes';
 import { die } from '../entity/Unit';
 import * as Image from '../graphics/Image';
+import { PIXI_TEXT_DROP_SHADOW } from '../config';
 
-const damage = config.UNIT_BASE_HEALTH; //40 at time of writing
+const damage = getDefaultGameRules().UNIT_BASE_HEALTH; //40 at time of writing
 export const consumeAllyCardId = 'Sacrifice';
 const spell: Spell = {
   card: {
@@ -62,7 +63,7 @@ const spell: Spell = {
           floatingText({
             coords: caster,
             text: `+ ${totalHealthStolen} Health`,
-            style: { fill: 'red', ...config.PIXI_TEXT_DROP_SHADOW }
+            style: { fill: 'red', ...PIXI_TEXT_DROP_SHADOW }
           });
         }
       } else {

@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(npm run tsc:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git show:*)",
+      "Bash(ls:*)"
+    ]
+  }
+}

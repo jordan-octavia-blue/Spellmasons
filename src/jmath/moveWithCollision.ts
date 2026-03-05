@@ -44,6 +44,8 @@ export type ForceMoveProjectile = ForceMove & {
   // If this exists(number), the projectile will ignore all collisions,
   // and be destroyed after a lifetime instead. Used for vfx
   ignoreCollisionLifetime?: number | undefined;
+  // Optional particle emitter attached to this projectile (e.g. fireball trail)
+  emitter?: any;
 }
 export function isForceMoveProjectile(x: ForceMove): x is ForceMoveProjectile {
   return x.type == ForceMoveType.PROJECTILE;

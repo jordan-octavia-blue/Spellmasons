@@ -1177,6 +1177,150 @@ export function makePrimedCorpseParticles(follow: IUnit, underworld: Underworld,
 
 export const emitterStopFrequency = 15000;
 // Turns up frequency so that it "stops" spawning new particles
+export function makeFlameConeParticles(origin: Vec2, depth: number, startAngle: number, endAngle: number, prediction: boolean, resolver?: () => void) {
+  if (prediction || globalThis.headless) {
+    if (resolver) {
+      resolver();
+    }
+    return;
+  }
+  const texture = createParticleTexture();
+  if (!texture) {
+    logNoTextureWarning('makeFlameConeParticles');
+    if (resolver) {
+      resolver();
+    }
+    return;
+  }
+  // Convert radians to degrees for PIXI particle emitter
+  const startDeg = startAngle * (180 / Math.PI);
+  const endDeg = endAngle * (180 / Math.PI);
+  const particleConfig =
+    particles.upgradeConfig({
+      autoUpdate: true,
+      "alpha": {
+        "start": 1,
+        "end": 0
+      },
+      "scale": {
+        "start": 3,
+        "end": 0.5,
+        "minimumScaleMultiplier": 0.5
+      },
+      "color": {
+        "start": "#ffcc33",
+        "end": "#aa2200"
+      },
+      "speed": {
+        "start": depth / 0.3,
+        "end": depth / 0.6,
+        "minimumSpeedMultiplier": 0.8
+      },
+      "acceleration": {
+        "x": 0,
+        "y": 0
+      },
+      "maxSpeed": 0,
+      "startRotation": {
+        "min": endDeg,
+        "max": startDeg
+      },
+      "noRotation": true,
+      "rotationSpeed": {
+        "min": 0,
+        "max": 0
+      },
+      "lifetime": {
+        "min": 0.25,
+        "max": 0.45
+      },
+      "blendMode": "normal",
+      "frequency": 0.002,
+      "emitterLifetime": 0.3,
+      "maxParticles": 400,
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "addAtBack": false,
+      "spawnType": "point"
+    }, [texture]);
+  simpleEmitter(origin, particleConfig, resolver);
+}
+
+export function makeFireExplosion(position: Vec2, prediction: boolean, resolver?: () => void) {
+  if (prediction || globalThis.headless) {
+    if (resolver) {
+      resolver();
+    }
+    return;
+  }
+  const texture = createParticleTexture();
+  if (!texture) {
+    logNoTextureWarning('makeFireExplosion');
+    if (resolver) {
+      resolver();
+    }
+    return;
+  }
+  const particleConfig =
+    particles.upgradeConfig({
+      autoUpdate: true,
+      "alpha": {
+        "start": 1,
+        "end": 0
+      },
+      "scale": {
+        "start": 3,
+        "end": 0.5,
+        "minimumScaleMultiplier": 0.5
+      },
+      "color": {
+        "start": "#ffcc33",
+        "end": "#aa2200"
+      },
+      "speed": {
+        "start": 200,
+        "end": 30,
+        "minimumSpeedMultiplier": 0.5
+      },
+      "acceleration": {
+        "x": 0,
+        "y": -300
+      },
+      "maxSpeed": 0,
+      "startRotation": {
+        "min": 240,
+        "max": 300
+      },
+      "noRotation": false,
+      "rotationSpeed": {
+        "min": 0,
+        "max": 200
+      },
+      "lifetime": {
+        "min": 0.3,
+        "max": 0.6
+      },
+      "blendMode": "normal",
+      "frequency": 0.002,
+      "emitterLifetime": 0.15,
+      "maxParticles": 150,
+      "pos": {
+        "x": 0,
+        "y": 0
+      },
+      "addAtBack": false,
+      "spawnType": "circle",
+      "spawnCircle": {
+        "x": 0,
+        "y": 0,
+        "r": 15
+      }
+    }, [texture]);
+  simpleEmitter(position, particleConfig, resolver);
+}
+
 // (at lease for a long time), then destroy and cleanup the emitter
 export function stopAndDestroyForeverEmitter(emitter?: particles.Emitter) {
   // @ts-ignore flaggedForRemoval custom property

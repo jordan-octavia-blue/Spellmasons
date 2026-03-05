@@ -33,7 +33,10 @@ const spell: Spell = {
     effect: async (state, card, quantity, underworld, prediction) => {
       // .filter: only target living units
       for (let unit of state.targetedUnits.filter(u => u.alive)) {
-        // Last Will does not stack for balance reasons
+        // Last Will does not stack for balance reasons - skip if already has modifier
+        if (unit.modifiers[lastWillId]) {
+          continue;
+        }
         const quantity = 1;
         Unit.addModifier(unit, lastWillId, underworld, prediction, quantity);
         if (!prediction) {

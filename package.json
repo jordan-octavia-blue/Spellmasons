@@ -1,6 +1,6 @@
 {
   "name": "golems",
-  "version": "1.71.1",
+  "version": "1.72.0",
   "description": "",
   "private": true,
   "scripts": {
@@ -54,6 +54,7 @@
     "@websocketpie/server-bun": "^1.2.0",
     "fast-safe-stringify": "^2.1.1",
     "jdoleary-fork-pixi-particle-emitter": "^5.0.9",
+    "jimp": "^1.6.0",
     "lodash.throttle": "^4.1.1",
     "object-hash": "^3.0.0",
     "pixi.js": "^6.4.2",

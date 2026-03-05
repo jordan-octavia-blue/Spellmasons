@@ -19,6 +19,8 @@ import { version } from '../../package.json';
 import makeOverworld, { Overworld } from '../Overworld';
 import { MESSAGE_TYPES } from '../types/MessageTypes';
 import { GameMode } from '../types/commonTypes';
+import { IGameRules, getDefaultGameRules } from '../types/GameRules';
+import { assign, STORAGE_OPTIONS } from '../storage';
 import { elEndTurnBtn } from '../HTMLElements';
 import { sendEventToServerHub } from '../RemoteLogging';
 import PiePeer, { piePeerSingleton } from './PiePeer';
@@ -290,7 +292,15 @@ export function setupPieAndUnderworld() {
     globalThis.isConnected = pie.isConnected.bind(pie);
     // Caution! pieDisconnect just kills the pie connection but does not change menu state, you may be looking for globalThis.pieLeaveRoom
     globalThis.pieDisconnect = async (disconnectReason: string): Promise<void> => pie instanceof PiePeer ? pie.disconnect(disconnectReason) : pie.disconnect();
-    globalThis.setDifficulty = (gameMode: 'normal' | 'hard' | 'impossible') => pie.sendData({ type: MESSAGE_TYPES.SET_GAME_MODE, gameMode });
+    globalThis.setDifficulty = (gameMode: 'normal' | 'hard' | 'impossible' | 'custom' | 'sandbox') => pie.sendData({ type: MESSAGE_TYPES.SET_GAME_MODE, gameMode });
+    globalThis.setGameRules = (rules: Partial<IGameRules>) => {
+      // Apply rules to underworld
+      if (overworld.underworld) {
+        overworld.underworld.rules = { ...getDefaultGameRules(), ...rules };
+      }
+      // Store in options for persistence
+      assign(STORAGE_OPTIONS, { customRules: rules });
+    };
     globalThis.saveActiveMods = (activeMods: string[]) => {
       // Ensure activeMods is never undefined
       if (!activeMods) {

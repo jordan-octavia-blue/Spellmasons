@@ -1804,14 +1804,14 @@ export function registerAdminContextMenuOptions(overworld: Overworld) {
     },
     {
       label: '❤️ Set Health',
-      action: () => {
+      action: async () => {
         if (!overworld.underworld) {
           console.error('Cannot admin set unit health, underworld does not exist');
           return;
         }
         const unit = overworld.underworld.units.find(u => u.id == globalThis.selectedUnit?.id);
         if (unit) {
-          const health = prompt('Choose a new max health')
+          const health = await JtextPrompt({ text: 'Choose a new max health', yesText: 'Confirm', noBtnText: 'Cancel', noBtnKey: 'Escape' });
           const parsedHealth = parseInt(health || '');
           if (!isNaN(parsedHealth) && globalThis.selectedUnit) {
             overworld.pie.sendData({
@@ -1829,14 +1829,13 @@ export function registerAdminContextMenuOptions(overworld: Overworld) {
           centeredFloatingText('You must select a unit first', 'red');
         }
       },
-      // NOTE: Commands that use `prompt` cannot run on headless server so use ADMIN_CHANGE_STAT
+      // NOTE: Commands that use `JtextPrompt` use ADMIN_CHANGE_STAT
       // message instead of ADMIN_COMMAND.  `supportInMultiplayer` is set to false so it doesn't
       // trigger an ADMIN_COMMAND message automatically
       supportInMultiplayer: false,
       domQueryContainer: '#menu-selected-unit'
     },
-    // These commands are needed because "Set mana/health/stamina" requires `prompt`
-    // which is not available in electron
+    // These commands provide a quick way to give stats without using JtextPrompt
     ...['stamina', 'mana', 'health'].map<AdminContextMenuOption>(stat => {
       return {
         label: `Give 100 ${stat}`,
@@ -1866,14 +1865,14 @@ export function registerAdminContextMenuOptions(overworld: Overworld) {
     }),
     {
       label: '🔵 Set Mana',
-      action: () => {
+      action: async () => {
         if (!overworld.underworld) {
           console.error('Cannot admin set unit mana, underworld does not exist');
           return;
         }
         const unit = overworld.underworld.units.find(u => u.id == globalThis.selectedUnit?.id);
         if (unit) {
-          const mana = prompt('Choose a new max mana')
+          const mana = await JtextPrompt({ text: 'Choose a new max mana', yesText: 'Confirm', noBtnText: 'Cancel', noBtnKey: 'Escape' });
           const parsedMana = parseInt(mana || '');
           if (!isNaN(parsedMana)) {
             overworld.pie.sendData({
@@ -1893,7 +1892,7 @@ export function registerAdminContextMenuOptions(overworld: Overworld) {
           centeredFloatingText('You must select a unit first', 'red');
         }
       },
-      // NOTE: Commands that use `prompt` cannot run on headless server so use ADMIN_CHANGE_STAT
+      // NOTE: Commands that use `JtextPrompt` use ADMIN_CHANGE_STAT
       // message instead of ADMIN_COMMAND.  `supportInMultiplayer` is set to false so it doesn't
       // trigger an ADMIN_COMMAND message automatically
       supportInMultiplayer: false,
@@ -1902,14 +1901,14 @@ export function registerAdminContextMenuOptions(overworld: Overworld) {
     },
     {
       label: '👟 Set Stamina',
-      action: () => {
+      action: async () => {
         if (!overworld.underworld) {
           console.error('Cannot admin set unit stamina, underworld does not exist');
           return;
         }
         const unit = overworld.underworld.units.find(u => u.id == globalThis.selectedUnit?.id);
         if (unit) {
-          const stamina = prompt('Choose a new max stamina')
+          const stamina = await JtextPrompt({ text: 'Choose a new max stamina', yesText: 'Confirm', noBtnText: 'Cancel', noBtnKey: 'Escape' });
           const parsedStamina = parseInt(stamina || '');
           if (!isNaN(parsedStamina)) {
             overworld.pie.sendData({
@@ -1928,7 +1927,7 @@ export function registerAdminContextMenuOptions(overworld: Overworld) {
           centeredFloatingText('You must select a unit first', 'red');
         }
       },
-      // NOTE: Commands that use `prompt` cannot run on headless server so use ADMIN_CHANGE_STAT
+      // NOTE: Commands that use `JtextPrompt` use ADMIN_CHANGE_STAT
       // message instead of ADMIN_COMMAND.  `supportInMultiplayer` is set to false so it doesn't
       // trigger an ADMIN_COMMAND message automatically
       supportInMultiplayer: false,

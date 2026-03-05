@@ -185,7 +185,7 @@ export function setupCardUIEventListeners(overworld: Overworld) {
           centeredFloatingText(['cannot-discard'], 'red');
           return;
         }
-        const drawNew = Math.floor(countDiscard / config.DEATHMASON_DISCARD_DRAW_RATIO);
+        const drawNew = Math.floor(countDiscard / overworld.underworld.rules.DEATHMASON_DISCARD_DRAW_RATIO);
         // Don't show if you wont draw any new cards
         if (drawNew <= 0) {
           playSFXKey('deny');
@@ -600,7 +600,7 @@ export function renderRunesMenu(underworld: Underworld) {
     }
   });
   const shuffledRunes = underworld.getShuffledRunesForPlayer(globalThis.player);
-  const chosenRunes = presentRunes(shuffledRunes, config.RUNES_PER_LEVEL, globalThis.player?.runePresentedIndex || 0, globalThis.player.lockedRunes);
+  const chosenRunes = presentRunes(shuffledRunes, underworld.rules.RUNES_PER_LEVEL, globalThis.player?.runePresentedIndex || 0, globalThis.player.lockedRunes);
 
   const statPoints = globalThis.player.statPointsUnspent;
   globalThis.lastSeenStatpointsUnspent = statPoints;

@@ -16,6 +16,7 @@ interface FText {
   aalpha: number;
   pixiText: PIXI.Text;
   keepWithinCameraBounds: boolean;
+  lastTime: number;
 }
 interface FloatingTextInsructions {
   coords: Vec2;
@@ -129,6 +130,7 @@ export default function floatingText({
     valpha,
     aalpha,
     keepWithinCameraBounds,
+    lastTime: performance.now(),
   };
   container.addChild(pixiText);
   // Prevent overlap
@@ -150,12 +152,19 @@ export default function floatingText({
   return promise;
 }
 const allFloatingTextInstances: FText[] = [];
+// Target frame time in ms (60fps baseline)
+const TARGET_FRAME_TIME = 1000 / 60;
 function floatAway(instance: FText, resolve: (value: void) => void) {
   if (instance.alpha > 0) {
-    instance.dy -= instance.vy;
-    instance.vy = instance.vy * 0.97;
-    instance.alpha -= Math.max(instance.valpha, 0);
-    instance.valpha += instance.aalpha;
+    // Calculate delta time to make animation frame-rate independent
+    const now = performance.now();
+    const deltaTime = (now - instance.lastTime) / TARGET_FRAME_TIME;
+    instance.lastTime = now;
+
+    instance.dy -= instance.vy * deltaTime;
+    instance.vy = instance.vy * Math.pow(0.97, deltaTime);
+    instance.alpha -= Math.max(instance.valpha, 0) * deltaTime;
+    instance.valpha += instance.aalpha * deltaTime;
     if (instance.keepWithinCameraBounds) {
       const adjustedPosition = withinCameraBounds(instance.startPosition, instance.pixiText.width / 2, instance.pixiText.height / 2);
       instance.pixiText.y = adjustedPosition.y + instance.dy;

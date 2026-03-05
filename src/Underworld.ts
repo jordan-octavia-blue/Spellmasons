@@ -46,6 +46,7 @@ import {
 } from './graphics/PixiUtils';
 import floatingText, { queueCenteredFloatingText, warnNoMoreSpellsToChoose } from './graphics/FloatingText';
 import { UnitType, Faction, UnitSubType, GameMode, Pie } from './types/commonTypes';
+import { IGameRules, getDefaultGameRules, getStoredCustomRules } from './types/GameRules';
 import type { Vec2 } from "./jmath/Vec";
 import * as Vec from "./jmath/Vec";
 import Events from './Events';
@@ -71,7 +72,7 @@ import type PieClient from '@websocketpie/client';
 import { isOutOfRange, sendPlayerThinkingThrottled } from './PlayerUtils';
 import { DisplayObject, TilingSprite } from 'pixi.js';
 import { HasSpace } from './entity/Type';
-import { explain, EXPLAIN_PING, isTutorialFirstStepsComplete, isTutorialComplete, tutorialCompleteTask, tutorialChecklist, tutorialShowTask } from './graphics/Explain';
+import { explain, EXPLAIN_PING, EXPLAIN_SANDBOX, isTutorialFirstStepsComplete, isTutorialComplete, tutorialCompleteTask, tutorialChecklist, tutorialShowTask } from './graphics/Explain';
 import { makeRisingParticles, makeScrollDissapearParticles, stopAndDestroyForeverEmitter } from './graphics/ParticleCollection';
 import { ensureAllClientsHaveAssociatedPlayers, Overworld, recalculateGameDifficulty } from './Overworld';
 import { Emitter } from 'jdoleary-fork-pixi-particle-emitter';
@@ -155,6 +156,7 @@ let localUnderworldCount = 0;
 export default class Underworld {
   seed: string;
   gameMode?: GameMode;
+  rules: IGameRules = getDefaultGameRules();
   difficulty: number = 1;
   // A simple number to keep track of which underworld this is
   // Used for development to help ensure that all references to the underworld are current
@@ -293,6 +295,10 @@ export default class Underworld {
     this.random = this.syncronizeRNG(RNGState);
 
     globalThis.spellCasting = false;
+    // Reset adminMode for non-localhost environments to prevent it from persisting across games
+    if (typeof window !== 'undefined' && !window.location.href.includes('localhost')) {
+      globalThis.adminMode = false;
+    }
     this.setContainerUnitsFilter();
 
     // Create the host player
@@ -1766,6 +1772,15 @@ export default class Underworld {
         }
       }
     }
+
+    // Handle sandbox mode - enable adminMode and show explain prompt
+    if (this.gameMode === 'sandbox') {
+      globalThis.adminMode = true;
+      if (levelIndex == 0) {
+        explain(EXPLAIN_SANDBOX);
+      }
+    }
+
     const isFirstTutorialLevel = (levelIndex == -1);
 
     let caveParams = caveSizes.extrasmall;
@@ -2406,7 +2421,7 @@ export default class Underworld {
     // Give stat points, but not in the first level
     if (levelIndex > 0) {
       for (let player of this.players) {
-        let points = config.STAT_POINTS_PER_LEVEL;
+        let points = this.rules.STAT_POINTS_PER_LEVEL;
         // Less stat points per level for Goru and Deathmason
         if (player.wizardType == 'Deathmason' || player.wizardType == 'Goru') {
           points *= 0.6;
@@ -2440,6 +2455,10 @@ export default class Underworld {
   async createLevel(levelData: LevelData, gameMode?: GameMode) {
     if (exists(gameMode)) {
       this.gameMode = gameMode;
+      // Load custom rules from storage when custom difficulty is selected
+      if (gameMode === 'custom') {
+        this.rules = getStoredCustomRules();
+      }
       // Must be called when difficulty (gameMode) changes to update summon spell stats
       Cards.refreshSummonCardDescriptions(this);
     }
@@ -2838,12 +2857,15 @@ export default class Underworld {
     // allowForceInitGameState so that when the game restarts
     // it will get the full newly created underworld
     this.allowForceInitGameState = true;
-    // Show game over modal after a delay
-    gameOverModalTimeout = setTimeout(() => {
-      document.body.classList.toggle('game-over', true);
-      const playAgainBtn = document.getElementById('play-again');
-      playAgainBtn?.classList.toggle('display-none', !(isSinglePlayer() || isHost(this.pie)));
-    }, 2000);
+    if (!globalThis.recordingShorts) {
+
+      // Show game over modal after a delay
+      gameOverModalTimeout = setTimeout(() => {
+        document.body.classList.toggle('game-over', true);
+        const playAgainBtn = document.getElementById('play-again');
+        playAgainBtn?.classList.toggle('display-none', !(isSinglePlayer() || isHost(this.pie)));
+      }, 2000);
+    }
 
     this.updateGameOverModal();
     if (globalThis.headless) {
@@ -2862,7 +2884,7 @@ export default class Underworld {
       return
     }
 
-    const savedWizardTypes = this.players.map(p => ({ wizardType: p.wizardType, playerId: p.playerId }))
+    const savedWizardTypes = this.players.map(p => ({ wizardType: p.wizardType, playerId: p.playerId, wardenCapturedSouls: p.wardenCapturedSouls || [] }))
 
     const newUnderworld = new Underworld(this.overworld, this.pie, Math.random().toString());
 
@@ -2890,6 +2912,9 @@ export default class Underworld {
         console.error('Attempting to restore player wizard info but no player found with id')
       } else {
         Player.setWizardType(player, savedWizardInfo.wizardType, newUnderworld)
+        if (savedWizardInfo.wardenCapturedSouls) {
+          player.wardenCapturedSouls = savedWizardInfo.wardenCapturedSouls;
+        }
       }
     }
     // Generate the level data
@@ -3607,10 +3632,10 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       return 0;
     }
     // .filter out freeSpells because they shouldn't count against upgrades available since they are given to you
-    const upgradesLeftToChoose = this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
+    const upgradesLeftToChoose = this.cardDropsDropped + this.rules.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
     console.debug('Player upgrades left to choose: ', upgradesLeftToChoose, `;
-+ cardDropsDropped: ${this.cardDropsDropped} 
-+ config.STARTING_CARD_COUNT ${config.STARTING_CARD_COUNT} 
++ cardDropsDropped: ${this.cardDropsDropped}
++ rules.STARTING_CARD_COUNT ${this.rules.STARTING_CARD_COUNT} 
 - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length: ${player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length} 
 - (player.skippedCards || 0): ${(player.skippedCards || 0)}`)
     return upgradesLeftToChoose;

@@ -34,6 +34,7 @@ import seedrandom from 'seedrandom';
 import { getUniqueSeedString, SeedrandomState } from '../jmath/rand';
 import { setPlayerNameUI } from '../PlayerUtils';
 import { GameMode, WizardType } from '../types/commonTypes';
+import { getDefaultGameRules, getStoredCustomRules } from '../types/GameRules';
 import { getSpellThumbnailPath, recalcPositionForCards, renderRunesMenu } from '../graphics/ui/CardUI';
 import { isSinglePlayer } from './wsPieSetup';
 import { elEndTurnBtn } from '../HTMLElements';
@@ -45,6 +46,7 @@ import { mergeExcessPickups, mergeExcessUnits } from '../stability';
 import { distance, lerp } from '../jmath/math';
 import PiePeer from './PiePeer';
 import { GORU_ATTACK_IMAGE_PATH, GORU_DEFAULT_IMAGE_PATH, GORU_UNIT_ID } from '../entity/units/goru';
+import { WARDEN_UNIT_ID } from '../entity/units/warden';
 import { visualPolymorphPlayerUnit } from '../cards/polymorph';
 import { spellmasonUnitId } from '../entity/units/playerUnit';
 import { makeManaTrail, removeFloatingParticlesFor } from '../graphics/Particles';
@@ -155,6 +157,16 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
       const { gameMode } = payload;
       if (underworld.levelIndex <= 1) {
         underworld.gameMode = gameMode;
+        // Load custom rules from storage when custom difficulty is selected
+        if (gameMode === 'custom') {
+          underworld.rules = getStoredCustomRules();
+        }
+
+        // Enable adminMode for sandbox difficulty
+        if (gameMode === 'sandbox') {
+          globalThis.adminMode = true;
+        }
+
         // Must be called when difficulty (gameMode) changes to update summon spell stats
         Cards.refreshSummonCardDescriptions(underworld);
         recalculateGameDifficulty(underworld);
@@ -332,7 +344,7 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
             fromPlayer.drawChargesSeed = payload.drawChargesSeed;
           }
           Player.discardCards(fromPlayer, overworld.underworld, {});
-          const drawNew = Math.floor(countDiscard / config.DEATHMASON_DISCARD_DRAW_RATIO);
+          const drawNew = Math.floor(countDiscard / overworld.underworld.rules.DEATHMASON_DISCARD_DRAW_RATIO);
           Unit.drawCharges(fromPlayer.unit, overworld.underworld, drawNew);
         } else {
           console.warn('Ignoring incorrect discard message')
@@ -858,7 +870,9 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
           Player.setWizardType(fromPlayer, wizardType, overworld.underworld);
         }
         // Update the player image
-        const sourceUnit = fromPlayer.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID] : allUnits[spellmasonUnitId];
+        const sourceUnit = fromPlayer.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID]
+          : fromPlayer.wizardType == 'Warden' ? allUnits[WARDEN_UNIT_ID]
+            : allUnits[spellmasonUnitId];
         if (sourceUnit) {
           visualPolymorphPlayerUnit(fromPlayer.unit, sourceUnit)
           Unit.returnToDefaultSprite(fromPlayer.unit);
@@ -985,7 +999,7 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
           if (!globalThis.headless) {
             // Network Sync: Make sure other players move a little slower so that the MOVE_PLAYER messages have time to set the
             // next move point on the client's screen.  This prevents jagged movement due to network latency
-            fromPlayer.unit.moveSpeed = config.UNIT_MOVE_SPEED * 0.9;
+            fromPlayer.unit.moveSpeed = underworld.rules.UNIT_MOVE_SPEED * 0.9;
             // Network Sync: Make sure the other player always has stamina to get where they're going, this is to ensure that
             // the local copies of other player's stay in sync with the server and aren't prematurely stopped due
             // to a stamina limitation
@@ -1258,6 +1272,7 @@ async function handleLoadGameState(payload: {
     underworld.syncronizeRNG(loadedGameState.RNGState);
   }
   underworld.gameMode = loadedGameState.gameMode;
+  underworld.rules = loadedGameState.rules || getDefaultGameRules();
   underworld.turn_phase = loadedGameState.turn_phase;
   underworld.turn_number = loadedGameState.turn_number;
   underworld.processedMessageCount = loadedGameState.processedMessageCount;
@@ -1431,6 +1446,8 @@ async function handleSpell(caster: Player.IPlayer, payload: any, underworld: Und
     }
     if (caster.wizardType == 'Goru') {
       animationKey = GORU_ATTACK_IMAGE_PATH;
+    } else if (caster.wizardType == 'Warden') {
+      animationKey = 'warden/priestAttack';
     }
     await Player.setSpellmasonsToChannellingAnimationClose(caster);
     if (caster.colorMagic === null) {

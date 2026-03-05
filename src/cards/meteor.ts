@@ -101,7 +101,7 @@ export async function meteorProjectiles(meteorLocations: Vec2[], underworld: Und
   }
   meteors.sort((a, b) => b.travelTime - a.travelTime);
 
-  if (meteors.length == 0 || meteors[0] == undefined) return;
+  if (meteors.length == 0 || isNullOrUndef(meteors[0])) return;
 
   // Don't wait for the first meteor
   let timePassed = arrivalTime - meteors[0].travelTime; //ms
