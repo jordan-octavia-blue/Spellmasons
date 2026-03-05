@@ -429,4 +429,5 @@ declare global {
   var allFamiliars: string[];
   var dlc: undefined | number[];
   var setGameRules: (rules: Partial<IGameRules>) => void;
+  var openCustomRulesPopup: () => void;
 }
