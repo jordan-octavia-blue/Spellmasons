@@ -9,17 +9,13 @@ const {
     cardUtils,
     units,
 } = globalThis.SpellmasonsAPI;
-const { getUniqueSeedString, chooseOneOfSeeded, seedrandom } = rand;
+const { getUniqueSeedString, chooseOneOfSeeded, seedrandom, randInt } = rand;
 const { CardRarity, probabilityMap, CardCategory, Faction, UnitSubType, UnitType } = commonTypes;
 const { addWarningAtMouse } = PlanningView;
 const { playDefaultSpellSFX } = cardUtils;
 const { skyBeam } = VisualEffects;
 const { allUnits } = units;
 const { addUnitTarget, refundLastSpell} = cards;
-import type { HasSpace } from '../../types/entity/Type';
-import type { Vec2 } from '../../types/jmath/Vec';
-import type { IUnit } from '../../types/entity/Unit';
-import type Underworld from '../../types/Underworld';
 import type { Spell } from '../../types/cards/index';
 const id  = 'Capture Soul';
 const bossmasonUnitId = 'Deathmason',
@@ -69,7 +65,6 @@ const summonableUnits = [bossmasonUnitId,
     CORRUPTED_ANCIENT_UNIT_ID,
     goru_id,
     greenGlopId];
-const isMiniboss = [true, false, false];
 const slimeId = 'Slime',
     defianceId = 'Defiance',
     confidenceId = 'Confidence',
@@ -102,14 +97,14 @@ const spell: Spell = {
         probability: probabilityMap[CardRarity.SPECIAL],
         thumbnail: 'spellmasons-mods/Mana Evolution/images/chaos_summon.png',
         replaces: [id],
-        description: 'spell_summon_decoy',
+        description: 'Summons a random unit to fight for you. The summoned unit may receive random boss modifiers.',
         allowNonUnitTarget: true,
         effect: async (state, card, quantity, underworld, prediction) => {
-            const seed = seedrandom(`${getUniqueSeedString(underworld, state.casterPlayer)}${state.castLocation.x}${state.castLocation.y}${state.casterUnit.mana}${state.casterUnit.manaMax}${state.casterUnit.stamina}${state.casterPlayer?.inventory}`);
+            const seedString = `${getUniqueSeedString(underworld, state.casterPlayer)}${state.castLocation.x}${state.castLocation.y}${state.casterUnit.mana}`
+            const seed = seedrandom(seedString);
             const unitId = chooseOneOfSeeded(summonableUnits, seed);
-            let hasBossModifier = chooseOneOfSeeded(isMiniboss, seed);
 
-            if (unitId && !prediction) {
+            if (unitId) {
                 const sourceUnit = allUnits[unitId];
                 if (sourceUnit) {
                     const summonLocation = {
@@ -136,24 +131,17 @@ const spell: Spell = {
                         sourceUnit.info.subtype,
                         {
                             ...sourceUnit.unitProps,
-                            healthMax: (sourceUnit.unitProps.healthMax || config.UNIT_BASE_HEALTH),
-                            health: (sourceUnit.unitProps.health || config.UNIT_BASE_HEALTH),
+                            healthMax: (sourceUnit.unitProps.healthMax || underworld.rules.UNIT_BASE_HEALTH),
+                            health: (sourceUnit.unitProps.health || underworld.rules.UNIT_BASE_HEALTH),
                             damage: (sourceUnit.unitProps.damage || 0),
-                            strength: 1
+                            strength: 1,
+                            isMiniboss: randInt(0,3,seed) == 0
                         },
                         underworld,
                         prediction,
                         state.casterUnit
                     );
-                    const modifiersAdded: string[] = [];
-                    while (hasBossModifier) {
-                        const bossModifierToAdd = chooseOneOfSeeded(bossModifiers.filter(m => !modifiersAdded.includes(m)), seed)
-                        if (bossModifierToAdd) {
-                            Unit.addModifier(unit, bossModifierToAdd, underworld, prediction);
-                            modifiersAdded.push(bossModifierToAdd);
-                        }
-                        hasBossModifier = chooseOneOfSeeded(isMiniboss, seedrandom(`${getUniqueSeedString(underworld, state.casterPlayer)}${state.castLocation.x}${state.castLocation.y}${state.casterUnit.mana}${state.casterUnit.manaMax}${state.casterUnit.stamina}${state.casterPlayer?.inventory}${modifiersAdded}${seed}`))
-                    }
+
                     addUnitTarget(unit, state, prediction);
 
                     if (!prediction) {
