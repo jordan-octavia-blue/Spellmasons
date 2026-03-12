@@ -102,3 +102,5 @@ The game can run headless (no graphics) for multiplayer servers:
 ## Localization
 
 Do not modify localization files (`.json` or `.tsv` in `public/localization/`). These files are generated and managed separately.
+
+When adding new user-facing text (floating text, UI labels, tooltips, descriptions, etc.), note any hardcoded strings that need localization in `localize-todo.md` at the repo root. Include the file path, the string, and a brief description of where it appears. This ensures nothing is missed when localization files are updated.
