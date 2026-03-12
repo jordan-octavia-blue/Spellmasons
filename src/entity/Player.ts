@@ -285,7 +285,7 @@ export function initializeWizardStatsForLevelStart(player: IPlayer, underworld: 
       Unit.refillCharges(player.unit, underworld);
     }
     if (isWarden(player)) {
-      resolveAllWardenSlots(player, underworld);
+      resolveAllWardenSlots(player, underworld, true);
     }
   }
 

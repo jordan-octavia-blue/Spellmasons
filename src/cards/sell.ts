@@ -23,7 +23,7 @@ const spell: Spell = {
     ignoreRange: true,
     animationPath: '',
     sfx: '',
-    omitForWizardType: ['Deathmason'],
+    omitForWizardType: ['Deathmason', 'Warden'],
     description: ['spell_sell'],
     frontload: true,
     effect: async (state, card, quantity, underworld, prediction) => {

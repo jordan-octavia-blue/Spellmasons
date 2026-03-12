@@ -189,6 +189,7 @@ import registerGrowth from '../modifierGrowth';
 import registerModifierStatUpgrades from '../modifierStatUpgrades';
 import { registerSoulmuncher, registerWitchyVibes, registerFairIsFair } from '../modifierDeathmasonConstants';
 import { registerGoruConstantRunes } from '../modifierGoruConstants';
+import { registerWardenConstantRunes } from '../modifierWardenConstants';
 import registerReroll from '../modifierReroll';
 import registerDareDevil from '../modifierDareDevil';
 import registerEndlessQuiver from '../modifierEndlessQuiver';
@@ -659,6 +660,7 @@ export function registerCards(overworld: Overworld) {
   registerWitchyVibes();
   registerFairIsFair();
   registerGoruConstantRunes();
+  registerWardenConstantRunes();
   registerReroll();
   registerDareDevil();
 

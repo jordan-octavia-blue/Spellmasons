@@ -14,7 +14,7 @@ export function registerGoruConstantRunes() {
     _costPerUpgrade: 50,
     quantityPerUpgrade: 5,
     constant: true,
-    omitForWizardType: ['Deathmason', 'Spellmason'],
+    omitForWizardType: ['Deathmason', 'Spellmason', 'Warden'],
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       const modifier = getOrInitModifier(unit, soulCapacityId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
       if (modifier) {
@@ -31,7 +31,7 @@ export function registerGoruConstantRunes() {
     _costPerUpgrade: 50,
     quantityPerUpgrade: 1,
     constant: true,
-    omitForWizardType: ['Deathmason', 'Spellmason'],
+    omitForWizardType: ['Deathmason', 'Spellmason', 'Warden'],
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, startingSoulsId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
     },

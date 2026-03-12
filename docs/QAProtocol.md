@@ -1,4 +1,12 @@
 # QA Protocol
+
+- QA: Fix set stat admin commands in electron build
+- Bug: Warden shouldn't have access to "Sell"
+- Bug: Warden shouldn't have access to constant runes that belong to other wizard types
+- Bug: warden's earned spells through runes don't stay
+- Warden's random spells shouldn't pulling from mods unless the mods are active
+- Warden spells should always randomize within their existing category, so if you have a damage spell in slot one, when they randomize, slot one should still be a damage spell
+- Feature: Add a constant rune for warden that allows for locking the first X spell slots so they don't randomize during a round (they should still randomize after you beat a level).  Allow upgrading it 3 times to affect up to 3 spell slots
 **MARCH**
 - QA all latest changes
     - Custom rule override

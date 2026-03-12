@@ -1634,11 +1634,11 @@ export async function startTurnForUnits(units: IUnit[], underworld: Underworld, 
     // Warden: re-randomize cards each turn
     const wardenPlayer = underworld.players.find(p => p.unit == unit && Player.isWarden(p));
     if (wardenPlayer && wardenPlayer.wardenSlots.length > 0) {
-      resolveAllWardenSlots(wardenPlayer, underworld);
+      const lockedToolbarPositions = resolveAllWardenSlots(wardenPlayer, underworld);
       if (wardenPlayer == globalThis.player) {
         CardUI.recalcPositionForCards(wardenPlayer, underworld);
         CardUI.updateCardBadges(underworld);
-        animateWardenShuffle();
+        animateWardenShuffle(lockedToolbarPositions);
       }
     }
   }

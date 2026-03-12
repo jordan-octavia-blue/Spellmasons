@@ -13,7 +13,7 @@ export function registerSoulmuncher() {
     quantityPerUpgrade: 1,
     maxUpgradeCount: 12,
     constant: true,
-    omitForWizardType: ['Goru', 'Spellmason'],
+    omitForWizardType: ['Goru', 'Spellmason', 'Warden'],
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, soulmuncherId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
     },
@@ -30,7 +30,7 @@ export function registerWitchyVibes() {
     quantityPerUpgrade: 1,
     maxUpgradeCount: 12,
     constant: true,
-    omitForWizardType: ['Goru', 'Spellmason'],
+    omitForWizardType: ['Goru', 'Spellmason', 'Warden'],
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, witchyVibesId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
     },
@@ -48,7 +48,7 @@ export function registerFairIsFair() {
     quantityPerUpgrade: 1,
     maxUpgradeCount: 1,
     constant: true,
-    omitForWizardType: ['Goru', 'Spellmason'],
+    omitForWizardType: ['Goru', 'Spellmason', 'Warden'],
     add: (unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1) => {
       getOrInitModifier(unit, fairIsFairId, { isCurse: false, quantity, keepOnDeath: true }, () => { });
     },
