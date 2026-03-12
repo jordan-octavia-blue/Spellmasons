@@ -207,8 +207,9 @@ function makeWardenCategoryUpgrade(category: CardCategory): IUpgrade {
       const cardId = resolveWardenSlot(player, slotIndex, underworld);
       if (cardId) {
         player.inventory.push(cardId);
-        if (slotIndex < player.cardsInToolbar.length) {
-          player.cardsInToolbar[slotIndex] = cardId;
+        const emptySlotIndex = player.cardsInToolbar.indexOf('');
+        if (emptySlotIndex !== -1) {
+          player.cardsInToolbar[emptySlotIndex] = cardId;
         }
       }
       CardUI.recalcPositionForCards(player, underworld);
