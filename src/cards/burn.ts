@@ -49,6 +49,7 @@ const spell: Spell = {
             }
         },
         onTurnEnd: async (unit: IUnit, underworld: Underworld, prediction: boolean) => {
+            if (!unit.alive) return;
             const modifier = unit.modifiers[burnCardId];
             if (modifier) {
                 // Don't take damage on prediction because it is confusing for people to see the prediction damage that poison will do,
@@ -83,6 +84,12 @@ const spell: Spell = {
 // Applies burn stacks to a unit and plays the fire explosion particle effect.
 // Use this when burn is applied outside of the Ignite spell itself (e.g. wildfire spread, flamethrower).
 export function applyBurnWithEffect(unit: IUnit, underworld: Underworld, prediction: boolean, quantity: number, extra?: { [key: string]: any }) {
+    if (unit.inLiquid) {
+        if (!prediction && !globalThis.headless) {
+            floatingText({ coords: unit, text: 'Extinguished', style: { fill: '#87ceebff' } });
+        }
+        return;
+    }
     if (quantity > 0) {
         Unit.addModifier(unit, burnCardId, underworld, prediction, quantity, extra);
     }
@@ -92,6 +99,9 @@ export function applyBurnWithEffect(unit: IUnit, underworld: Underworld, predict
 }
 
 function add(unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quantity: number = 1, extra?: { [key: string]: any }) {
+    if (unit.inLiquid) {
+        return;
+    }
     if (unit.modifiers[flammableId]) {
         const flammableStacks = unit.modifiers[flammableId].quantity;
         quantity = quantity * (flammableStacks + 1);
@@ -99,13 +109,10 @@ function add(unit: Unit.IUnit, underworld: Underworld, prediction: boolean, quan
     }
     const modifier = getOrInitModifier(unit, burnCardId, { isCurse: true, quantity }, () => {
         Unit.addEvent(unit, burnCardId);
-        if (unit.modifiers[freezeCardId] && !prediction) {
-            Unit.removeModifier(unit, freezeCardId, underworld);
-            floatingText({ coords: unit, text: 'Ice Melted', style: { fill: '#c05a0dff' } });
-        }
-
-
     });
+    if (unit.modifiers[freezeCardId] && !prediction) {
+        Unit.removeModifier(unit, freezeCardId, underworld);
+    }
 }
 
 export default spell;
