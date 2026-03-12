@@ -65,7 +65,7 @@ export interface Limits { xMin: number, xMax: number, yMin: number, yMax: number
 // Then the conway algorithm is used to place walls and semi-walls
 // Then the materials array is converted into a tiles array
 // Then convertBaseTilesToFinalTiles is used to turn the tiles into their final images
-export function generateCave(params: CaveParams, biome: Biome, underworld: Underworld): { map: Map, limits: Limits } {
+export function generateCave(params: CaveParams, biome: Biome, underworld: Underworld): { map: Map, limits: Limits, isHandmade: boolean, handmadeMapName: string | undefined } {
     const seed = seedrandom(getUniqueSeedStringPerLevel(underworld));
     // Currently an X% chance of using a handmade map
     // and levelIndex check since most handmade maps are large
@@ -160,7 +160,7 @@ export function generateCave(params: CaveParams, biome: Biome, underworld: Under
         height
     };
     convertBaseTilesToFinalTiles(map);
-    return { map, limits: bounds };
+    return { map, limits: bounds, isHandmade: !!(useHandmade && handmadeMapData), handmadeMapName: handmadeMapData?.name };
 
 }
 

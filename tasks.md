@@ -1,17 +1,8 @@
+- sellForDeathmasonJson.json returns index.html
 
 # Tasks - Organized by Complexity
-- When a map is not random but a modded map, announce with centered floating text: "Modded Map: ${mapName}" (if no map name, just say "Modded Map")
-- Bug: Warden shouldn't have access to "Sell"
 - Bolt description says it does less damage than it does: https://steamcommunity.com/app/1618380/discussions/0/694250999467024453/
 - Bug: rend damage scaling doesn't match spell description: https://discord.com/channels/1032294536640200766/1474932964214313091
-- Bug: Burn continues to apply to dead units
-- Burn should remove freeze
-- Bug: Warden shouldn't have access to constant runes that belong to other wizard types
-- Bug: warden's earned spells through runes don't stay
-- Warden's random spells shouldn't pulling from mods unless the mods are active
-- Warden spells should always randomize within their existing category, so if you have a damage spell in slot one, when they randomize, slot one should still be a damage spell
-- Feature: Add a constant rune for warden that allows for locking the first X spell slots so they don't randomize during a round (they should still randomize after you beat a level).  Allow upgrading it 3 times to affect up to 3 spell slots
-- Bug: Shouldn't be able to add burn to in-liquid units
 
 ---
 

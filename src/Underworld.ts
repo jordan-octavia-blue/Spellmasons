@@ -1804,7 +1804,10 @@ export default class Underworld {
     }
 
     console.log('map gen: caveParams (to learn why some levels are too small)', caveParams);
-    const { map, limits } = generateCave(caveParams || caveSizes.small, biome, this);
+    const { map, limits, isHandmade, handmadeMapName } = generateCave(caveParams || caveSizes.small, biome, this);
+    if (isHandmade) {
+      queueCenteredFloatingText(handmadeMapName ? `Modded Map: ${handmadeMapName}` : 'Modded Map');
+    }
     const { tiles, liquid, width } = map;
     const levelData: LevelData = {
       levelIndex,
