@@ -1,4 +1,5 @@
 - sellForDeathmasonJson.json returns index.html
+- https://github.com/jordan-octavia-blue/Spellmasons/issues/1422
 
 # Tasks - Organized by Complexity
 - Bolt description says it does less damage than it does: https://steamcommunity.com/app/1618380/discussions/0/694250999467024453/

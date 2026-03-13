@@ -88,7 +88,7 @@ import { BLOOD_GOLEM_ID } from './entity/units/bloodGolem';
 import { MANA_VAMPIRE_ID } from './entity/units/manaVampire';
 import { DARK_PRIEST_ID } from './entity/units/darkPriest';
 import { LAST_LEVEL_INDEX } from './config';
-import { unavailableUntilLevelIndexDifficultyModifier } from './Difficulty';
+import { unavailableUntilLevelIndexDifficultyModifier, getPlayerSimulatedLevelBonus } from './Difficulty';
 import { View } from './View';
 import { skyBeam } from './VisualEffects';
 import { urn_explosive_id } from './entity/units/urn_explosive';
@@ -4766,11 +4766,17 @@ function getEnemiesForAltitude(underworld: Underworld, levelIndex: number): stri
 
   // Prevent negative values which can happen during tutorial
   const adjustedLevelIndex = Math.max(0, levelIndex);
+  // Extra players beyond 2 simulate higher levels for budget/spawning instead of scaling health
+  const playerLevelBonus = getPlayerSimulatedLevelBonus(underworld);
+  const budgetLevelIndex = adjustedLevelIndex + playerLevelBonus;
+  if (playerLevelBonus > 0) {
+    console.log('Difficulty: Extra players add +' + playerLevelBonus + ' simulated levels (budgetLevelIndex ' + budgetLevelIndex + ' vs actual ' + adjustedLevelIndex + ')');
+  }
 
-  const numberOfTypesOfEnemies = 2 + Math.floor(adjustedLevelIndex / 2);
+  const numberOfTypesOfEnemies = 2 + Math.floor(budgetLevelIndex / 2);
   const { unitMinLevelIndexSubtractor, budgetMultiplier: difficultyBudgetMultiplier } = unavailableUntilLevelIndexDifficultyModifier(underworld);
   let possibleUnitsToChoose = Object.values(allUnits)
-    .filter(u => u.spawnParams && (u.spawnParams.unavailableUntilLevelIndex - unitMinLevelIndexSubtractor) <= adjustedLevelIndex && u.spawnParams.probability > 0 && isModActive(u, underworld))
+    .filter(u => u.spawnParams && (u.spawnParams.unavailableUntilLevelIndex - unitMinLevelIndexSubtractor) <= budgetLevelIndex && u.spawnParams.probability > 0 && isModActive(u, underworld))
     .map(u => ({ id: u.id, probability: u.spawnParams?.probability || 1, budgetCost: u.spawnParams?.budgetCost || 1, maxQuantityPerLevel: u.spawnParams?.maxQuantityPerLevel || undefined }))
   const unitTypes = Array(numberOfTypesOfEnemies).fill(null)
     // flatMap is used to remove any undefineds
@@ -4790,16 +4796,10 @@ function getEnemiesForAltitude(underworld: Underworld, levelIndex: number): stri
   let units = [];
   const baseDifficultyMultiplier = 3;
   const startAcceleratingDifficultyAtLevelIndex = 5;
-  const difficultyMultiplier = adjustedLevelIndex >= startAcceleratingDifficultyAtLevelIndex
-    ? baseDifficultyMultiplier + adjustedLevelIndex + 1 - startAcceleratingDifficultyAtLevelIndex
+  const difficultyMultiplier = budgetLevelIndex >= startAcceleratingDifficultyAtLevelIndex
+    ? baseDifficultyMultiplier + budgetLevelIndex + 1 - startAcceleratingDifficultyAtLevelIndex
     : baseDifficultyMultiplier;
-  let budgetLeft = (adjustedLevelIndex + 1) * difficultyMultiplier + 2;
-  const connectedClients = underworld.players.filter(p => p.clientConnected);
-  if (connectedClients.length > config.NUMBER_OF_PLAYERS_BEFORE_BUDGET_INCREASES) {
-    const budgetMultiplier = 1 + (1 / config.NUMBER_OF_PLAYERS_BEFORE_BUDGET_INCREASES) * (connectedClients.length - config.NUMBER_OF_PLAYERS_BEFORE_BUDGET_INCREASES);
-    console.log('Difficulty: Increase budget by', budgetMultiplier, ' due to the number of players connected');
-    budgetLeft *= budgetMultiplier;
-  }
+  let budgetLeft = (budgetLevelIndex + 1) * difficultyMultiplier + 2;
   console.log('Difficulty: Increase budget by', difficultyBudgetMultiplier, ' due to difficulty', underworld.gameMode);
   budgetLeft *= difficultyBudgetMultiplier;
   budgetLeft = Math.floor(budgetLeft);
