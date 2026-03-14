@@ -8471,7 +8471,7 @@ const mod$1 = {
     spell$2,
     spell$1
   ],
-  spritesheet: "images/spritesheet.json",
+  spritesheet: "spellmasons-mods/Mana_Evolution/images/spritesheet.json",
   sfx: {}
 };
 const {
@@ -8564,8 +8564,7 @@ const mod = {
   screenshot: "spellmasons-mods/SellforDeathmason/SellforDeathmasonImage.png",
   spells: [
     spell
-  ],
-  spritesheet: "SellforDeathmasonJson.json"
+  ]
 };
 const mods = [
   mod$a,
@@ -8582,4 +8581,4 @@ const mods = [
   mod
 ];
 globalThis.mods = globalThis.mods !== void 0 ? [...globalThis.mods, ...mods] : mods;
-console.log("Mods: Add mods", globalThis.mods);
+console.log("Mods: Add mods!", globalThis.mods);
