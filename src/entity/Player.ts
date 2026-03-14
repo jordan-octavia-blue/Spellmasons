@@ -226,18 +226,25 @@ export function setPlayerRobeColor(player: IPlayer, color: number | string, colo
         [
           [colors.goruCoatPrimary, colorSecondary],
           [colors.goruCoatSecondary, color],
-        ] : [
-          [playerCoatPrimary, color],
-          [playerCoatSecondary, colorSecondary],
-          // Note: Most of the real color replace for the player's magic is done in 
-          // pixiUtils within addSpriteAnimated so that it only replaces the colors of 
-          // the magic.  When the replace was done here on the whole player sprite, the
-          // transparency of the magic caused color replace problems. However, there is
-          // some solid pink in the idle and walk animations which gets replaced right here
-          // with a smaller epsilon.  So the player magic color is replaced in multiple
-          // locations.
-          [playerCastAnimationColor, player.colorMagic],
-        ];
+        ] : player.wizardType == 'Warden' ?
+          [
+            [colors.wardenPrimary, color],
+            [colors.wardenPrimary2, color],
+            [colors.wardenLight, colorSecondary],
+            [colors.wardenLight2, colorSecondary],
+          ]
+          : [
+            [playerCoatPrimary, color],
+            [playerCoatSecondary, colorSecondary],
+            // Note: Most of the real color replace for the player's magic is done in 
+            // pixiUtils within addSpriteAnimated so that it only replaces the colors of 
+            // the magic.  When the replace was done here on the whole player sprite, the
+            // transparency of the magic caused color replace problems. However, there is
+            // some solid pink in the idle and walk animations which gets replaced right here
+            // with a smaller epsilon.  So the player magic color is replaced in multiple
+            // locations.
+            [playerCastAnimationColor, player.colorMagic],
+          ];
 
       if (player.wizardType == 'Goru') {
 
@@ -435,7 +442,7 @@ export function restoreWizardTypeVisuals(player: IPlayer, underworld: Underworld
   // Restore visuals for wizard types
   const sourceUnit = player.wizardType == 'Goru' ? allUnits[GORU_UNIT_ID]
     : player.wizardType == 'Warden' ? allUnits[WARDEN_UNIT_ID]
-    : allUnits[spellmasonUnitId];
+      : allUnits[spellmasonUnitId];
   if (sourceUnit) {
     const notPolymorphed = ['playerIdle', 'guruIdle', 'priestIdle', 'warden/priestIdle'].includes(player.unit.defaultImagePath)
     // Only revert the player image if they are not polymorphed
