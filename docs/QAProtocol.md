@@ -1,5 +1,6 @@
 # QA Protocol
 
+- QA: Skipping tutorial if the first thing you do is play as a different wizard than the spellmason
 - QA: Loading a sandbox game
 - QA: Fix set stat admin commands in electron build
 - Bug: Warden shouldn't have access to "Sell"

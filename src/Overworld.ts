@@ -17,6 +17,8 @@ import { setPlayerNameUI } from "./PlayerUtils";
 import registerAllMods from "./registerMod";
 import { upgradeCardsSource, upgradeSourceWhenDead } from "./Upgrade";
 import { checkLastConnectedOnInterval } from "./network/lastConnected";
+import { isTutorialComplete, tutorialCompleteTask, tutorialChecklist } from './graphics/Explain';
+import type { TutorialChecklist } from './graphics/Explain';
 
 export interface Overworld {
   pie: Pie;
@@ -154,7 +156,15 @@ export function ensureAllClientsHaveAssociatedPlayers(overworld: Overworld, clie
         // Assign created player to globalThis.player if they are the primary client player
         if (i == 0) Player.updateGlobalRefToPlayerIfCurrentClient(player);
         if (globalThis.player == player) {
-          Player.setWizardType(player, storage.get(storage.STORAGE_ID_WIZARD_TYPE) as WizardType | null, overworld.underworld);
+          const savedWizardType = storage.get(storage.STORAGE_ID_WIZARD_TYPE) as WizardType | null;
+          Player.setWizardType(player, savedWizardType, overworld.underworld);
+          // If the player has a non-default wizard type and the tutorial isn't complete,
+          // mark it complete since the tutorial is designed for Spellmason's mana-based spells
+          if (savedWizardType && savedWizardType !== 'Spellmason' && !isTutorialComplete()) {
+            for (let task of Object.keys(tutorialChecklist)) {
+              tutorialCompleteTask(task as keyof TutorialChecklist);
+            }
+          }
           player.companion = storage.get(storage.STORAGE_ID_FAMILIAR) || '';
           if (overworld.underworld)
             overworld.underworld.addMissingCompanions(player)
