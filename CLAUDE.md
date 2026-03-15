@@ -79,6 +79,8 @@ Sample mods: `src/DevelopmentMods/`
 
 ## Coding Conventions
 
+- **Single Source of Truth (DRY)**: When the same decision logic appears in multiple places, extract it into a single function so the rule is defined once and all call sites stay in sync. Example: `syncAdminMode()` in `Underworld.ts` is the sole authority for whether `globalThis.adminMode` should be on or off.
+
 - **Null/undefined checks**: Do NOT use `=== undefined`, `!== undefined`, `== null`, `!= null`, etc. Instead use the global helpers:
   - `isNullOrUndef(value)` — returns true if value is null or undefined
   - `exists(value)` — returns true if value is not null and not undefined (opposite of isNullOrUndef)

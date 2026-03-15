@@ -78,7 +78,6 @@ export const EXPLAIN_DEATHMASON_LOCK = 'Deathmason Locking Cards';
 export const EXPLAIN_DEATHMASON_REDRAW = 'Deathmason Redraw';
 export const EXPLAIN_GORU = 'Goru Basics';
 export const EXPLAIN_SOUL_DEBT = 'Soul Debt';
-export const EXPLAIN_SANDBOX = 'Sandbox Mode';
 interface ExplainData {
   condition?: () => boolean;
   // Returns args to pass into Jprompt
@@ -197,12 +196,6 @@ const explainMap: { [key: string]: ExplainData } = {
   },
   [EXPLAIN_SOUL_DEBT]: {
     prompt: () => ({ imageSrc: 'images/explain/explain-soul-debt.gif', text: ['explain_soul_debt', (GORU_SOUL_DEBT_PROPORTION_HEALTH_COST * 100).toString() + "%"], yesText: 'Okay' })
-  },
-  [EXPLAIN_SANDBOX]: {
-    prompt: () => ({
-      text: 'Welcome to Sandbox Mode!\n\n- Shift + Left Click opens the admin menu\n- Shift + Left Click ON a unit offers additional options\n- Ctrl + Spacebar opens a quick search admin menu',
-      yesText: 'Got it!'
-    })
   },
 }
 globalThis.explainKeys = Object.keys(explainMap);

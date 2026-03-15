@@ -4,7 +4,7 @@ import { MESSAGE_TYPES } from '../types/MessageTypes';
 import * as Image from '../graphics/Image';
 import floatingText from '../graphics/FloatingText';
 import { getUpgradeByTitle } from '../Upgrade';
-import Underworld, { elUpgradePickerContent, IUnderworldSerialized, LevelData, showUpgradesClassName, turn_phase } from '../Underworld';
+import Underworld, { elUpgradePickerContent, IUnderworldSerialized, LevelData, showUpgradesClassName, syncAdminMode, turn_phase } from '../Underworld';
 import * as Player from '../entity/Player';
 import * as Unit from '../entity/Unit';
 import * as Pickup from '../entity/Pickup';
@@ -162,10 +162,7 @@ export function onData(d: OnDataArgs, overworld: Overworld) {
           underworld.rules = getStoredCustomRules();
         }
 
-        // Enable adminMode for sandbox difficulty
-        if (gameMode === 'sandbox') {
-          globalThis.adminMode = true;
-        }
+        syncAdminMode(gameMode);
 
         // Must be called when difficulty (gameMode) changes to update summon spell stats
         Cards.refreshSummonCardDescriptions(underworld);
@@ -902,6 +899,12 @@ async function handleOnDataMessage(d: OnDataArgs, overworld: Overworld): Promise
           startScreenshake(10, false, 500);
           tutorialCompleteTask('spawn');
           autoExplain();
+          if (underworld.gameMode === 'sandbox') {
+            syncAdminMode(underworld.gameMode);
+            if (underworld.levelIndex == 0) {
+              Jprompt({ text: 'Sandbox mode gives you full access to cheat codes.\n\n- Shift + Left Click:\nopen the admin menu\n\n- Shift + Left Click ON a unit:\nopen the same admin menu but with more options to act on the selected unit\n\n- Ctrl + Spacebar:\nopen a "hot bar" admin menu where you can type any command and hit enter to execute it quickly.\n\nHave fun!', yesText: 'Got it!' });
+            }
+          }
           // When player spawns, send their config from storage
           // to the server
           if (globalThis.numberOfHotseatPlayers > 1) {
@@ -1272,6 +1275,7 @@ async function handleLoadGameState(payload: {
     underworld.syncronizeRNG(loadedGameState.RNGState);
   }
   underworld.gameMode = loadedGameState.gameMode;
+  syncAdminMode(underworld.gameMode);
   underworld.rules = loadedGameState.rules || getDefaultGameRules();
   underworld.turn_phase = loadedGameState.turn_phase;
   underworld.turn_number = loadedGameState.turn_number;

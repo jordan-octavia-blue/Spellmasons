@@ -72,7 +72,7 @@ import type PieClient from '@websocketpie/client';
 import { isOutOfRange, sendPlayerThinkingThrottled } from './PlayerUtils';
 import { DisplayObject, TilingSprite } from 'pixi.js';
 import { HasSpace } from './entity/Type';
-import { explain, EXPLAIN_PING, EXPLAIN_SANDBOX, isTutorialFirstStepsComplete, isTutorialComplete, tutorialCompleteTask, tutorialChecklist, tutorialShowTask } from './graphics/Explain';
+import { explain, EXPLAIN_PING, isTutorialFirstStepsComplete, isTutorialComplete, tutorialCompleteTask, tutorialChecklist, tutorialShowTask } from './graphics/Explain';
 import { makeRisingParticles, makeScrollDissapearParticles, stopAndDestroyForeverEmitter } from './graphics/ParticleCollection';
 import { ensureAllClientsHaveAssociatedPlayers, Overworld, recalculateGameDifficulty } from './Overworld';
 import { Emitter } from 'jdoleary-fork-pixi-particle-emitter';
@@ -119,6 +119,18 @@ import { investmentId } from './modifierInvestment';
 import { isSinglePlayer } from './network/wsPieSetup';
 import { alwaysBounty } from './globalEvents/alwaysBounty';
 import { testUnderworldEventsId } from './globalEvents/testUnderworldEvents';
+
+// Single source of truth for adminMode.
+// adminMode is enabled for sandbox games or localhost development.
+// Call this whenever gameMode changes to keep adminMode in sync.
+export function syncAdminMode(gameMode: GameMode | undefined) {
+  const isDev = typeof window !== 'undefined' && window.location.href.includes('localhost');
+  if (gameMode === 'sandbox' || isDev) {
+    globalThis.adminMode = true;
+  } else {
+    globalThis.adminMode = false;
+  }
+}
 
 const loopCountLimit = 10000;
 export enum turn_phase {
@@ -295,10 +307,8 @@ export default class Underworld {
     this.random = this.syncronizeRNG(RNGState);
 
     globalThis.spellCasting = false;
-    // Reset adminMode for non-localhost environments to prevent it from persisting across games
-    if (typeof window !== 'undefined' && !window.location.href.includes('localhost')) {
-      globalThis.adminMode = false;
-    }
+    // Reset adminMode for the new game; sandbox mode will re-enable it during level generation
+    syncAdminMode(undefined);
     this.setContainerUnitsFilter();
 
     // Create the host player
@@ -1753,7 +1763,7 @@ export default class Underworld {
     // If tutorial isn't complete, make this a tutorial run
     if (levelIndex == 0) {
       this.isTutorialRun = !isTutorialComplete();
-      if (this.isTutorialRun && !storage.get(`BEAT_DIFFICULTY-tutorial`)) {
+      if (this.isTutorialRun && !storage.get(`BEAT_DIFFICULTY-tutorial`) && this.gameMode !== 'sandbox') {
         console.log('Set gamemode to "tutorial" so that the first playthrough is easier');
         this.gameMode = 'tutorial';
         if (!isTutorialFirstStepsComplete(['portal'])) {
@@ -1773,13 +1783,7 @@ export default class Underworld {
       }
     }
 
-    // Handle sandbox mode - enable adminMode and show explain prompt
-    if (this.gameMode === 'sandbox') {
-      globalThis.adminMode = true;
-      if (levelIndex == 0) {
-        explain(EXPLAIN_SANDBOX);
-      }
-    }
+    syncAdminMode(this.gameMode);
 
     const isFirstTutorialLevel = (levelIndex == -1);
 
@@ -2462,6 +2466,7 @@ export default class Underworld {
       if (gameMode === 'custom') {
         this.rules = getStoredCustomRules();
       }
+      syncAdminMode(gameMode);
       // Must be called when difficulty (gameMode) changes to update summon spell stats
       Cards.refreshSummonCardDescriptions(this);
     }

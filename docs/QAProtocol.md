@@ -1,5 +1,6 @@
 # QA Protocol
 
+- QA: Loading a sandbox game
 - QA: Fix set stat admin commands in electron build
 - Bug: Warden shouldn't have access to "Sell"
 - Bug: Warden shouldn't have access to constant runes that belong to other wizard types
