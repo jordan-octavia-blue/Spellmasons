@@ -4103,7 +4103,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     } = args;
     if (!prediction && casterUnit == (globalThis.player && globalThis.player.unit)) {
       tutorialCompleteTask('cast');
-      tutorialCompleteTask('castMultipleInOneTurn', () => casterUnit.mana < casterUnit.manaMax);
+      tutorialCompleteTask('castMultipleInOneTurn', () => !!globalThis.castThisTurn);
       tutorialCompleteTask('combineSpells', () => Array.from(new Set(cardIds)).length > 1);
       globalThis.castThisTurn = true;
     }

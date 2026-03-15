@@ -1,4 +1,3 @@
-- sellForDeathmasonJson.json returns index.html
 - https://github.com/jordan-octavia-blue/Spellmasons/issues/1422
 
 # Tasks - Organized by Complexity
