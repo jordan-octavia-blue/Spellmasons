@@ -8,6 +8,7 @@ import type { Vec2 } from '../jmath/Vec';
 import type { LevelData } from '../Underworld';
 import type { View } from '../View';
 import type { RequestToJoin, Faction, JEmitter, Mod, Pie, WizardType } from './commonTypes';
+import type { IGameRules } from './GameRules';
 import type { IPickup } from '../entity/Pickup';
 import type { IHostApp } from '../network/networkUtil';
 import type { LanguageMapping, Localizable } from '../localization';
@@ -164,7 +165,7 @@ declare global {
   var isConnected: () => boolean;
   // Disconnects pie from server
   var pieDisconnect: (disconnectReason: string) => Promise<void>;
-  var setDifficulty: undefined | ((gameMode: 'normal' | 'hard' | 'impossible') => void);
+  var setDifficulty: undefined | ((gameMode: 'normal' | 'hard' | 'impossible' | 'custom' | 'sandbox') => void);
   var pieLeaveRoom: undefined | (() => void);
   var pieInhabitPlayer: undefined | ((asPlayerClientId: string) => void);
   // the currently selected unit, useful as a devTool, click on a unit and they will be available in the console
@@ -368,4 +369,6 @@ declare global {
   var forceCustomMapName: string;
   var allFamiliars: string[];
   var dlc: number[];
+  var setGameRules: (rules: Partial<IGameRules>) => void;
+  var openCustomRulesPopup: () => void;
 }

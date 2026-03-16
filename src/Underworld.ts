@@ -46,6 +46,7 @@ import {
 } from './graphics/PixiUtils';
 import floatingText, { queueCenteredFloatingText, warnNoMoreSpellsToChoose } from './graphics/FloatingText';
 import { UnitType, Faction, UnitSubType, GameMode, Pie } from './types/commonTypes';
+import { IGameRules, getDefaultGameRules, getStoredCustomRules } from './types/GameRules';
 import type { Vec2 } from "./jmath/Vec";
 import * as Vec from "./jmath/Vec";
 import Events from './Events';
@@ -87,7 +88,7 @@ import { BLOOD_GOLEM_ID } from './entity/units/bloodGolem';
 import { MANA_VAMPIRE_ID } from './entity/units/manaVampire';
 import { DARK_PRIEST_ID } from './entity/units/darkPriest';
 import { LAST_LEVEL_INDEX } from './config';
-import { unavailableUntilLevelIndexDifficultyModifier } from './Difficulty';
+import { unavailableUntilLevelIndexDifficultyModifier, getPlayerSimulatedLevelBonus } from './Difficulty';
 import { View } from './View';
 import { skyBeam } from './VisualEffects';
 import { urn_explosive_id } from './entity/units/urn_explosive';
@@ -118,6 +119,18 @@ import { investmentId } from './modifierInvestment';
 import { isSinglePlayer } from './network/wsPieSetup';
 import { alwaysBounty } from './globalEvents/alwaysBounty';
 import { testUnderworldEventsId } from './globalEvents/testUnderworldEvents';
+
+// Single source of truth for adminMode.
+// adminMode is enabled for sandbox games or localhost development.
+// Call this whenever gameMode changes to keep adminMode in sync.
+export function syncAdminMode(gameMode: GameMode | undefined) {
+  const isDev = typeof window !== 'undefined' && window.location.href.includes('localhost');
+  if (gameMode === 'sandbox' || isDev) {
+    globalThis.adminMode = true;
+  } else {
+    globalThis.adminMode = false;
+  }
+}
 
 const loopCountLimit = 10000;
 export enum turn_phase {
@@ -155,6 +168,7 @@ let localUnderworldCount = 0;
 export default class Underworld {
   seed: string;
   gameMode?: GameMode;
+  rules: IGameRules = getDefaultGameRules();
   difficulty: number = 1;
   // A simple number to keep track of which underworld this is
   // Used for development to help ensure that all references to the underworld are current
@@ -293,6 +307,8 @@ export default class Underworld {
     this.random = this.syncronizeRNG(RNGState);
 
     globalThis.spellCasting = false;
+    // Reset adminMode for the new game; sandbox mode will re-enable it during level generation
+    syncAdminMode(undefined);
     this.setContainerUnitsFilter();
 
     // Create the host player
@@ -1747,7 +1763,7 @@ export default class Underworld {
     // If tutorial isn't complete, make this a tutorial run
     if (levelIndex == 0) {
       this.isTutorialRun = !isTutorialComplete();
-      if (this.isTutorialRun && !storage.get(`BEAT_DIFFICULTY-tutorial`)) {
+      if (this.isTutorialRun && !storage.get(`BEAT_DIFFICULTY-tutorial`) && this.gameMode !== 'sandbox') {
         console.log('Set gamemode to "tutorial" so that the first playthrough is easier');
         this.gameMode = 'tutorial';
         if (!isTutorialFirstStepsComplete(['portal'])) {
@@ -1766,6 +1782,9 @@ export default class Underworld {
         }
       }
     }
+
+    syncAdminMode(this.gameMode);
+
     const isFirstTutorialLevel = (levelIndex == -1);
 
     let caveParams = caveSizes.extrasmall;
@@ -1789,7 +1808,10 @@ export default class Underworld {
     }
 
     console.log('map gen: caveParams (to learn why some levels are too small)', caveParams);
-    const { map, limits } = generateCave(caveParams || caveSizes.small, biome, this);
+    const { map, limits, isHandmade, handmadeMapName } = generateCave(caveParams || caveSizes.small, biome, this);
+    if (isHandmade) {
+      queueCenteredFloatingText(handmadeMapName ? `Modded Map: ${handmadeMapName}` : 'Modded Map');
+    }
     const { tiles, liquid, width } = map;
     const levelData: LevelData = {
       levelIndex,
@@ -2406,7 +2428,7 @@ export default class Underworld {
     // Give stat points, but not in the first level
     if (levelIndex > 0) {
       for (let player of this.players) {
-        let points = config.STAT_POINTS_PER_LEVEL;
+        let points = this.rules.STAT_POINTS_PER_LEVEL;
         // Less stat points per level for Goru and Deathmason
         if (player.wizardType == 'Deathmason' || player.wizardType == 'Goru') {
           points *= 0.6;
@@ -2440,6 +2462,11 @@ export default class Underworld {
   async createLevel(levelData: LevelData, gameMode?: GameMode) {
     if (exists(gameMode)) {
       this.gameMode = gameMode;
+      // Load custom rules from storage when custom difficulty is selected
+      if (gameMode === 'custom') {
+        this.rules = getStoredCustomRules();
+      }
+      syncAdminMode(gameMode);
       // Must be called when difficulty (gameMode) changes to update summon spell stats
       Cards.refreshSummonCardDescriptions(this);
     }
@@ -2838,12 +2865,15 @@ export default class Underworld {
     // allowForceInitGameState so that when the game restarts
     // it will get the full newly created underworld
     this.allowForceInitGameState = true;
-    // Show game over modal after a delay
-    gameOverModalTimeout = setTimeout(() => {
-      document.body.classList.toggle('game-over', true);
-      const playAgainBtn = document.getElementById('play-again');
-      playAgainBtn?.classList.toggle('display-none', !(isSinglePlayer() || isHost(this.pie)));
-    }, 2000);
+    if (!globalThis.recordingShorts) {
+
+      // Show game over modal after a delay
+      gameOverModalTimeout = setTimeout(() => {
+        document.body.classList.toggle('game-over', true);
+        const playAgainBtn = document.getElementById('play-again');
+        playAgainBtn?.classList.toggle('display-none', !(isSinglePlayer() || isHost(this.pie)));
+      }, 2000);
+    }
 
     this.updateGameOverModal();
     if (globalThis.headless) {
@@ -2862,7 +2892,7 @@ export default class Underworld {
       return
     }
 
-    const savedWizardTypes = this.players.map(p => ({ wizardType: p.wizardType, playerId: p.playerId }))
+    const savedWizardTypes = this.players.map(p => ({ wizardType: p.wizardType, playerId: p.playerId, wardenCapturedSouls: p.wardenCapturedSouls || [] }))
 
     const newUnderworld = new Underworld(this.overworld, this.pie, Math.random().toString());
 
@@ -2890,6 +2920,9 @@ export default class Underworld {
         console.error('Attempting to restore player wizard info but no player found with id')
       } else {
         Player.setWizardType(player, savedWizardInfo.wizardType, newUnderworld)
+        if (savedWizardInfo.wardenCapturedSouls) {
+          player.wardenCapturedSouls = savedWizardInfo.wardenCapturedSouls;
+        }
       }
     }
     // Generate the level data
@@ -3607,10 +3640,10 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
       return 0;
     }
     // .filter out freeSpells because they shouldn't count against upgrades available since they are given to you
-    const upgradesLeftToChoose = this.cardDropsDropped + config.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
+    const upgradesLeftToChoose = this.cardDropsDropped + this.rules.STARTING_CARD_COUNT - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length - (player.skippedCards || 0);
     console.debug('Player upgrades left to choose: ', upgradesLeftToChoose, `;
-+ cardDropsDropped: ${this.cardDropsDropped} 
-+ config.STARTING_CARD_COUNT ${config.STARTING_CARD_COUNT} 
++ cardDropsDropped: ${this.cardDropsDropped}
++ rules.STARTING_CARD_COUNT ${this.rules.STARTING_CARD_COUNT} 
 - player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length: ${player.inventory.filter(spellId => (player.freeSpells || []).indexOf(spellId) == -1).length} 
 - (player.skippedCards || 0): ${(player.skippedCards || 0)}`)
     return upgradesLeftToChoose;
@@ -4070,7 +4103,7 @@ ${CardUI.cardListToImages(player.stats.longestSpell)}
     } = args;
     if (!prediction && casterUnit == (globalThis.player && globalThis.player.unit)) {
       tutorialCompleteTask('cast');
-      tutorialCompleteTask('castMultipleInOneTurn', () => casterUnit.mana < casterUnit.manaMax);
+      tutorialCompleteTask('castMultipleInOneTurn', () => !!globalThis.castThisTurn);
       tutorialCompleteTask('combineSpells', () => Array.from(new Set(cardIds)).length > 1);
       globalThis.castThisTurn = true;
     }
@@ -4738,11 +4771,17 @@ function getEnemiesForAltitude(underworld: Underworld, levelIndex: number): stri
 
   // Prevent negative values which can happen during tutorial
   const adjustedLevelIndex = Math.max(0, levelIndex);
+  // Extra players beyond 2 simulate higher levels for budget/spawning instead of scaling health
+  const playerLevelBonus = getPlayerSimulatedLevelBonus(underworld);
+  const budgetLevelIndex = adjustedLevelIndex + playerLevelBonus;
+  if (playerLevelBonus > 0) {
+    console.log('Difficulty: Extra players add +' + playerLevelBonus + ' simulated levels (budgetLevelIndex ' + budgetLevelIndex + ' vs actual ' + adjustedLevelIndex + ')');
+  }
 
-  const numberOfTypesOfEnemies = 2 + Math.floor(adjustedLevelIndex / 2);
+  const numberOfTypesOfEnemies = 2 + Math.floor(budgetLevelIndex / 2);
   const { unitMinLevelIndexSubtractor, budgetMultiplier: difficultyBudgetMultiplier } = unavailableUntilLevelIndexDifficultyModifier(underworld);
   let possibleUnitsToChoose = Object.values(allUnits)
-    .filter(u => u.spawnParams && (u.spawnParams.unavailableUntilLevelIndex - unitMinLevelIndexSubtractor) <= adjustedLevelIndex && u.spawnParams.probability > 0 && isModActive(u, underworld))
+    .filter(u => u.spawnParams && (u.spawnParams.unavailableUntilLevelIndex - unitMinLevelIndexSubtractor) <= budgetLevelIndex && u.spawnParams.probability > 0 && isModActive(u, underworld))
     .map(u => ({ id: u.id, probability: u.spawnParams?.probability || 1, budgetCost: u.spawnParams?.budgetCost || 1, maxQuantityPerLevel: u.spawnParams?.maxQuantityPerLevel || undefined }))
   const unitTypes = Array(numberOfTypesOfEnemies).fill(null)
     // flatMap is used to remove any undefineds
@@ -4762,16 +4801,10 @@ function getEnemiesForAltitude(underworld: Underworld, levelIndex: number): stri
   let units = [];
   const baseDifficultyMultiplier = 3;
   const startAcceleratingDifficultyAtLevelIndex = 5;
-  const difficultyMultiplier = adjustedLevelIndex >= startAcceleratingDifficultyAtLevelIndex
-    ? baseDifficultyMultiplier + adjustedLevelIndex + 1 - startAcceleratingDifficultyAtLevelIndex
+  const difficultyMultiplier = budgetLevelIndex >= startAcceleratingDifficultyAtLevelIndex
+    ? baseDifficultyMultiplier + budgetLevelIndex + 1 - startAcceleratingDifficultyAtLevelIndex
     : baseDifficultyMultiplier;
-  let budgetLeft = (adjustedLevelIndex + 1) * difficultyMultiplier + 2;
-  const connectedClients = underworld.players.filter(p => p.clientConnected);
-  if (connectedClients.length > config.NUMBER_OF_PLAYERS_BEFORE_BUDGET_INCREASES) {
-    const budgetMultiplier = 1 + (1 / config.NUMBER_OF_PLAYERS_BEFORE_BUDGET_INCREASES) * (connectedClients.length - config.NUMBER_OF_PLAYERS_BEFORE_BUDGET_INCREASES);
-    console.log('Difficulty: Increase budget by', budgetMultiplier, ' due to the number of players connected');
-    budgetLeft *= budgetMultiplier;
-  }
+  let budgetLeft = (budgetLevelIndex + 1) * difficultyMultiplier + 2;
   console.log('Difficulty: Increase budget by', difficultyBudgetMultiplier, ' due to difficulty', underworld.gameMode);
   budgetLeft *= difficultyBudgetMultiplier;
   budgetLeft = Math.floor(budgetLeft);

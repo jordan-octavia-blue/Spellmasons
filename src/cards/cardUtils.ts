@@ -1,9 +1,10 @@
 import type { ICard, Modifiers } from ".";
-import { isDeathmason, isGoru, type CardUsage, type IPlayer } from "../entity/Player";
+import { isDeathmason, isGoru, isWarden, type CardUsage, type IPlayer } from "../entity/Player";
 import { Vec2 } from "../jmath/Vec";
 import { raceTimeout } from "../Promise";
 import * as Image from '../graphics/Image';
 import { containerProjectiles, containerSpells } from "../graphics/PixiUtils";
+import { makeFireExplosion } from "../graphics/ParticleCollection";
 import * as captureSoul from '../cards/capture_soul';
 import * as lastWill from '../cards/lastwill';
 import { Container } from "pixi.js";
@@ -157,28 +158,40 @@ export function calculateCostForSingleCard(card: ICard, timesUsedSoFar: number =
         }
         return cardCost;
     }
-    cardCost.manaCost += card.manaCost;
-    cardCost.healthCost += card.healthCost;
-    cardCost.staminaCost += card.staminaCost || 0;
-    // || 0 protects against multiplying by undefined
-    // + 2 because log2(2) == 1 so 2 should be the starting number for the first time a user casts; so if 
-    // the usage count is 1 (the caster has already used it once), we get log2(3) which is 1.58
-    // --
-    // timesUsedSoFar is the number of times a card has (or will be if were calculating mana cost for a future cast)
-    // been used. It makes cards more expensive to use over and over
-    const multiplier = card.costGrowthAlgorithm === 'nlogn'
-        ? Math.max(1, (timesUsedSoFar + 1) * Math.log2(timesUsedSoFar + 1))
-        : card.costGrowthAlgorithm === 'exponential'
-            ? Math.pow(timesUsedSoFar + 1, 2)
-            : Math.log2(timesUsedSoFar + 2);
-    cardCost.manaCost *= multiplier;
-    cardCost.healthCost *= multiplier;
-    cardCost.staminaCost *= multiplier;
+    if (caster && isWarden(caster)) {
+        // Warden: 1.2x base cost, NO expense scaling
+        cardCost.manaCost = Math.floor(card.manaCost * 1.2);
+        cardCost.healthCost = card.healthCost;
+        cardCost.staminaCost = card.staminaCost || 0;
+        // Duplicate discount: -2 per extra copy, min 1
+        const dupeCount = caster.inventory.filter(id => id === card.id).length;
+        if (dupeCount > 1) {
+            cardCost.manaCost = Math.max(1, cardCost.manaCost - (dupeCount - 1) * 2);
+        }
+    } else {
+        cardCost.manaCost += card.manaCost;
+        cardCost.healthCost += card.healthCost;
+        cardCost.staminaCost += card.staminaCost || 0;
+        // || 0 protects against multiplying by undefined
+        // + 2 because log2(2) == 1 so 2 should be the starting number for the first time a user casts; so if
+        // the usage count is 1 (the caster has already used it once), we get log2(3) which is 1.58
+        // --
+        // timesUsedSoFar is the number of times a card has (or will be if were calculating mana cost for a future cast)
+        // been used. It makes cards more expensive to use over and over
+        const multiplier = card.costGrowthAlgorithm === 'nlogn'
+            ? Math.max(1, (timesUsedSoFar + 1) * Math.log2(timesUsedSoFar + 1))
+            : card.costGrowthAlgorithm === 'exponential'
+                ? Math.pow(timesUsedSoFar + 1, 2)
+                : Math.log2(timesUsedSoFar + 2);
+        cardCost.manaCost *= multiplier;
+        cardCost.healthCost *= multiplier;
+        cardCost.staminaCost *= multiplier;
 
-    // cost should be a whole number for the sake of the player experience
-    cardCost.manaCost = Math.floor(cardCost.manaCost);
-    cardCost.healthCost = Math.floor(cardCost.healthCost);
-    cardCost.staminaCost = Math.floor(cardCost.staminaCost);
+        // cost should be a whole number for the sake of the player experience
+        cardCost.manaCost = Math.floor(cardCost.manaCost);
+        cardCost.healthCost = Math.floor(cardCost.healthCost);
+        cardCost.staminaCost = Math.floor(cardCost.staminaCost);
+    }
 
     // Handle unique changes due to player mageType
     if (caster) {

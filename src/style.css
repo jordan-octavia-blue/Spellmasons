@@ -908,6 +908,29 @@ body.your-turn #end-turn-btn:hover {
 
 }
 
+@keyframes wardenShuffle {
+  0% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+  40% {
+    transform: rotateY(90deg) scale(0.8);
+    opacity: 0.3;
+  }
+  60% {
+    transform: rotateY(90deg) scale(0.8);
+    opacity: 0.3;
+  }
+  100% {
+    transform: rotateY(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+#card-hand .slot.warden-shuffle {
+  animation: wardenShuffle 0.5s ease-in-out;
+}
+
 #end-turn-btn:active {
   background-image: url('/ui/iconButtonBlankDown.png');
 }

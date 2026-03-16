@@ -13,6 +13,7 @@ import type { ICard } from '../cards';
 import type keyMapping from '../graphics/ui/keyMapping';
 import type { LogLevel } from '../RemoteLogging';
 import type PiePeer from '../network/PiePeer';
+import { IGameRules } from './GameRules';
 
 declare global {
   var SPELLMASONS_PACKAGE_VERSION: string;
@@ -219,7 +220,7 @@ declare global {
   var isConnected: undefined | (() => boolean);
   // Disconnects pie from server
   var pieDisconnect: undefined | ((disconnectReason: string) => Promise<void>);
-  var setDifficulty: undefined | ((gameMode: 'normal' | 'hard' | 'impossible') => void);
+  var setDifficulty: undefined | ((gameMode: 'normal' | 'hard' | 'impossible' | 'sandbox') => void);
   var pieLeaveRoom: undefined | (() => void);
   var pieInhabitPlayer: undefined | ((asPlayerClientId: string) => void);
   // the currently selected unit, useful as a devTool, click on a unit and they will be available in the console
@@ -427,4 +428,6 @@ declare global {
   var forceCustomMapName: string;
   var allFamiliars: string[];
   var dlc: undefined | number[];
+  var setGameRules: (rules: Partial<IGameRules>) => void;
+  var openCustomRulesPopup: () => void;
 }

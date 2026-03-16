@@ -41,6 +41,10 @@ export const bloodVampire = 0xf1fa68;
 export const bloodPoisoner = 0x86eb83;
 export const bloodGripthulu = 0x83d7eb;
 
+export const wardenPrimary = 0x138828;
+export const wardenPrimary2 = 0x28933b;
+export const wardenLight = 0x42b657;
+export const wardenLight2 = 0x1bc239;
 export const goruCoatPrimary = 0x5698a1;
 export const goruCoatSecondary = 0x437e86;
 export const playerCoatPrimary = 0x417F81;

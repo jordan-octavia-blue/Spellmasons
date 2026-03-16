@@ -1,4 +1,5 @@
 import { IUpgrade, filterUpgrades, omitRerolledUpgrades } from "./Upgrade";
+import { getDefaultGameRules } from "./types/GameRules";
 describe('Upgrade', () => {
     let i = 0;
     function upgradeFactory(u: Partial<IUpgrade>): IUpgrade {
@@ -16,44 +17,44 @@ describe('Upgrade', () => {
     describe('filterUpgrades', () => {
         it('should only allow upgrade where player has all upgrades that upgrade requires', () => {
             const u = upgradeFactory({ requires: ["req1", "req2"] })
-            const actual = filterUpgrades(u, { upgrades: ["req1", "req2"], inventory: ["req1", "req2"] }, { activeMods: [] });
+            const actual = filterUpgrades(u, { upgrades: ["req1", "req2"], inventory: ["req1", "req2"] }, { activeMods: [], rules: getDefaultGameRules() });
             expect(actual).toEqual(true);
         });
         it('should omit upgrades if player does not meet requirements', () => {
             const u = upgradeFactory({ requires: ["req1", "req2"] })
-            const actual = filterUpgrades(u, { upgrades: ["req2"], inventory: ["req2"] }, { activeMods: [] });
+            const actual = filterUpgrades(u, { upgrades: ["req2"], inventory: ["req2"] }, { activeMods: [], rules: getDefaultGameRules() });
             expect(actual).toEqual(false);
         });
         it('should omit upgrades that player already has', () => {
             const title = 'subject'
             const u = upgradeFactory({ title })
-            const actual = filterUpgrades(u, { upgrades: [title], inventory: [title] }, { activeMods: [] });
+            const actual = filterUpgrades(u, { upgrades: [title], inventory: [title] }, { activeMods: [], rules: getDefaultGameRules() });
             expect(actual).toEqual(false);
         });
         it('should omit upgrades that do not meet the minimumProbability', () => {
             const title = 'subject';
             const u = upgradeFactory({ title, probability: 1 })
-            const actual = filterUpgrades(u, { upgrades: [], inventory: [] }, { activeMods: [] });
+            const actual = filterUpgrades(u, { upgrades: [], inventory: [] }, { activeMods: [], rules: getDefaultGameRules() });
             expect(actual).toEqual(false);
         });
         it('should omit upgrades with a probability of 0', () => {
             const title = 'subject';
             const u = upgradeFactory({ title, probability: 0 })
-            const actual = filterUpgrades(u, { upgrades: [], inventory: [] }, { activeMods: [] });
+            const actual = filterUpgrades(u, { upgrades: [], inventory: [] }, { activeMods: [], rules: getDefaultGameRules() });
             expect(actual).toEqual(false);
         });
         it('should omit modded upgrades if mod is not active', () => {
             const title = 'subject';
             const modName = 'myMod';
             const u = upgradeFactory({ title, modName, })
-            const actual = filterUpgrades(u, { upgrades: [], inventory: [] }, { activeMods: [] });
+            const actual = filterUpgrades(u, { upgrades: [], inventory: [] }, { activeMods: [], rules: getDefaultGameRules() });
             expect(actual).toEqual(false);
         });
         it('should allow modded upgrades if mod is active', () => {
             const title = 'subject';
             const modName = 'myMod';
             const u = upgradeFactory({ title, modName, })
-            const actual = filterUpgrades(u, { upgrades: [], inventory: [] }, { activeMods: [modName] });
+            const actual = filterUpgrades(u, { upgrades: [], inventory: [] }, { activeMods: [modName], rules: getDefaultGameRules() });
             expect(actual).toEqual(true);
         });
     });
